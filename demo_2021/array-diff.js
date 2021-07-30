@@ -1,4 +1,5 @@
-ES6中使用Set结构: let a = new Set([1, 2, 3]);
+// ES6中使用Set结构: 
+let a = new Set([1, 2, 3]);
 let b = new Set([3, 5, 2]);
 
 // 并集
