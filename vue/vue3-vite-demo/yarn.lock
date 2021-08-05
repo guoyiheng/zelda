@@ -716,6 +716,13 @@ duplexer@0.1.1:
   resolved "https://registry.npm.taobao.org/duplexer/download/duplexer-0.1.1.tgz?cache=0&sync_timestamp=1597220926027&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fduplexer%2Fdownload%2Fduplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
   integrity sha1-rOb/gIwc5mtX0ev5eXessCM0z8E=
 
+echarts@3.7.2:
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/echarts/-/echarts-3.7.2.tgz#3b37764d8bc0c8ab49cbea16bc0b55726451caaa"
+  integrity sha512-aBuGNlnBDMbIMyU5qkh3Zp1F55gfSlsVrkiZYWA7J3qUFzoZBtLXJVKZVxIEZ7TsWmppQ6q+Rckscp5fM73ZaQ==
+  dependencies:
+    zrender "^3.6.2"
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/ee-first/download/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
@@ -2043,3 +2050,8 @@ ylru@^1.2.0:
   version "1.2.1"
   resolved "https://registry.npm.taobao.org/ylru/download/ylru-1.2.1.tgz#f576b63341547989c1de7ba288760923b27fe84f"
   integrity sha1-9Xa2M0FUeYnB3nuiiHYJI7J/6E8=
+
+zrender@^3.6.2:
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/zrender/-/zrender-3.7.4.tgz#f847d53948481ef6d42906d1ea9aeec7acbefdf2"
+  integrity sha512-5Nz7+L1wIoL0+Pp/iOP56jD6eD017qC9VRSgUBheXBiAHgOBJZ4uh4/g6e83acIwa8RKSyZf/FlceKu5ntUuxQ==
