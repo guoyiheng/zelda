@@ -1,24 +1,49 @@
 <template>
-  <input
-    id="input"
-    v-model="pluginFocusTest"
-    placeholder="自定义指令-自动聚焦"
-    type="text"
-    p="x-4 y-2"
-    w="250px"
-    bg="transparent"
-    border="~ rounded gray-200 dark:gray-700"
-    outline="none active:none"
-    v-focus
-  />
-  <test-props-emits :name="pluginFocusTest" />
+  <div class="w-full px-11 flex flex-col items-center">
+    <Header :title="pageInfo.title" :link="pageInfo.link" :subTitle="pageInfo.subTitle">
+      <template #icon>
+        <ri-bilibili-line />
+      </template>
+    </Header>
+
+    <div class="w-8/12 text-left my-4 bg-hex-ecfdf5 bg-opacity-30 p-4">
+      <p class="text-lg font-medium my-4">1. 自定义指令</p>
+      <test-directive></test-directive>
+
+      <p class="text-lg font-medium my-4">2. props&emits</p>
+      <test-props-emits :name="name" @add-prefix="handleAddPrefix" />
+
+      <p class="text-lg font-medium my-4">3. 顶层可以直接使用await</p>
+      <test-await></test-await>
+
+      <p class="text-lg font-medium my-4">4. 主动暴露出去数据</p>
+      <test-ref ref="fooRef"></test-ref>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import vFocus from '~/plugins/vFocus.js'
 import TestPropsEmits from './components/TestPropsEmits.vue'
-const pluginFocusTest = ref('')
-</script>
+import TestDirective from './components/TestDirective.vue'
+import TestAwait from './components/TestAwait.vue'
+import TestRef from './components/TestRef.vue'
 
-<style scoped></style>
+const pageInfo = {
+  title: 'vue3 setup 语法糖',
+  link: 'https://www.bilibili.com/video/BV1Rb4y1C7p3',
+  subTitle: 'Bilibili 视频',
+}
+
+// props&emits
+const name = ref('测试props')
+const handleAddPrefix = () => {
+  name.value = 'ohhh!!!' + name.value
+}
+// 获取实例对象
+const fooRef = ref(null)
+
+onMounted(() => {
+  console.log('fooRef', fooRef.value)
+})
+</script>

@@ -3,7 +3,7 @@ import { isDark, toggleDark } from '~/logic'
 </script>
 
 <template>
-  <nav class="text-xl mt-6">
+  <nav class="text-xl mt-4">
     <router-link class="icon-btn mx-2" to="/bilibili/vue3-setup-rfc" title="setup语法糖">
       <ri-bilibili-line />
     </router-link>
