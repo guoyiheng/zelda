@@ -1,36 +1,30 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { isDark, toggleDark } from '~/logic'
-
-const { t, availableLocales, locale } = useI18n()
-
-const toggleLocales = () => {
-  // change to some real logic
-  const locales = availableLocales
-  locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
-}
 </script>
 
 <template>
   <nav class="text-xl mt-6">
-    <router-link class="icon-btn mx-2" to="/" :title="t('button.home')">
+    <router-link class="icon-btn mx-2" to="/bilibili/vue3-setup-rfc" title="setup语法糖">
+      <ri-bilibili-line />
+    </router-link>
+  </nav>
+  <nav class="text-xl mt-1">
+    <router-link class="icon-btn mx-2" to="/" title="首页">
       <carbon-campsite />
     </router-link>
 
-    <button class="icon-btn mx-2 !outline-none" :title="t('button.toggle_dark')" @click="toggleDark">
+    <button class="icon-btn mx-2 !outline-none" title="切换深色模式" @click="toggleDark">
       <carbon-moon v-if="isDark" />
       <carbon-sun v-else />
     </button>
 
-    <a class="icon-btn mx-2" :title="t('button.toggle_langs')" @click="toggleLocales">
-      <carbon-language />
-    </a>
-
-    <router-link class="icon-btn mx-2" to="/about" :title="t('button.about')">
-      <carbon-dicom-overlay />
-    </router-link>
-
-    <a class="icon-btn mx-2" rel="noreferrer" href="https://github.com/antfu/vitesse" target="_blank" title="GitHub">
+    <a
+      class="icon-btn mx-2"
+      rel="noreferrer"
+      href="https://github.com/antfu/vitesse"
+      target="_blank"
+      title="GitHub"
+    >
       <carbon-logo-github />
     </a>
   </nav>

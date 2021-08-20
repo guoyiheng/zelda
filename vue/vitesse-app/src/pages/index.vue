@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import { useUserStore } from '~/stores/user'
 
 const user = useUserStore()
@@ -8,11 +7,8 @@ const name = ref(user.savedName)
 
 const router = useRouter()
 const go = () => {
-  if (name.value)
-    router.push(`/hi/${encodeURIComponent(name.value)}`)
+  if (name.value) router.push(`/hi/${encodeURIComponent(name.value)}`)
 }
-
-const { t } = useI18n()
 </script>
 
 <template>
@@ -20,13 +16,9 @@ const { t } = useI18n()
     <p class="text-4xl">
       <carbon-campsite class="inline-block" />
     </p>
+    <p>Vitesse</p>
     <p>
-      <a rel="noreferrer" href="https://github.com/antfu/vitesse" target="_blank">
-        Vitesse
-      </a>
-    </p>
-    <p>
-      <em class="text-sm opacity-75">{{ t('intro.desc') }}</em>
+      <em class="text-sm opacity-75">固执己见的 Vite 项目模板</em>
     </p>
 
     <div class="py-4" />
@@ -34,8 +26,8 @@ const { t } = useI18n()
     <input
       id="input"
       v-model="name"
-      :placeholder="t('intro.whats-your-name')"
-      :aria-label="t('intro.whats-your-name')"
+      placeholder="输入你的名字"
+      aria-label="输入你的名字"
       type="text"
       autocomplete="false"
       @keydown.enter="go"
@@ -45,17 +37,11 @@ const { t } = useI18n()
       bg="transparent"
       border="~ rounded gray-200 dark:gray-700"
       outline="none active:none"
-    >
-    <label class="hidden" for="input">{{ t('intro.whats-your-name') }}</label>
+    />
+    <label class="hidden" for="input">输入你的名字</label>
 
     <div>
-      <button
-        class="m-3 text-sm btn"
-        :disabled="!name"
-        @click="go"
-      >
-        {{ t('button.go') }}
-      </button>
+      <button class="m-3 text-sm btn" :disabled="!name" @click="go">确定</button>
     </div>
   </div>
 </template>

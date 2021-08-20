@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import { useUserStore } from '~/stores/user'
 
 const props = defineProps<{ name: string }>()
 const router = useRouter()
-const { t } = useI18n()
 const user = useUserStore()
 
 watch(() => props.name, (name) => {
@@ -20,11 +18,11 @@ watch(() => props.name, (name) => {
       <carbon-pedestrian class="inline-block" />
     </p>
     <p>
-      {{ t('intro.hi', { name: props.name }) }}
+      你好, {{ props.name }}
     </p>
     <template v-if="user.otherNames.length">
       <p class="text-sm">
-        {{ t('intro.aka') }}:
+        也叫
         <ul>
           <li v-for="name in user.otherNames">
             {{ name }}
@@ -34,7 +32,7 @@ watch(() => props.name, (name) => {
     </template>
 
     <p class="text-sm opacity-50">
-      <em>{{ t('intro.dynamic-route') }}</em>
+      <em>动态路由演示</em>
     </p>
 
     <div>
@@ -42,7 +40,7 @@ watch(() => props.name, (name) => {
         class="btn m-3 text-sm mt-8"
         @click="router.back()"
       >
-        {{ t('button.back') }}
+      返回
       </button>
     </div>
   </div>
