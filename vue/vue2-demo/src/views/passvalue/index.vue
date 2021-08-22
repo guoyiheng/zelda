@@ -35,7 +35,7 @@
 <script>
 import InputText from './components/InputText.vue'
 export default {
-  name: 'passvalue',
+  name: 'PassValue',
   components: {
     InputText
   },
@@ -82,7 +82,7 @@ export default {
           console.log('formData', this.formData)
         })
         .catch(err => {
-          console.log('err')
+          console.log('err', err)
         })
     }
   },

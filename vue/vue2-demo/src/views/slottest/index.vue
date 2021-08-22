@@ -20,7 +20,7 @@
 <script>
 import CustomDialog from './components/CustomDialog'
 export default {
-  name: 'slottest',
+  name: 'SlotTest',
   components: {
     CustomDialog
   },
