@@ -7,9 +7,9 @@
   const props = withDefaults(defineProps&lt;Props&gt;(), {
     size: 100,
   })
-  const emits = defineEmits(['add-prefix'])
+  const emit = defineEmits(['add-prefix'])
   const addPrefix = () =&gt; {
-    emits('add-prefix')
+    emit('add-prefix')
   }
   </pre>
   <p class="mt-3">name: {{ name }} 。size: {{ size }}</p>

@@ -2,7 +2,9 @@
   <pre class="blockquote">
   // *.vue
   import vFocus from '~/plugins/vFocus.js'
-  v-focus
+  &lt;input
+    v-focus
+  /&gt;
   // vFocus.js
   export default {
     mounted(el) {

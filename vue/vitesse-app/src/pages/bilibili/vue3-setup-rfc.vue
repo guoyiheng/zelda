@@ -17,7 +17,8 @@
       <test-await></test-await>
 
       <p class="text-lg font-medium my-4">4. 主动暴露出去数据</p>
-      <test-ref ref="fooRef"></test-ref>
+      <test-expose ref="fooRef"></test-expose>
+      父组件能看到的: {{ fooRef }}
     </div>
   </div>
 </template>
@@ -27,7 +28,7 @@ import { ref } from 'vue'
 import TestPropsEmits from './components/TestPropsEmits.vue'
 import TestDirective from './components/TestDirective.vue'
 import TestAwait from './components/TestAwait.vue'
-import TestRef from './components/TestRef.vue'
+import TestExpose from './components/TestExpose.vue'
 
 const pageInfo = {
   title: 'vue3 setup 语法糖',
