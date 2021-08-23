@@ -28,7 +28,7 @@ import { ref } from 'vue'
 import TestPropsEmits from './components/TestPropsEmits.vue'
 import TestDirective from './components/TestDirective.vue'
 import TestAwait from './components/TestAwait.vue'
-import TestExpose from './components/TestExpose.vue'
+import TestExpose, { useFoo } from './components/TestExpose.vue'
 
 const pageInfo = {
   title: 'vue3 setup 语法糖',
@@ -45,6 +45,8 @@ const handleAddPrefix = () => {
 const fooRef = ref(null)
 
 onMounted(() => {
-  console.log('fooRef', fooRef.value)
+  console.log('通过 defineExpose 暴露出去的值 ', fooRef.value)
+  console.log('设置组件默认导出的内容default', TestExpose)
+  useFoo()
 })
 </script>
