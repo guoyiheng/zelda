@@ -1,15 +1,15 @@
 <template>
-  <p class="text-4xl">
+  <div class="text-4xl">
     <slot name="icon"></slot>
-  </p>
+  </div>
 
-  <p>{{ title }}</p>
+  <div>{{ title }}</div>
 
-  <p>
+  <div>
     <em class="text-sm opacity-75">
       <a :href="link" target="_blank"> {{ subTitle }} </a>
     </em>
-  </p>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,17 +1,5 @@
 <template>
-  <pre class="blockquote">
-  // *.vue
-  import vFocus from '~/plugins/vFocus.js'
-  &lt;input
-    v-focus
-  /&gt;
-  // vFocus.js
-  export default {
-    mounted(el) {
-      el.focus()
-    },
-  }
-  </pre>
+  <p class="text-lg font-medium my-4">1. 自定义指令</p>
   <input
     id="input"
     v-model="name"

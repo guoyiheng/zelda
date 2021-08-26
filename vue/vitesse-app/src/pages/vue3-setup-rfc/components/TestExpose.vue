@@ -1,9 +1,5 @@
 <template>
-  <pre class="blockquote">
-  defineExpose({
-    aaa,
-  })
-  </pre>
+  <p class="text-lg font-medium my-4">4. 主动暴露出去数据</p>
 </template>
 
 <script lang="ts">

@@ -1,8 +1,5 @@
 <template>
-  <pre class="blockquote">
-  await delay()
-  控制台有打印，视图未显示，疑似bug
-  </pre>
+  <p class="text-lg font-medium my-4">3. 顶层可以直接使用await</p>
   <div>{{ name }}</div>
 </template>
 

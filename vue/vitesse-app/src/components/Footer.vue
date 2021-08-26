@@ -4,8 +4,11 @@ import { isDark, toggleDark } from '~/logic'
 
 <template>
   <nav class="text-xl mt-4">
-    <router-link class="icon-btn mx-2" to="/bilibili/vue3-setup-rfc" title="setup语法糖">
+    <router-link class="icon-btn mx-2" to="/vue3-setup-rfc" title="setup语法糖">
       <ri-bilibili-line />
+    </router-link>
+    <router-link class="icon-btn mx-2" to="/vue-ts" title="vue ts 用法">
+      <file-icons:config-typescript />
     </router-link>
   </nav>
   <nav class="text-xl mt-1">

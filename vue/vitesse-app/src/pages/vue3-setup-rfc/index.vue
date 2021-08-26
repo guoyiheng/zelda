@@ -6,18 +6,22 @@
       </template>
     </Header>
 
-    <div class="w-8/12 text-left my-4 bg-hex-ecfdf5 bg-opacity-30 p-4">
-      <p class="text-lg font-medium my-4">1. 自定义指令</p>
-      <test-directive></test-directive>
+    <div class="w-8/12 my-4 bg-hex-ecfdf5 bg-opacity-30 p-4">
+      <test-directive />
+      <div class="h-4" />
+      <test-directive-doc />
 
-      <p class="text-lg font-medium my-4">2. props&emits</p>
       <test-props-emits :name="name" @add-prefix="handleAddPrefix" />
+      <div class="h-4" />
+      <test-props-emits-doc />
 
-      <p class="text-lg font-medium my-4">3. 顶层可以直接使用await</p>
-      <test-await></test-await>
+      <test-await />
+      <div class="h-4" />
+      <test-await-doc />
 
-      <p class="text-lg font-medium my-4">4. 主动暴露出去数据</p>
-      <test-expose ref="fooRef"></test-expose>
+      <test-expose ref="fooRef" />
+      <div class="h-4" />
+      <test-expose-doc />
       父组件能看到的: {{ fooRef }}
     </div>
   </div>
@@ -25,10 +29,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import TestPropsEmits from './components/TestPropsEmits.vue'
 import TestDirective from './components/TestDirective.vue'
+import TestDirectiveDoc from './components/TestDirectiveDoc.md'
+import TestPropsEmits from './components/TestPropsEmits.vue'
+import TestPropsEmitsDoc from './components/TestPropsEmitsDoc.md'
 import TestAwait from './components/TestAwait.vue'
+import TestAwaitDoc from './components/TestAwaitDoc.md'
 import TestExpose, { useFoo } from './components/TestExpose.vue'
+import TestExposeDoc from './components/TestExposeDoc.md'
 
 const pageInfo = {
   title: 'vue3 setup 语法糖',

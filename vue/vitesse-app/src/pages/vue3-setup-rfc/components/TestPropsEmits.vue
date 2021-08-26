@@ -1,17 +1,5 @@
 <template>
-  <pre class="blockquote">
-  type Props = {
-    name: String
-    size?: number
-  }
-  const props = withDefaults(defineProps&lt;Props&gt;(), {
-    size: 100,
-  })
-  const emit = defineEmits(['add-prefix'])
-  const addPrefix = () =&gt; {
-    emit('add-prefix')
-  }
-  </pre>
+  <p class="text-lg font-medium my-4">2. props&emits</p>
   <p class="mt-3">name: {{ name }} 。size: {{ size }}</p>
   <button @click="addPrefix" class="mt-3 text-sm btn" :disabled="!name">emits: 添加前缀</button>
 </template>
