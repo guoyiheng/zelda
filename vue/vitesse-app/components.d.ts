@@ -3,10 +3,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    CarbonAiResultsMedium: typeof import('virtual:vite-icons/carbon/ai-results-medium')['default']
     CarbonCampsite: typeof import('virtual:vite-icons/carbon/campsite')['default']
-    CarbonDicomOverlay: typeof import('virtual:vite-icons/carbon/dicom-overlay')['default']
-    CarbonLanguage: typeof import('virtual:vite-icons/carbon/language')['default']
     CarbonLogoGithub: typeof import('virtual:vite-icons/carbon/logo-github')['default']
     CarbonMoon: typeof import('virtual:vite-icons/carbon/moon')['default']
     CarbonPedestrian: typeof import('virtual:vite-icons/carbon/pedestrian')['default']
@@ -15,14 +12,8 @@ declare module 'vue' {
     'FileIcons:configTypescript': typeof import('virtual:vite-icons/file-icons/config-typescript')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
-    MdiLanguageTypescript: typeof import('virtual:vite-icons/mdi/language-typescript')['default']
-    MdiLightFactory: typeof import('virtual:vite-icons/mdi-light/factory')['default']
     README: typeof import('./src/components/README.md')['default']
-    RiBilibiliFill: typeof import('virtual:vite-icons/ri/bilibili-fill')['default']
     RiBilibiliLine: typeof import('virtual:vite-icons/ri/bilibili-line')['default']
-    'Teenyicons:typescriptOutline': typeof import('virtual:vite-icons/teenyicons/typescript-outline')['default']
-    'Teenyicons:typescriptSolid': typeof import('virtual:vite-icons/teenyicons/typescript-solid')['default']
-    'VscodeIcons:fileTypeTypescript': typeof import('virtual:vite-icons/vscode-icons/file-type-typescript')['default']
   }
 }
 
