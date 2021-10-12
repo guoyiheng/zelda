@@ -8,13 +8,13 @@ const pipeline = promisify(stream.pipeline)
 class Ut {
   /**
    *  下载网络媒体资源
-   * @param {object} url 媒体url
+   * @param {string} url 媒体url
    * @param {string} path 保存位置
+   * @param {object} opt 其他信息
    */
-  static async downMedia(url = '', path = '') {
+  static async downMedia(url = '', path = '', opt) {
     // 截取urlpath最后一段
-    const urlSplitResult = url.split('/')
-    const name = urlSplitResult[urlSplitResult.length - 1]
+    const name = url.split('/')[url.split('/').length - 1].split('?')[0]
 
     // 如果包含.就直接下载，不包含先请求格式
     let fullName
@@ -25,7 +25,7 @@ class Ut {
     } else {
       fullName = name
     }
-    console.log('media fullName:', fullName)
+    console.log('media fullName:', fullName, '===index: ', opt.index)
     return await pipeline(got.stream(url), fs.createWriteStream(path + fullName))
   }
   /**
@@ -36,7 +36,7 @@ class Ut {
   static downMediaForArr(urlArr, path) {
     for (let index = 0; index < urlArr.length; index++) {
       const urlItem = urlArr[index]
-      this.downMedia(urlItem, path)
+      this.downMedia(urlItem, path, { index })
     }
   }
 }
