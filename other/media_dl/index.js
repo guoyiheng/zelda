@@ -19,24 +19,31 @@ class Ut {
     // 如果包含.就直接下载，不包含先请求格式
     let fullName
     if (!name.includes('.')) {
-      const response = await got.get(url)
+      const response = await got.get(url, {
+        headers: opt.headers,
+      })
       const suffix = mime.extension(response.headers['content-type'])
       fullName = name + '.' + suffix
     } else {
       fullName = name
     }
     console.log('media fullName:', fullName, '===index: ', opt.index)
-    return await pipeline(got.stream(url), fs.createWriteStream(path + fullName))
+    return await pipeline(
+      got.stream(url, {
+        headers: opt.headers,
+      }),
+      fs.createWriteStream(path + fullName)
+    )
   }
   /**
    *  下载数组url
    * @param {object} urlArr 媒体url数组
    * @param {string} path 保存位置
    */
-  static downMediaForArr(urlArr, path) {
+  static downMediaForArr(urlArr, path, headers) {
     for (let index = 0; index < urlArr.length; index++) {
       const urlItem = urlArr[index]
-      this.downMedia(urlItem, path, { index })
+      this.downMedia(urlItem, path, { index, headers })
     }
   }
 }
