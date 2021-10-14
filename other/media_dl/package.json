@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "dependencies": {
+    "axios": "^0.23.0",
     "got": "^11.8.2",
     "mime-types": "^2.1.33"
   },
