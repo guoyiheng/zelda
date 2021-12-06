@@ -1,8 +1,8 @@
 import { Client } from '@notionhq/client'
 
-const notion = new Client({ auth: process.env.NOTION_KEY })
+const notion = new Client({ auth: 'secret_vKCMGRAMjyqgrJNOiwtVtKfn4sTjv7GihwGSoEFJiyy' })
 
-const databaseId = process.env.NOTION_DATABASE_ID
+const databaseId = '642c4c96612f4f4792d3b49756afc8d2'
 
 async function addItem(text) {
   try {
