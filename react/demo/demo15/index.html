@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../build/react.development.js"></script>
+    <script src="../build/react-dom.development.js"></script>
+    <script src="../build/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/babel">
+      const RefButton = React.forwardRef((props, ref) => {
+        console.log('props', props, ref)
+        return <input ref={ref} />
+      })
+      class RefTest extends React.Component {
+        constructor() {
+          super()
+          this.ref = React.createRef()
+        }
+
+        componentDidMount() {
+          console.log('ref', this.ref)
+          this.ref.current.focus()
+        }
+
+        render() {
+          return <RefButton ref={this.ref} />
+        }
+      }
+      ReactDOM.render(<RefTest />, document.getElementById('container'))
+    </script>
+  </body>
+</html>
