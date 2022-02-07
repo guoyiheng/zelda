@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="../build/react.development.js"></script>
+    <script src="../build/react-dom.development.js"></script> -->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/babel">
+      // 通过 ref 来记忆最新的 count
+      // const countRef = useRef(count)
+      // countRef.current = count
+
+      // useEffect(() => {
+      //   const timer = setTimeout(() => {
+      //     console.log(countRef.current)
+      //   }, 3000)
+      //   return () => {
+      //     clearTimeout(timer)
+      //   }
+      // }, [])
+
+      function Demo() {
+        const [count, setCount] = useState(0)
+
+        useEffect(() => {
+          const timer = setTimeout(() => {
+            console.log(count)
+          }, 3000)
+          return () => {
+            clearTimeout(timer)
+          }
+        }, [])
+
+        return <button onClick={() => setCount(c => c + 1)}>click</button>
+      }
+
+      ReactDOM.render(<Demo />, document.getElementById('container'))
+    </script>
+  </body>
+</html>
