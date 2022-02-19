@@ -46,11 +46,7 @@ export default defineConfig({
 
       // auto import icons
       customComponentResolvers: [
-        // https://github.com/antfu/vite-plugin-icons
-        ViteIconsResolver({
-          componentPrefix: '',
-          // enabledCollections: ['carbon']
-        }),
+        // https://github.com/antfu/vite-plugin-iconsViteIconsResolver({  componentPrefix: '',  // enabledCollections: ['carbon']}),
       ],
     }),
 
@@ -68,15 +64,7 @@ export default defineConfig({
       wrapperClasses: markdownWrapperClasses,
       headEnabled: true,
       markdownItSetup(md) {
-        // https://prismjs.com/
-        md.use(Prism)
-        md.use(LinkAttributes, {
-          pattern: /^https?:\/\//,
-          attrs: {
-            target: '_blank',
-            rel: 'noopener',
-          },
-        })
+        // https://prismjs.com/md.use(Prism)md.use(LinkAttributes, {  pattern: /^https?:\/\//,  attrs: {    target: '_blank',    rel: 'noopener',  },})
       },
     }),
 
@@ -89,22 +77,9 @@ export default defineConfig({
         short_name: 'Vitesse',
         theme_color: '#ffffff',
         icons: [
-          {
-            src: '/pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-          {
-            src: '/pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
+          { src: '/pwa-192x192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/pwa-512x512.png', sizes: '512x512', type: 'image/png' },
+          { src: '/pwa-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
         ],
       },
     }),

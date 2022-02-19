@@ -11,15 +11,9 @@ for (let index = 1; index <= 5; index++) {
     const list = JSON.parse(content).list
     const resultArr = list.map(item => {
       const media = item.media.map(md => {
-        return {
-          type: md.type,
-          full: md.full,
-          videoSources: md.videoSources,
-        }
+        return { type: md.type, full: md.full, videoSources: md.videoSources }
       })
-      return {
-        media: media,
-      }
+      return { media: media }
     })
     let finalArr = []
     for (let index = 0; index < resultArr.length; index++) {

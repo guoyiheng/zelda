@@ -12,26 +12,13 @@
   <body>
     <div id="container"></div>
     <script type="text/babel">
-      const RefButton = React.forwardRef((props, ref) => {
-        console.log('props', props, ref)
-        return <input ref={ref} />
-      })
-      class RefTest extends React.Component {
-        constructor() {
-          super()
-          this.ref = React.createRef()
-        }
-
-        componentDidMount() {
-          console.log('ref', this.ref)
-          this.ref.current.focus()
-        }
-
-        render() {
-          return <RefButton ref={this.ref} />
-        }
-      }
-      ReactDOM.render(<RefTest />, document.getElementById('container'))
+            const RefButton = React.forwardRef((props, ref) => {console.log('props', props, ref)return <input ref={ref} />
+            })
+            class RefTest extends React.Component {constructor() {  super()  this.ref = React.createRef()}
+      componentDidMount() {  console.log('ref', this.ref)  this.ref.current.focus()}
+      render() {  return <RefButton ref={this.ref} />}
+            }
+            ReactDOM.render(<RefTest />, document.getElementById('container'))
     </script>
   </body>
 </html>

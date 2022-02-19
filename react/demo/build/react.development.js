@@ -213,8 +213,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
     } else {
       var args = [a, b, c, d, e, f];
       var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
+      error = new Error(format.replace(/%s/g, function () {return args[argIndex++];
       }));
       error.name = 'Invariant Violation';
     }
@@ -269,8 +268,7 @@ var lowPriorityWarning = function () {};
       throw new Error('`lowPriorityWarning(condition, format, ...args)` requires a warning ' + 'message argument');
     }
     if (!condition) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        args[_key2 - 2] = arguments[_key2];
+      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {args[_key2 - 2] = arguments[_key2];
       }
 
       printWarning.apply(undefined, [format].concat(args));
@@ -306,8 +304,7 @@ var warningWithoutStack = function () {};
       return;
     }
     if (typeof console !== 'undefined') {
-      var argsWithFormat = args.map(function (item) {
-        return '' + item;
+      var argsWithFormat = args.map(function (item) {return '' + item;
       });
       argsWithFormat.unshift('Warning: ' + format);
 
@@ -320,8 +317,7 @@ var warningWithoutStack = function () {};
       // This error was thrown as a convenience so that you can use this stack
       // to find the callsite that caused this warning to fire.
       var argIndex = 0;
-      var message = 'Warning: ' + format.replace(/%s/g, function () {
-        return args[argIndex++];
+      var message = 'Warning: ' + format.replace(/%s/g, function () {return args[argIndex++];
       });
       throw new Error(message);
     } catch (x) {}
@@ -493,9 +489,7 @@ Component.prototype.forceUpdate = function (callback) {
   };
   var defineDeprecationWarning = function (methodName, info) {
     Object.defineProperty(Component.prototype, methodName, {
-      get: function () {
-        lowPriorityWarning$1(false, '%s(...) is deprecated in plain JavaScript React classes. %s', info[0], info[1]);
-        return undefined;
+      get: function () {lowPriorityWarning$1(false, '%s(...) is deprecated in plain JavaScript React classes. %s', info[0], info[1]);return undefined;
       }
     });
   };
@@ -649,24 +643,11 @@ function flushFirstCallback() {
     } else {
       var nextAfterContinuation = null;
       var node = firstCallbackNode;
-      do {
-        if (node.expirationTime >= expirationTime) {
-          // This callback expires at or after the continuation. We will insert
-          // the continuation *before* this callback.
-          nextAfterContinuation = node;
-          break;
-        }
-        node = node.next;
+      do {if (node.expirationTime >= expirationTime) {  // This callback expires at or after the continuation. We will insert  // the continuation *before* this callback.  nextAfterContinuation = node;  break;}node = node.next;
       } while (node !== firstCallbackNode);
 
-      if (nextAfterContinuation === null) {
-        // No equal or lower priority callback was found, which means the new
-        // callback is the lowest priority callback in the list.
-        nextAfterContinuation = firstCallbackNode;
-      } else if (nextAfterContinuation === firstCallbackNode) {
-        // The new callback is the highest priority callback in the list.
-        firstCallbackNode = continuationNode;
-        ensureHostCallbackIsScheduled();
+      if (nextAfterContinuation === null) {// No equal or lower priority callback was found, which means the new// callback is the lowest priority callback in the list.nextAfterContinuation = firstCallbackNode;
+      } else if (nextAfterContinuation === firstCallbackNode) {// The new callback is the highest priority callback in the list.firstCallbackNode = continuationNode;ensureHostCallbackIsScheduled();
       }
 
       var previous = nextAfterContinuation.previous;
@@ -683,18 +664,14 @@ function flushImmediateWork() {
   currentEventStartTime === -1 && firstCallbackNode !== null && firstCallbackNode.priorityLevel === ImmediatePriority) {
     isExecutingCallback = true;
     try {
-      do {
-        flushFirstCallback();
+      do {flushFirstCallback();
       } while (
       // Keep flushing until there are no more immediate callbacks
       firstCallbackNode !== null && firstCallbackNode.priorityLevel === ImmediatePriority);
     } finally {
       isExecutingCallback = false;
-      if (firstCallbackNode !== null) {
-        // There's still work remaining. Request another callback.
-        ensureHostCallbackIsScheduled();
-      } else {
-        isHostCallbackScheduled = false;
+      if (firstCallbackNode !== null) {// There's still work remaining. Request another callback.ensureHostCallbackIsScheduled();
+      } else {isHostCallbackScheduled = false;
       }
     }
   }
@@ -713,29 +690,11 @@ function flushWork(didTimeout) {
   try {
     if (didTimeout) {
       // Flush all the expired callbacks without yielding.
-      while (firstCallbackNode !== null && !(enableSchedulerDebugging && isSchedulerPaused)) {
-        // TODO Wrap i nfeature flag
-        // Read the current time. Flush all the callbacks that expire at or
-        // earlier than that time. Then read the current time again and repeat.
-        // This optimizes for as few performance.now calls as possible.
-        var currentTime = getCurrentTime();
-        if (firstCallbackNode.expirationTime <= currentTime) {
-          do {
-            flushFirstCallback();
-          } while (firstCallbackNode !== null && firstCallbackNode.expirationTime <= currentTime && !(enableSchedulerDebugging && isSchedulerPaused));
-          continue;
-        }
-        break;
+      while (firstCallbackNode !== null && !(enableSchedulerDebugging && isSchedulerPaused)) {// TODO Wrap i nfeature flag// Read the current time. Flush all the callbacks that expire at or// earlier than that time. Then read the current time again and repeat.// This optimizes for as few performance.now calls as possible.var currentTime = getCurrentTime();if (firstCallbackNode.expirationTime <= currentTime) {  do {    flushFirstCallback();  } while (firstCallbackNode !== null && firstCallbackNode.expirationTime <= currentTime && !(enableSchedulerDebugging && isSchedulerPaused));  continue;}break;
       }
     } else {
       // Keep flushing callbacks until we run out of time in the frame.
-      if (firstCallbackNode !== null) {
-        do {
-          if (enableSchedulerDebugging && isSchedulerPaused) {
-            break;
-          }
-          flushFirstCallback();
-        } while (firstCallbackNode !== null && !shouldYieldToHost());
+      if (firstCallbackNode !== null) {do {  if (enableSchedulerDebugging && isSchedulerPaused) {    break;  }  flushFirstCallback();} while (firstCallbackNode !== null && !shouldYieldToHost());
       }
     }
   } finally {
@@ -808,21 +767,12 @@ function unstable_scheduleCallback(callback, deprecated_options) {
     expirationTime = startTime + deprecated_options.timeout;
   } else {
     switch (currentPriorityLevel) {
-      case ImmediatePriority:
-        expirationTime = startTime + IMMEDIATE_PRIORITY_TIMEOUT;
-        break;
-      case UserBlockingPriority:
-        expirationTime = startTime + USER_BLOCKING_PRIORITY;
-        break;
-      case IdlePriority:
-        expirationTime = startTime + IDLE_PRIORITY;
-        break;
-      case LowPriority:
-        expirationTime = startTime + LOW_PRIORITY_TIMEOUT;
-        break;
+      case ImmediatePriority:expirationTime = startTime + IMMEDIATE_PRIORITY_TIMEOUT;break;
+      case UserBlockingPriority:expirationTime = startTime + USER_BLOCKING_PRIORITY;break;
+      case IdlePriority:expirationTime = startTime + IDLE_PRIORITY;break;
+      case LowPriority:expirationTime = startTime + LOW_PRIORITY_TIMEOUT;break;
       case NormalPriority:
-      default:
-        expirationTime = startTime + NORMAL_PRIORITY_TIMEOUT;
+      default:expirationTime = startTime + NORMAL_PRIORITY_TIMEOUT;
     }
   }
 
@@ -845,10 +795,7 @@ function unstable_scheduleCallback(callback, deprecated_options) {
     var next = null;
     var node = firstCallbackNode;
     do {
-      if (node.expirationTime > expirationTime) {
-        // The new callback expires before this one.
-        next = node;
-        break;
+      if (node.expirationTime > expirationTime) {// The new callback expires before this one.next = node;break;
       }
       node = node.next;
     } while (node !== firstCallbackNode);
@@ -1007,10 +954,8 @@ typeof MessageChannel !== 'function') {
   var _callback = null;
   var _flushCallback = function (didTimeout) {
     if (_callback !== null) {
-      try {
-        _callback(didTimeout);
-      } finally {
-        _callback = null;
+      try {_callback(didTimeout);
+      } finally {_callback = null;
       }
     }
   };
@@ -1076,30 +1021,15 @@ typeof MessageChannel !== 'function') {
     if (frameDeadline - currentTime <= 0) {
       // There's no time left in this idle period. Check if the callback has
       // a timeout and whether it's been exceeded.
-      if (prevTimeoutTime !== -1 && prevTimeoutTime <= currentTime) {
-        // Exceeded the timeout. Invoke the callback even though there's no
-        // time left.
-        didTimeout = true;
-      } else {
-        // No timeout.
-        if (!isAnimationFrameScheduled) {
-          // Schedule another animation callback so we retry later.
-          isAnimationFrameScheduled = true;
-          requestAnimationFrameWithTimeout(animationTick);
-        }
-        // Exit without invoking the callback.
-        scheduledHostCallback = prevScheduledCallback;
-        timeoutTime = prevTimeoutTime;
-        return;
+      if (prevTimeoutTime !== -1 && prevTimeoutTime <= currentTime) {// Exceeded the timeout. Invoke the callback even though there's no// time left.didTimeout = true;
+      } else {// No timeout.if (!isAnimationFrameScheduled) {  // Schedule another animation callback so we retry later.  isAnimationFrameScheduled = true;  requestAnimationFrameWithTimeout(animationTick);}// Exit without invoking the callback.scheduledHostCallback = prevScheduledCallback;timeoutTime = prevTimeoutTime;return;
       }
     }
 
     if (prevScheduledCallback !== null) {
       isFlushingHostCallback = true;
-      try {
-        prevScheduledCallback(didTimeout);
-      } finally {
-        isFlushingHostCallback = false;
+      try {prevScheduledCallback(didTimeout);
+      } finally {isFlushingHostCallback = false;
       }
     }
   };
@@ -1123,10 +1053,7 @@ typeof MessageChannel !== 'function') {
 
     var nextFrameTime = rafTime - frameDeadline + activeFrameTime;
     if (nextFrameTime < activeFrameTime && previousFrameTime < activeFrameTime) {
-      if (nextFrameTime < 8) {
-        // Defensive coding. We don't support higher frame rates than 120hz.
-        // If the calculated frame time gets lower than 8, it is probably a bug.
-        nextFrameTime = 8;
+      if (nextFrameTime < 8) {// Defensive coding. We don't support higher frame rates than 120hz.// If the calculated frame time gets lower than 8, it is probably a bug.nextFrameTime = 8;
       }
       // If one frame goes long, then the next one can be short to catch up.
       // If two frames are short in a row, then that's an indication that we
@@ -1252,28 +1179,13 @@ function unstable_trace(name, timestamp, callback) {
     }
   } finally {
     try {
-      if (subscriber !== null) {
-        subscriber.onWorkStarted(interactions, threadID);
+      if (subscriber !== null) {subscriber.onWorkStarted(interactions, threadID);
       }
     } finally {
-      try {
-        returnValue = callback();
-      } finally {
-        interactionsRef.current = prevInteractions;
-
-        try {
-          if (subscriber !== null) {
-            subscriber.onWorkStopped(interactions, threadID);
-          }
-        } finally {
-          interaction.__count--;
-
-          // If no async work was scheduled for this interaction,
-          // Notify subscribers that it's completed.
-          if (subscriber !== null && interaction.__count === 0) {
-            subscriber.onInteractionScheduledWorkCompleted(interaction);
-          }
-        }
+      try {returnValue = callback();
+      } finally {interactionsRef.current = prevInteractions;
+try {  if (subscriber !== null) {    subscriber.onWorkStopped(interactions, threadID);  }} finally {  interaction.__count--;
+  // If no async work was scheduled for this interaction,  // Notify subscribers that it's completed.  if (subscriber !== null && interaction.__count === 0) {    subscriber.onInteractionScheduledWorkCompleted(interaction);  }}
       }
     }
   }
@@ -1312,40 +1224,16 @@ function unstable_wrap(callback) {
     try {
       var returnValue = void 0;
 
-      try {
-        if (subscriber !== null) {
-          subscriber.onWorkStarted(wrappedInteractions, threadID);
-        }
-      } finally {
-        try {
-          returnValue = callback.apply(undefined, arguments);
-        } finally {
-          interactionsRef.current = prevInteractions;
-
-          if (subscriber !== null) {
-            subscriber.onWorkStopped(wrappedInteractions, threadID);
-          }
-        }
+      try {if (subscriber !== null) {  subscriber.onWorkStarted(wrappedInteractions, threadID);}
+      } finally {try {  returnValue = callback.apply(undefined, arguments);} finally {  interactionsRef.current = prevInteractions;
+  if (subscriber !== null) {    subscriber.onWorkStopped(wrappedInteractions, threadID);  }}
       }
 
       return returnValue;
     } finally {
-      if (!hasRun) {
-        // We only expect a wrapped function to be executed once,
-        // But in the event that it's executed more than once–
-        // Only decrement the outstanding interaction counts once.
-        hasRun = true;
-
-        // Update pending async counts for all wrapped interactions.
-        // If this was the last scheduled async work for any of them,
-        // Mark them as completed.
-        wrappedInteractions.forEach(function (interaction) {
-          interaction.__count--;
-
-          if (subscriber !== null && interaction.__count === 0) {
-            subscriber.onInteractionScheduledWorkCompleted(interaction);
-          }
-        });
+      if (!hasRun) {// We only expect a wrapped function to be executed once,// But in the event that it's executed more than once–// Only decrement the outstanding interaction counts once.hasRun = true;
+// Update pending async counts for all wrapped interactions.// If this was the last scheduled async work for any of them,// Mark them as completed.wrappedInteractions.forEach(function (interaction) {  interaction.__count--;
+  if (subscriber !== null && interaction.__count === 0) {    subscriber.onInteractionScheduledWorkCompleted(interaction);  }});
       }
     }
   }
@@ -1354,19 +1242,14 @@ function unstable_wrap(callback) {
     subscriber = subscriberRef.current;
 
     try {
-      if (subscriber !== null) {
-        subscriber.onWorkCanceled(wrappedInteractions, threadID);
+      if (subscriber !== null) {subscriber.onWorkCanceled(wrappedInteractions, threadID);
       }
     } finally {
       // Update pending async counts for all wrapped interactions.
       // If this was the last scheduled async work for any of them,
       // Mark them as completed.
-      wrappedInteractions.forEach(function (interaction) {
-        interaction.__count--;
-
-        if (subscriber && interaction.__count === 0) {
-          subscriber.onInteractionScheduledWorkCompleted(interaction);
-        }
+      wrappedInteractions.forEach(function (interaction) {interaction.__count--;
+if (subscriber && interaction.__count === 0) {  subscriber.onInteractionScheduledWorkCompleted(interaction);}
       });
     }
   };
@@ -1384,13 +1267,7 @@ function unstable_subscribe(subscriber) {
     subscribers.add(subscriber);
 
     if (subscribers.size === 1) {
-      subscriberRef.current = {
-        onInteractionScheduledWorkCompleted: onInteractionScheduledWorkCompleted,
-        onInteractionTraced: onInteractionTraced,
-        onWorkCanceled: onWorkCanceled,
-        onWorkScheduled: onWorkScheduled,
-        onWorkStarted: onWorkStarted,
-        onWorkStopped: onWorkStopped
+      subscriberRef.current = {onInteractionScheduledWorkCompleted: onInteractionScheduledWorkCompleted,onInteractionTraced: onInteractionTraced,onWorkCanceled: onWorkCanceled,onWorkScheduled: onWorkScheduled,onWorkStarted: onWorkStarted,onWorkStopped: onWorkStopped
       };
     }
   }
@@ -1414,9 +1291,7 @@ function onInteractionTraced(interaction) {
     try {
       subscriber.onInteractionTraced(interaction);
     } catch (error) {
-      if (!didCatchError) {
-        didCatchError = true;
-        caughtError = error;
+      if (!didCatchError) {didCatchError = true;caughtError = error;
       }
     }
   });
@@ -1434,9 +1309,7 @@ function onInteractionScheduledWorkCompleted(interaction) {
     try {
       subscriber.onInteractionScheduledWorkCompleted(interaction);
     } catch (error) {
-      if (!didCatchError) {
-        didCatchError = true;
-        caughtError = error;
+      if (!didCatchError) {didCatchError = true;caughtError = error;
       }
     }
   });
@@ -1454,9 +1327,7 @@ function onWorkScheduled(interactions, threadID) {
     try {
       subscriber.onWorkScheduled(interactions, threadID);
     } catch (error) {
-      if (!didCatchError) {
-        didCatchError = true;
-        caughtError = error;
+      if (!didCatchError) {didCatchError = true;caughtError = error;
       }
     }
   });
@@ -1474,9 +1345,7 @@ function onWorkStarted(interactions, threadID) {
     try {
       subscriber.onWorkStarted(interactions, threadID);
     } catch (error) {
-      if (!didCatchError) {
-        didCatchError = true;
-        caughtError = error;
+      if (!didCatchError) {didCatchError = true;caughtError = error;
       }
     }
   });
@@ -1494,9 +1363,7 @@ function onWorkStopped(interactions, threadID) {
     try {
       subscriber.onWorkStopped(interactions, threadID);
     } catch (error) {
-      if (!didCatchError) {
-        didCatchError = true;
-        caughtError = error;
+      if (!didCatchError) {didCatchError = true;caughtError = error;
       }
     }
   });
@@ -1514,9 +1381,7 @@ function onWorkCanceled(interactions, threadID) {
     try {
       subscriber.onWorkCanceled(interactions, threadID);
     } catch (error) {
-      if (!didCatchError) {
-        didCatchError = true;
-        caughtError = error;
+      if (!didCatchError) {didCatchError = true;caughtError = error;
       }
     }
   });
@@ -1551,15 +1416,7 @@ var describeComponentFrame = function (name, source, ownerName) {
     {
       // In DEV, include code for a common special case:
       // prefer "folder/index.js" instead of just "index.js".
-      if (/^index\./.test(fileName)) {
-        var match = path.match(BEFORE_SLASH_RE);
-        if (match) {
-          var pathBeforeSlash = match[1];
-          if (pathBeforeSlash) {
-            var folderName = pathBeforeSlash.replace(BEFORE_SLASH_RE, '');
-            fileName = folderName + '/' + fileName;
-          }
-        }
+      if (/^index\./.test(fileName)) {var match = path.match(BEFORE_SLASH_RE);if (match) {  var pathBeforeSlash = match[1];  if (pathBeforeSlash) {    var folderName = pathBeforeSlash.replace(BEFORE_SLASH_RE, '');    fileName = folderName + '/' + fileName;  }}
       }
     }
     sourceInfo = ' (at ' + fileName + ':' + source.lineNumber + ')';
@@ -1613,22 +1470,11 @@ function getComponentName(type) {
   }
   if (typeof type === 'object') {
     switch (type.$$typeof) {
-      case REACT_CONTEXT_TYPE:
-        return 'Context.Consumer';
-      case REACT_PROVIDER_TYPE:
-        return 'Context.Provider';
-      case REACT_FORWARD_REF_TYPE:
-        return getWrappedName(type, type.render, 'ForwardRef');
-      case REACT_MEMO_TYPE:
-        return getComponentName(type.type);
-      case REACT_LAZY_TYPE:
-        {
-          var thenable = type;
-          var resolvedThenable = refineResolvedLazyComponent(thenable);
-          if (resolvedThenable) {
-            return getComponentName(resolvedThenable);
-          }
-        }
+      case REACT_CONTEXT_TYPE:return 'Context.Consumer';
+      case REACT_PROVIDER_TYPE:return 'Context.Provider';
+      case REACT_FORWARD_REF_TYPE:return getWrappedName(type, type.render, 'ForwardRef');
+      case REACT_MEMO_TYPE:return getComponentName(type.type);
+      case REACT_LAZY_TYPE:{  var thenable = type;  var resolvedThenable = refineResolvedLazyComponent(thenable);  if (resolvedThenable) {    return getComponentName(resolvedThenable);  }}
     }
   }
   return null;
@@ -1761,8 +1607,7 @@ function hasValidRef(config) {
   {
     if (hasOwnProperty$1.call(config, 'ref')) {
       var getter = Object.getOwnPropertyDescriptor(config, 'ref').get;
-      if (getter && getter.isReactWarning) {
-        return false;
+      if (getter && getter.isReactWarning) {return false;
       }
     }
   }
@@ -1773,8 +1618,7 @@ function hasValidKey(config) {
   {
     if (hasOwnProperty$1.call(config, 'key')) {
       var getter = Object.getOwnPropertyDescriptor(config, 'key').get;
-      if (getter && getter.isReactWarning) {
-        return false;
+      if (getter && getter.isReactWarning) {return false;
       }
     }
   }
@@ -1912,8 +1756,7 @@ function createElement(type, config, children) {
     source = config.__source === undefined ? null : config.__source;
     // Remaining properties are added to a new props object
     for (propName in config) {
-      if (hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
-        props[propName] = config[propName];
+      if (hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {props[propName] = config[propName];
       }
     }
   }
@@ -1929,8 +1772,7 @@ function createElement(type, config, children) {
       childArray[i] = arguments[i + 2];
     }
     {
-      if (Object.freeze) {
-        Object.freeze(childArray);
+      if (Object.freeze) {Object.freeze(childArray);
       }
     }
     props.children = childArray;
@@ -1940,19 +1782,16 @@ function createElement(type, config, children) {
   if (type && type.defaultProps) {
     var defaultProps = type.defaultProps;
     for (propName in defaultProps) {
-      if (props[propName] === undefined) {
-        props[propName] = defaultProps[propName];
+      if (props[propName] === undefined) {props[propName] = defaultProps[propName];
       }
     }
   }
   {
     if (key || ref) {
       var displayName = typeof type === 'function' ? type.displayName || type.name || 'Unknown' : type;
-      if (key) {
-        defineKeyPropWarningGetter(props, displayName);
+      if (key) {defineKeyPropWarningGetter(props, displayName);
       }
-      if (ref) {
-        defineRefPropWarningGetter(props, displayName);
+      if (ref) {defineRefPropWarningGetter(props, displayName);
       }
     }
   }
@@ -2012,13 +1851,7 @@ function cloneElement(element, config, children) {
       defaultProps = element.type.defaultProps;
     }
     for (propName in config) {
-      if (hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
-        if (config[propName] === undefined && defaultProps !== undefined) {
-          // Resolve default props
-          props[propName] = defaultProps[propName];
-        } else {
-          props[propName] = config[propName];
-        }
+      if (hasOwnProperty$1.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {if (config[propName] === undefined && defaultProps !== undefined) {  // Resolve default props  props[propName] = defaultProps[propName];} else {  props[propName] = config[propName];}
       }
     }
   }
@@ -2140,15 +1973,8 @@ function traverseAllChildrenImpl(children, nameSoFar, callback, traverseContext)
   } else {
     switch (type) {
       case 'string':
-      case 'number':
-        invokeCallback = true;
-        break;
-      case 'object':
-        switch (children.$$typeof) {
-          case REACT_ELEMENT_TYPE:
-          case REACT_PORTAL_TYPE:
-            invokeCallback = true;
-        }
+      case 'number':invokeCallback = true;break;
+      case 'object':switch (children.$$typeof) {  case REACT_ELEMENT_TYPE:  case REACT_PORTAL_TYPE:    invokeCallback = true;}
     }
   }
 
@@ -2174,26 +2000,17 @@ function traverseAllChildrenImpl(children, nameSoFar, callback, traverseContext)
   } else {
     var iteratorFn = getIteratorFn(children);
     if (typeof iteratorFn === 'function') {
-      {
-        // Warn about using Maps as children
-        if (iteratorFn === children.entries) {
-          !didWarnAboutMaps ? warning$1(false, 'Using Maps as children is unsupported and will likely yield ' + 'unexpected results. Convert it to a sequence/iterable of keyed ' + 'ReactElements instead.') : void 0;
-          didWarnAboutMaps = true;
-        }
+      {// Warn about using Maps as childrenif (iteratorFn === children.entries) {  !didWarnAboutMaps ? warning$1(false, 'Using Maps as children is unsupported and will likely yield ' + 'unexpected results. Convert it to a sequence/iterable of keyed ' + 'ReactElements instead.') : void 0;  didWarnAboutMaps = true;}
       }
 
       var iterator = iteratorFn.call(children);
       var step = void 0;
       var ii = 0;
-      while (!(step = iterator.next()).done) {
-        child = step.value;
-        nextName = nextNamePrefix + getComponentKey(child, ii++);
-        subtreeCount += traverseAllChildrenImpl(child, nextName, callback, traverseContext);
+      while (!(step = iterator.next()).done) {child = step.value;nextName = nextNamePrefix + getComponentKey(child, ii++);subtreeCount += traverseAllChildrenImpl(child, nextName, callback, traverseContext);
       }
     } else if (type === 'object') {
       var addendum = '';
-      {
-        addendum = ' If you meant to render a collection of children, use an array ' + 'instead.' + ReactDebugCurrentFrame.getStackAddendum();
+      {addendum = ' If you meant to render a collection of children, use an array ' + 'instead.' + ReactDebugCurrentFrame.getStackAddendum();
       }
       var childrenString = '' + children;
       invariant(false, 'Objects are not valid as a React child (found: %s).%s', childrenString === '[object Object]' ? 'object with keys {' + Object.keys(children).join(', ') + '}' : childrenString, addendum);
@@ -2422,50 +2239,15 @@ function createContext(defaultValue, calculateChangedBits) {
     };
     // $FlowFixMe: Flow complains about not setting a value, which is intentional here
     Object.defineProperties(Consumer, {
-      Provider: {
-        get: function () {
-          if (!hasWarnedAboutUsingConsumerProvider) {
-            hasWarnedAboutUsingConsumerProvider = true;
-            warning$1(false, 'Rendering <Context.Consumer.Provider> is not supported and will be removed in ' + 'a future major release. Did you mean to render <Context.Provider> instead?');
-          }
-          return context.Provider;
-        },
-        set: function (_Provider) {
-          context.Provider = _Provider;
-        }
+      Provider: {get: function () {  if (!hasWarnedAboutUsingConsumerProvider) {    hasWarnedAboutUsingConsumerProvider = true;    warning$1(false, 'Rendering <Context.Consumer.Provider> is not supported and will be removed in ' + 'a future major release. Did you mean to render <Context.Provider> instead?');  }  return context.Provider;},set: function (_Provider) {  context.Provider = _Provider;}
       },
-      _currentValue: {
-        get: function () {
-          return context._currentValue;
-        },
-        set: function (_currentValue) {
-          context._currentValue = _currentValue;
-        }
+      _currentValue: {get: function () {  return context._currentValue;},set: function (_currentValue) {  context._currentValue = _currentValue;}
       },
-      _currentValue2: {
-        get: function () {
-          return context._currentValue2;
-        },
-        set: function (_currentValue2) {
-          context._currentValue2 = _currentValue2;
-        }
+      _currentValue2: {get: function () {  return context._currentValue2;},set: function (_currentValue2) {  context._currentValue2 = _currentValue2;}
       },
-      _threadCount: {
-        get: function () {
-          return context._threadCount;
-        },
-        set: function (_threadCount) {
-          context._threadCount = _threadCount;
-        }
+      _threadCount: {get: function () {  return context._threadCount;},set: function (_threadCount) {  context._threadCount = _threadCount;}
       },
-      Consumer: {
-        get: function () {
-          if (!hasWarnedAboutUsingNestedContextConsumers) {
-            hasWarnedAboutUsingNestedContextConsumers = true;
-            warning$1(false, 'Rendering <Context.Consumer.Consumer> is not supported and will be removed in ' + 'a future major release. Did you mean to render <Context.Consumer> instead?');
-          }
-          return context.Consumer;
-        }
+      Consumer: {get: function () {  if (!hasWarnedAboutUsingNestedContextConsumers) {    hasWarnedAboutUsingNestedContextConsumers = true;    warning$1(false, 'Rendering <Context.Consumer.Consumer> is not supported and will be removed in ' + 'a future major release. Did you mean to render <Context.Consumer> instead?');  }  return context.Consumer;}
       }
     });
     // $FlowFixMe: Flow complains about missing properties because it doesn't understand defineProperty
@@ -2494,33 +2276,9 @@ function lazy(ctor) {
     var defaultProps = void 0;
     var propTypes = void 0;
     Object.defineProperties(lazyType, {
-      defaultProps: {
-        configurable: true,
-        get: function () {
-          return defaultProps;
-        },
-        set: function (newDefaultProps) {
-          warning$1(false, 'React.lazy(...): It is not supported to assign `defaultProps` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');
-          defaultProps = newDefaultProps;
-          // Match production behavior more closely:
-          Object.defineProperty(lazyType, 'defaultProps', {
-            enumerable: true
-          });
-        }
+      defaultProps: {configurable: true,get: function () {  return defaultProps;},set: function (newDefaultProps) {  warning$1(false, 'React.lazy(...): It is not supported to assign `defaultProps` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');  defaultProps = newDefaultProps;  // Match production behavior more closely:  Object.defineProperty(lazyType, 'defaultProps', {    enumerable: true  });}
       },
-      propTypes: {
-        configurable: true,
-        get: function () {
-          return propTypes;
-        },
-        set: function (newPropTypes) {
-          warning$1(false, 'React.lazy(...): It is not supported to assign `propTypes` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');
-          propTypes = newPropTypes;
-          // Match production behavior more closely:
-          Object.defineProperty(lazyType, 'propTypes', {
-            enumerable: true
-          });
-        }
+      propTypes: {configurable: true,get: function () {  return propTypes;},set: function (newPropTypes) {  warning$1(false, 'React.lazy(...): It is not supported to assign `propTypes` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');  propTypes = newPropTypes;  // Match production behavior more closely:  Object.defineProperty(lazyType, 'propTypes', {    enumerable: true  });}
       }
     });
   }
@@ -2584,10 +2342,8 @@ function useContext(Context, observedBits) {
       var realContext = Context._context;
       // Don't deduplicate because this legitimately causes bugs
       // and nobody should be using this in existing code.
-      if (realContext.Consumer === Context) {
-        warning$1(false, 'Calling useContext(Context.Consumer) is not supported, may cause bugs, and will be ' + 'removed in a future major release. Did you mean to call useContext(Context) instead?');
-      } else if (realContext.Provider === Context) {
-        warning$1(false, 'Calling useContext(Context.Provider) is not supported. ' + 'Did you mean to call useContext(Context) instead?');
+      if (realContext.Consumer === Context) {warning$1(false, 'Calling useContext(Context.Consumer) is not supported, may cause bugs, and will be ' + 'removed in a future major release. Did you mean to call useContext(Context) instead?');
+      } else if (realContext.Provider === Context) {warning$1(false, 'Calling useContext(Context.Provider) is not supported. ' + 'Did you mean to call useContext(Context) instead?');
       }
     }
   }
@@ -2690,48 +2446,10 @@ var printWarning$1 = function() {};
 function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
   {
     for (var typeSpecName in typeSpecs) {
-      if (typeSpecs.hasOwnProperty(typeSpecName)) {
-        var error;
-        // Prop type validation may throw. In case they do, we don't want to
-        // fail the render phase where it didn't fail before. So we log it.
-        // After these have been cleaned up, we'll let them throw.
-        try {
-          // This is intentionally an invariant that gets caught. It's the same
-          // behavior as without this statement except with a better message.
-          if (typeof typeSpecs[typeSpecName] !== 'function') {
-            var err = Error(
-              (componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + '` is invalid; ' +
-              'it must be a function, usually from the `prop-types` package, but received `' + typeof typeSpecs[typeSpecName] + '`.'
-            );
-            err.name = 'Invariant Violation';
-            throw err;
-          }
-          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-        } catch (ex) {
-          error = ex;
-        }
-        if (error && !(error instanceof Error)) {
-          printWarning$1(
-            (componentName || 'React class') + ': type specification of ' +
-            location + ' `' + typeSpecName + '` is invalid; the type checker ' +
-            'function must return `null` or an `Error` but returned a ' + typeof error + '. ' +
-            'You may have forgotten to pass an argument to the type checker ' +
-            'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' +
-            'shape all require an argument).'
-          );
-
-        }
-        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-          // Only monitor this failure once because there tends to be a lot of the
-          // same error.
-          loggedTypeFailures[error.message] = true;
-
-          var stack = getStack ? getStack() : '';
-
-          printWarning$1(
-            'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')
-          );
-        }
+      if (typeSpecs.hasOwnProperty(typeSpecName)) {var error;// Prop type validation may throw. In case they do, we don't want to// fail the render phase where it didn't fail before. So we log it.// After these have been cleaned up, we'll let them throw.try {  // This is intentionally an invariant that gets caught. It's the same  // behavior as without this statement except with a better message.  if (typeof typeSpecs[typeSpecName] !== 'function') {    var err = Error(      (componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + '` is invalid; ' +      'it must be a function, usually from the `prop-types` package, but received `' + typeof typeSpecs[typeSpecName] + '`.'    );    err.name = 'Invariant Violation';    throw err;  }  error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);} catch (ex) {  error = ex;}if (error && !(error instanceof Error)) {  printWarning$1(    (componentName || 'React class') + ': type specification of ' +    location + ' `' + typeSpecName + '` is invalid; the type checker ' +    'function must return `null` or an `Error` but returned a ' + typeof error + '. ' +    'You may have forgotten to pass an argument to the type checker ' +    'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' +    'shape all require an argument).'  );
+}if (error instanceof Error && !(error.message in loggedTypeFailures)) {  // Only monitor this failure once because there tends to be a lot of the  // same error.  loggedTypeFailures[error.message] = true;
+  var stack = getStack ? getStack() : '';
+  printWarning$1(    'Failed ' + location + ' type: ' + error.message + (stack != null ? stack : '')  );}
       }
     }
   }
@@ -2846,8 +2564,7 @@ function validateChildKeys(node, parentType) {
   if (Array.isArray(node)) {
     for (var i = 0; i < node.length; i++) {
       var child = node[i];
-      if (isValidElement(child)) {
-        validateExplicitKey(child, parentType);
+      if (isValidElement(child)) {validateExplicitKey(child, parentType);
       }
     }
   } else if (isValidElement(node)) {
@@ -2860,14 +2577,7 @@ function validateChildKeys(node, parentType) {
     if (typeof iteratorFn === 'function') {
       // Entry iterators used to provide implicit keys,
       // but now we print a separate warning for them later.
-      if (iteratorFn !== node.entries) {
-        var iterator = iteratorFn.call(node);
-        var step = void 0;
-        while (!(step = iterator.next()).done) {
-          if (isValidElement(step.value)) {
-            validateExplicitKey(step.value, parentType);
-          }
-        }
+      if (iteratorFn !== node.entries) {var iterator = iteratorFn.call(node);var step = void 0;while (!(step = iterator.next()).done) {  if (isValidElement(step.value)) {    validateExplicitKey(step.value, parentType);  }}
       }
     }
   }
@@ -3000,12 +2710,7 @@ function createFactoryWithValidation(type) {
   {
     Object.defineProperty(validatedFactory, 'type', {
       enumerable: false,
-      get: function () {
-        lowPriorityWarning$1(false, 'Factory.type is deprecated. Access the class directly ' + 'before passing it to createFactory.');
-        Object.defineProperty(this, 'type', {
-          value: type
-        });
-        return type;
+      get: function () {lowPriorityWarning$1(false, 'Factory.type is deprecated. Access the class directly ' + 'before passing it to createFactory.');Object.defineProperty(this, 'type', {  value: type});return type;
       }
     });
   }

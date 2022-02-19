@@ -31,42 +31,8 @@ export class CountComponent extends Component {
   render() {
     const { count, plusOne, minusOne } = this.props
     return (
-      <div
-        style={{
-          padding: "40px",
-        }}
-      >
-        <button
-          style={{
-            width: "120px",
-            height: "40px",
-            fontSize: "28px",
-            backgroundColor: "#e0e1e2",
-            border: "none",
-          }}
-          onClick={plusOne}
-        >
-          +
-        </button>
-        <span
-          style={{
-            margin: "20px",
-          }}
-        >
-          {count}
-        </span>
-        <button
-          style={{
-            width: "120px",
-            height: "40px",
-            fontSize: "28px",
-            backgroundColor: "#e0e1e2",
-            border: "none",
-          }}
-          onClick={minusOne}
-        >
-          -
-        </button>
+      <divstyle={{  padding: "40px",}}
+      ><button  style={{    width: "120px",    height: "40px",    fontSize: "28px",    backgroundColor: "#e0e1e2",    border: "none",  }}  onClick={plusOne}>  +</button><span  style={{    margin: "20px",  }}>  {count}</span><button  style={{    width: "120px",    height: "40px",    fontSize: "28px",    backgroundColor: "#e0e1e2",    border: "none",  }}  onClick={minusOne}>  -</button>
       </div>
     )
   }
@@ -98,8 +64,7 @@ store.subscribe(() => console.log("store", store.getState()))
 export default class CountTest extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <ConnectedCount />
+      <Provider store={store}><ConnectedCount />
       </Provider>
     )
   }

@@ -21,13 +21,7 @@ watch(() => props.name, (name) => {
       你好, {{ props.name }}
     </p>
     <template v-if="user.otherNames.length">
-      <p class="text-sm">
-        也叫
-        <ul>
-          <li v-for="name in user.otherNames">
-            {{ name }}
-          </li>
-        </ul>
+      <p class="text-sm">也叫<ul>  <li v-for="name in user.otherNames">    {{ name }}  </li></ul>
       </p>
     </template>
 
@@ -36,9 +30,7 @@ watch(() => props.name, (name) => {
     </p>
 
     <div>
-      <button
-        class="btn m-3 text-sm mt-8"
-        @click="router.back()"
+      <buttonclass="btn m-3 text-sm mt-8"@click="router.back()"
       >
       返回
       </button>

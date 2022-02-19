@@ -13,37 +13,22 @@ export default function withTimer(WrappedComponent) {
     }
 
     tick() {
-      this.setState({
-        time: new Date(),
+      this.setState({time: new Date(),
       })
     }
 
     handleInput = (evt) => {
-      this.setState({
-        inputMsg: evt.target.value,
+      this.setState({inputMsg: evt.target.value,
       })
     }
     handleSend = () => {
       const text = this.state.inputMsg
 
-      if (text) {
-        const newMessages = [...this.state.messages, text]
-        this.setState({
-          messages: newMessages,
-          inputMsg: "",
-        })
+      if (text) {const newMessages = [...this.state.messages, text]this.setState({  messages: newMessages,  inputMsg: "",})
       }
     }
     render() {
-      return (
-        <WrappedComponent
-          time={this.state.time}
-          inputMsg={this.state.inputMsg}
-          messages={this.state.messages}
-          handleInput={this.handleInput}
-          handleSend={this.handleSend}
-          {...this.props}
-        />
+      return (<WrappedComponent  time={this.state.time}  inputMsg={this.state.inputMsg}  messages={this.state.messages}  handleInput={this.handleInput}  handleSend={this.handleSend}  {...this.props}/>
       )
     }
   }

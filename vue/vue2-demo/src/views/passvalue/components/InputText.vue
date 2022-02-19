@@ -6,8 +6,8 @@
 <template>
   <div class="p-page">
     <div>
-      <input
-        :value="inputValue"
+      <input:value
+        ="inputValue"
         @input="$emit('update:input-value', $event.target.value)"
       />
       child:{{ inputValue }}
@@ -31,20 +31,18 @@ export default {
   props: {
     inputValue: {
       type: String,
-      default: ''
+      default: '',
     },
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     originData: {
       type: Object,
       default: () => {
-        return {
-          inputValue: ''
-        }
-      }
-    }
+        return { inputValue: '' }
+      },
+    },
   },
   data() {
     return {}
@@ -56,9 +54,9 @@ export default {
   methods: {
     getFatherValue() {
       console.log(this.inputIndex.fatherInputValue)
-    }
+    },
   },
-  inject: ['inputIndex']
+  inject: ['inputIndex'],
 }
 </script>
 

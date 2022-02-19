@@ -10,8 +10,8 @@
     </template>
     <div class="test1">
       最佳
-      <input-text
-        :input-value.sync="fatherInputValue"
+      <input-text:input-value.sync
+        ="fatherInputValue"
         v-model="fatherInputValue2"
         :origin-data="formData"
       />
@@ -44,8 +44,7 @@ export default {
     return {
       fatherInputValue: '',
       fatherInputValue2: '',
-      formData: {
-        inputValue: ''
+      formData: {inputValue: ''
       }
     }
   },
@@ -55,35 +54,12 @@ export default {
   mounted() {},
   methods: {
     foo1() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve('hello')
-        }, 2000)
+      return new Promise((resolve, reject) => {setTimeout(() => {  resolve('hello')}, 2000)
       })
     },
 
     handleGetValue() {
-      this.foo1()
-        .then(result => {
-          console.log(result)
-          try {
-            throw new Error('cao')
-          } catch (error) {
-            console.log('error', error)
-          }
-          if (result === 'hello') {
-            this.$router.push({
-              name: 'hookstest'
-            })
-            return
-          }
-          console.log('then')
-          console.log('fatherInputValue', this.fatherInputValue)
-          console.log('formData', this.formData)
-        })
-        .catch(err => {
-          console.log('err', err)
-        })
+      this.foo1().then(result => {  console.log(result)  try {    throw new Error('cao')  } catch (error) {    console.log('error', error)  }  if (result === 'hello') {    this.$router.push({      name: 'hookstest'    })    return  }  console.log('then')  console.log('fatherInputValue', this.fatherInputValue)  console.log('formData', this.formData)}).catch(err => {  console.log('err', err)})
     }
   },
   provide() {

@@ -1,5 +1,5 @@
-import React from "react"
-import { HashRouter as Router, Switch, Route, Link, useParams } from "react-router-dom"
+import React from 'react'
+import { HashRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom'
 
 // Params are placeholders in the URL that begin
 // with a colon, like the `:id` param defined in
@@ -12,24 +12,28 @@ function UrlParams() {
     <Router>
       <div>
         <h2>Accounts</h2>
-
         <ul>
+          {' '}
           <li>
-            <Link to="/url/params/netflix">Netflix</Link>
-          </li>
+            {' '}
+            <Link to='/url/params/netflix'>Netflix</Link>{' '}
+          </li>{' '}
           <li>
-            <Link to="/url/params/zillow-group">Zillow Group</Link>
-          </li>
+            {' '}
+            <Link to='/url/params/zillow-group'>Zillow Group</Link>{' '}
+          </li>{' '}
           <li>
-            <Link to="/url/params/yahoo">Yahoo</Link>
-          </li>
+            {' '}
+            <Link to='/url/params/yahoo'>Yahoo</Link>{' '}
+          </li>{' '}
           <li>
-            <Link to="/url/params/modus-create">Modus Create</Link>
+            {' '}
+            <Link to='/url/params/modus-create'>Modus Create</Link>{' '}
           </li>
         </ul>
-
         <Switch>
-          <Route path="/url/params/:id" children={<Child />} />
+          {' '}
+          <Route path='/url/params/:id' children={<Child />} />
         </Switch>
       </div>
     </Router>

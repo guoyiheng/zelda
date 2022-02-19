@@ -1,16 +1,16 @@
-import React, { Component } from "react"
-import "./TodoList.scss"
+import React, { Component } from 'react'
+import './TodoList.scss'
 class TodoList extends Component {
   constructor() {
     super()
     this.state = {
-      items: (localStorage.getItem("items") && JSON.parse(localStorage.getItem("items"))) || [],
-      text: "",
-      filter: "all",
+      items: (localStorage.getItem('items') && JSON.parse(localStorage.getItem('items'))) || [],
+      text: '',
+      filter: 'all',
     }
   }
   componentDidUpdate() {
-    localStorage.setItem("items", JSON.stringify(this.state.items))
+    localStorage.setItem('items', JSON.stringify(this.state.items))
   }
   handleInputChange(e) {
     this.setState({
@@ -29,11 +29,11 @@ class TodoList extends Component {
     }
     this.setState({
       items: [...this.state.items, newItem],
-      text: "",
+      text: '',
     })
   }
   handleItemStateChange(id, checked) {
-    const temps = this.state.items.map((item) => {
+    const temps = this.state.items.map(item => {
       if (item.id === id) {
         item.done = checked
       }
@@ -49,19 +49,19 @@ class TodoList extends Component {
     })
   }
   filterItems() {
-    console.log("filterItems")
+    console.log('filterItems')
 
     let temp
-    if (this.state.filter === "done") {
-      temp = this.state.items.filter((item) => {
+    if (this.state.filter === 'done') {
+      temp = this.state.items.filter(item => {
         return item.done
       })
-      console.log("temp", temp)
-    } else if (this.state.filter === "not") {
-      temp = this.state.items.filter((item) => {
+      console.log('temp', temp)
+    } else if (this.state.filter === 'not') {
+      temp = this.state.items.filter(item => {
         return !item.done
       })
-      console.log("not temp", temp)
+      console.log('not temp', temp)
     } else {
       temp = this.state.items
     }
@@ -75,50 +75,57 @@ class TodoList extends Component {
 
   render() {
     return (
-      <div className="p-todo-list">
-        <form onSubmit={this.handleSubmit.bind(this)} className="m-form">
-          <div className="form-body">
-            <label htmlFor="new-input-todo">what needs to be done?</label>
+      <div className='p-todo-list'>
+        <form onSubmit={this.handleSubmit.bind(this)} className='m-form'>
+          {' '}
+          <div className='form-body'>
+            {' '}
+            <label htmlFor='new-input-todo'>what needs to be done?</label>{' '}
             <input
-              id="new-input-todo"
-              name="input-todo"
+              id='new-input-todo'
+              name='input-todo'
               value={this.state.text}
               onChange={this.handleInputChange.bind(this)}
-              placeholder="todo"
+              placeholder='todo'
               autoFocus
-            />
-          </div>
-          <div className="form-bottom">
-            <button type="submit" className="u-button">
-              Add One
-            </button>
+            />{' '}
+          </div>{' '}
+          <div className='form-bottom'>
+            {' '}
+            <button type='submit' className='u-button'>
+              {' '}
+              Add One{' '}
+            </button>{' '}
           </div>
         </form>
-
-        <div className="m-filter">
+        <div className='m-filter'>
+          {' '}
           <button
-            className={(this.state.filter === "all" ? "u-button-active" : "") + ` u-button`}
-            onClick={this.setFilter.bind(this, "all")}
+            className={(this.state.filter === 'all' ? 'u-button-active' : '') + ` u-button`}
+            onClick={this.setFilter.bind(this, 'all')}
           >
-            All
-          </button>
+            {' '}
+            All{' '}
+          </button>{' '}
           <button
-            className={(this.state.filter === "done" ? "u-button-active" : "") + ` u-button`}
-            onClick={this.setFilter.bind(this, "done")}
+            className={(this.state.filter === 'done' ? 'u-button-active' : '') + ` u-button`}
+            onClick={this.setFilter.bind(this, 'done')}
           >
-            Done
-          </button>
+            {' '}
+            Done{' '}
+          </button>{' '}
           <button
-            className={(this.state.filter === "not" ? "u-button-active" : "") + ` u-button`}
-            onClick={this.setFilter.bind(this, "not")}
+            className={(this.state.filter === 'not' ? 'u-button-active' : '') + ` u-button`}
+            onClick={this.setFilter.bind(this, 'not')}
           >
-            Not
-          </button>
-          <button className="u-button" onClick={this.handleClear.bind(this)}>
-            Clear
+            {' '}
+            Not{' '}
+          </button>{' '}
+          <button className='u-button' onClick={this.handleClear.bind(this)}>
+            {' '}
+            Clear{' '}
           </button>
         </div>
-
         <TodoItem
           propsItems={this.filterItems()}
           propsItemStateChange={this.handleItemStateChange.bind(this)}
@@ -130,29 +137,31 @@ class TodoList extends Component {
 
 function TodoItem(props) {
   return (
-    <div className="c-todo-item">
+    <div className='c-todo-item'>
       <h2>Todo List</h2>
-      <div className="ul-container">
+      <div className='ul-container'>
         {props.propsItems.length > 0 ? (
-          props.propsItems.map((item) => (
-            <div className="li-item" key={item.id}>
+          props.propsItems.map(item => (
+            <div className='li-item' key={item.id}>
+              {' '}
               <input
-                id={"checkbox" + item.id}
-                className="m-switch"
-                type="checkbox"
+                id={'checkbox' + item.id}
+                className='m-switch'
+                type='checkbox'
                 checked={item.done}
-                onChange={(e) => props.propsItemStateChange(item.id, e.target.checked)}
-              />
+                onChange={e => props.propsItemStateChange(item.id, e.target.checked)}
+              />{' '}
               <label
-                htmlFor={"checkbox" + item.id}
-                className={item.done ? "u-text-done" : ` u-text`}
+                htmlFor={'checkbox' + item.id}
+                className={item.done ? 'u-text-done' : ` u-text`}
               >
-                {item.text}
-              </label>
+                {' '}
+                {item.text}{' '}
+              </label>{' '}
             </div>
           ))
         ) : (
-          <div className="li-none">None</div>
+          <div className='li-none'>None</div>
         )}
       </div>
     </div>

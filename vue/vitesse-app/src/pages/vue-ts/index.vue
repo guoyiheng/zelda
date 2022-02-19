@@ -2,9 +2,7 @@
   <div class="w-full px-11 flex flex-col items-center">
     <!-- 头部信息 -->
     <Header :title="pageInfo.title" :link="pageInfo.link" :subTitle="pageInfo.subTitle">
-      <template #icon>
-        <file-icons:config-typescript />
-      </template>
+      <template #icon><file-icons:config-typescript /> </template>
     </Header>
 
     <div class="w-8/12 my-4 bg-hex-ecfdf5 bg-opacity-30 p-4">

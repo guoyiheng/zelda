@@ -6,7 +6,7 @@ import { bridge } from '@/lanren/mixins/bridge'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: false, // send cookies when cross-domain requests
-  timeout: 300000 // request timeout
+  timeout: 300000, // request timeout
 })
 
 // request interceptor
@@ -45,11 +45,7 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.status === 2001) {
-      Toast({
-        message: res.message || 'error',
-        type: 'error',
-        duration: 5 * 1000
-      })
+      Toast({ message: res.message || 'error', type: 'error', duration: 5 * 1000 })
 
       return Promise.reject(res.message || 'error')
     }
@@ -57,24 +53,9 @@ service.interceptors.response.use(
       console.log('9666')
 
       try {
-        // eslint-disable-next-line no-undef
-        app.doUserLogin(
-          JSON.stringify({
-            isRefreshCurrent: 1
-          })
-        )
-        bridge.methods.callNative({
-          method: 'doUserLogin',
-          data: {
-            isRefreshCurrent: 1
-          }
-        })
+        // eslint-disable-next-line no-undefapp.doUserLogin(  JSON.stringify({    isRefreshCurrent: 1  }))bridge.methods.callNative({  method: 'doUserLogin',  data: {    isRefreshCurrent: 1  }})
       } catch (error) {
-        Toast({
-          message: res.message || '未登录',
-          type: 'error',
-          duration: 5 * 1000
-        })
+        Toast({ message: res.message || '未登录', type: 'error', duration: 5 * 1000 })
       }
     } else {
       return res
@@ -84,7 +65,7 @@ service.interceptors.response.use(
     Toast({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 5 * 1000,
     })
     return Promise.reject(error)
   }

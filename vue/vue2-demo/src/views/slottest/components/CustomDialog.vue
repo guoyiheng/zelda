@@ -5,14 +5,13 @@
     <!--使用弹框的footer插槽添加按钮-->
     <template #footer>
       <!--对外继续暴露footer插槽，有个别弹框按钮需要自定义-->
-      <slot name="footer">
-        <!--将取消与确定按钮集成到内部-->
-        <span>
+      <slot name="footer"
+        ><!--将取消与确定按钮集成到内部--><span>
           <el-button @click="$_handleCancel">取 消</el-button>
           <el-button type="primary" @click="$_handleConfirm">
             确 定
-          </el-button>
-        </span>
+          </el-button></span
+        >
       </slot>
     </template>
   </el-dialog>
@@ -24,8 +23,8 @@ export default {
     // 对外暴露visible属性，用于显示隐藏弹框
     visible: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     // 通过计算属性，对.sync进行转换，外部也可以直接使用visible.sync
@@ -35,8 +34,8 @@ export default {
       },
       set(val) {
         this.$emit('update:visible', val)
-      }
-    }
+      },
+    },
   },
   methods: {
     // 对外抛出cancel事件
@@ -46,7 +45,7 @@ export default {
     // 对外抛出 confirm事件
     $_handleConfirm() {
       this.$emit('confirm')
-    }
-  }
+    },
+  },
 }
 </script>

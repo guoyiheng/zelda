@@ -1,9 +1,7 @@
 <template>
   <div class="w-full px-11 flex flex-col items-center">
     <Header :title="pageInfo.title" :link="pageInfo.link" :subTitle="pageInfo.subTitle">
-      <template #icon>
-        <ri-bilibili-line />
-      </template>
+      <template #icon><ri-bilibili-line /> </template>
     </Header>
 
     <div class="w-8/12 my-4 bg-hex-ecfdf5 bg-opacity-30 p-4">

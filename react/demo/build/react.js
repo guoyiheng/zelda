@@ -231,8 +231,7 @@ function extractCompositionEvent(topLevelType, targetInst, nativeEvent, nativeEv
     if (!currentComposition && eventType === eventTypes.compositionStart) {
       currentComposition = FallbackCompositionState.getPooled(nativeEventTarget);
     } else if (eventType === eventTypes.compositionEnd) {
-      if (currentComposition) {
-        fallbackData = currentComposition.getData();
+      if (currentComposition) {fallbackData = currentComposition.getData();
       }
     }
   }
@@ -279,8 +278,7 @@ function getNativeBeforeInputChars(topLevelType, nativeEvent) {
        * event is available.
        */
       var which = nativeEvent.which;
-      if (which !== SPACEBAR_CODE) {
-        return null;
+      if (which !== SPACEBAR_CODE) {return null;
       }
 
       hasSpaceKeypress = true;
@@ -293,8 +291,7 @@ function getNativeBeforeInputChars(topLevelType, nativeEvent) {
       // If it's a spacebar character, assume that we have already handled
       // it at the keypress level and bail immediately. Android Chrome
       // doesn't give us keycodes, so we need to blacklist it.
-      if (chars === SPACEBAR_CHAR && hasSpaceKeypress) {
-        return null;
+      if (chars === SPACEBAR_CHAR && hasSpaceKeypress) {return null;
       }
 
       return chars;
@@ -348,8 +345,7 @@ function getFallbackBeforeInputChars(topLevelType, nativeEvent) {
        *   being used. Ex: `Cmd+C`. No character is inserted, and no
        *   `input` event will occur.
        */
-      if (nativeEvent.which && !isKeypressCommand(nativeEvent)) {
-        return String.fromCharCode(nativeEvent.which);
+      if (nativeEvent.which && !isKeypressCommand(nativeEvent)) {return String.fromCharCode(nativeEvent.which);
       }
       return null;
     case topLevelTypes.topCompositionEnd:
@@ -658,8 +654,7 @@ if ("development" !== 'production') {
   var checkRenderMessage = function (owner) {
     if (owner) {
       var name = owner.getName();
-      if (name) {
-        return ' Check the render method of `' + name + '`.';
+      if (name) {return ' Check the render method of `' + name + '`.';
       }
     }
     return '';
@@ -710,16 +705,12 @@ var CSSPropertyOperations = {
   createMarkupForStyles: function (styles, component) {
     var serialized = '';
     for (var styleName in styles) {
-      if (!styles.hasOwnProperty(styleName)) {
-        continue;
+      if (!styles.hasOwnProperty(styleName)) {continue;
       }
       var styleValue = styles[styleName];
-      if ("development" !== 'production') {
-        warnValidStyle(styleName, styleValue, component);
+      if ("development" !== 'production') {warnValidStyle(styleName, styleValue, component);
       }
-      if (styleValue != null) {
-        serialized += processStyleName(styleName) + ':';
-        serialized += dangerousStyleValue(styleName, styleValue, component) + ';';
+      if (styleValue != null) {serialized += processStyleName(styleName) + ':';serialized += dangerousStyleValue(styleName, styleValue, component) + ';';
       }
     }
     return serialized || null;
@@ -736,29 +727,15 @@ var CSSPropertyOperations = {
   setValueForStyles: function (node, styles, component) {
     var style = node.style;
     for (var styleName in styles) {
-      if (!styles.hasOwnProperty(styleName)) {
-        continue;
+      if (!styles.hasOwnProperty(styleName)) {continue;
       }
-      if ("development" !== 'production') {
-        warnValidStyle(styleName, styles[styleName], component);
+      if ("development" !== 'production') {warnValidStyle(styleName, styles[styleName], component);
       }
       var styleValue = dangerousStyleValue(styleName, styles[styleName], component);
-      if (styleName === 'float' || styleName === 'cssFloat') {
-        styleName = styleFloatAccessor;
+      if (styleName === 'float' || styleName === 'cssFloat') {styleName = styleFloatAccessor;
       }
-      if (styleValue) {
-        style[styleName] = styleValue;
-      } else {
-        var expansion = hasShorthandPropertyBug && CSSProperty.shorthandPropertyExpansions[styleName];
-        if (expansion) {
-          // Shorthand property that IE8 won't like unsetting, so unset each
-          // component to placate it
-          for (var individualStyleName in expansion) {
-            style[individualStyleName] = '';
-          }
-        } else {
-          style[styleName] = '';
-        }
+      if (styleValue) {style[styleName] = styleValue;
+      } else {var expansion = hasShorthandPropertyBug && CSSProperty.shorthandPropertyExpansions[styleName];if (expansion) {  // Shorthand property that IE8 won't like unsetting, so unset each  // component to placate it  for (var individualStyleName in expansion) {    style[individualStyleName] = '';  }} else {  style[styleName] = '';}
       }
     }
   }
@@ -835,8 +812,7 @@ _assign(CallbackQueue.prototype, {
       !(callbacks.length === contexts.length) ? "development" !== 'production' ? invariant(false, 'Mismatched list of contexts in callback queue') : invariant(false) : void 0;
       this._callbacks = null;
       this._contexts = null;
-      for (var i = 0; i < callbacks.length; i++) {
-        callbacks[i].call(contexts[i]);
+      for (var i = 0; i < callbacks.length; i++) {callbacks[i].call(contexts[i]);
       }
       callbacks.length = 0;
       contexts.length = 0;
@@ -1168,17 +1144,12 @@ var ChangeEventPlugin = {
 
     var getTargetInstFunc, handleEventFunc;
     if (shouldUseChangeEvent(targetNode)) {
-      if (doesChangeEventBubble) {
-        getTargetInstFunc = getTargetInstForChangeEvent;
-      } else {
-        handleEventFunc = handleEventsForChangeEventIE8;
+      if (doesChangeEventBubble) {getTargetInstFunc = getTargetInstForChangeEvent;
+      } else {handleEventFunc = handleEventsForChangeEventIE8;
       }
     } else if (isTextInputElement(targetNode)) {
-      if (isInputEventSupported) {
-        getTargetInstFunc = getTargetInstForInputEvent;
-      } else {
-        getTargetInstFunc = getTargetInstForInputEventIE;
-        handleEventFunc = handleEventsForInputEventIE;
+      if (isInputEventSupported) {getTargetInstFunc = getTargetInstForInputEvent;
+      } else {getTargetInstFunc = getTargetInstForInputEventIE;handleEventFunc = handleEventsForInputEventIE;
       }
     } else if (shouldUseClickEvent(targetNode)) {
       getTargetInstFunc = getTargetInstForClickEvent;
@@ -1186,11 +1157,7 @@ var ChangeEventPlugin = {
 
     if (getTargetInstFunc) {
       var inst = getTargetInstFunc(topLevelType, targetInst);
-      if (inst) {
-        var event = SyntheticEvent.getPooled(eventTypes.change, inst, nativeEvent, nativeEventTarget);
-        event.type = 'change';
-        EventPropagators.accumulateTwoPhaseDispatches(event);
-        return event;
+      if (inst) {var event = SyntheticEvent.getPooled(eventTypes.change, inst, nativeEvent, nativeEventTarget);event.type = 'change';EventPropagators.accumulateTwoPhaseDispatches(event);return event;
       }
     }
 
@@ -1335,22 +1302,7 @@ var DOMChildrenOperations = {
   processUpdates: function (parentNode, updates) {
     for (var k = 0; k < updates.length; k++) {
       var update = updates[k];
-      switch (update.type) {
-        case ReactMultiChildUpdateTypes.INSERT_MARKUP:
-          insertLazyTreeChildAt(parentNode, update.content, getNodeAfter(parentNode, update.afterNode));
-          break;
-        case ReactMultiChildUpdateTypes.MOVE_EXISTING:
-          moveChild(parentNode, update.fromNode, getNodeAfter(parentNode, update.afterNode));
-          break;
-        case ReactMultiChildUpdateTypes.SET_MARKUP:
-          setInnerHTML(parentNode, update.content);
-          break;
-        case ReactMultiChildUpdateTypes.TEXT_CONTENT:
-          setTextContent(parentNode, update.content);
-          break;
-        case ReactMultiChildUpdateTypes.REMOVE_NODE:
-          removeChild(parentNode, update.fromNode);
-          break;
+      switch (update.type) {case ReactMultiChildUpdateTypes.INSERT_MARKUP:  insertLazyTreeChildAt(parentNode, update.content, getNodeAfter(parentNode, update.afterNode));  break;case ReactMultiChildUpdateTypes.MOVE_EXISTING:  moveChild(parentNode, update.fromNode, getNodeAfter(parentNode, update.afterNode));  break;case ReactMultiChildUpdateTypes.SET_MARKUP:  setInnerHTML(parentNode, update.content);  break;case ReactMultiChildUpdateTypes.TEXT_CONTENT:  setTextContent(parentNode, update.content);  break;case ReactMultiChildUpdateTypes.REMOVE_NODE:  removeChild(parentNode, update.fromNode);  break;
       }
     }
   }
@@ -1567,45 +1519,26 @@ var DOMPropertyInjection = {
       var lowerCased = propName.toLowerCase();
       var propConfig = Properties[propName];
 
-      var propertyInfo = {
-        attributeName: lowerCased,
-        attributeNamespace: null,
-        propertyName: propName,
-        mutationMethod: null,
-
-        mustUseProperty: checkMask(propConfig, Injection.MUST_USE_PROPERTY),
-        hasSideEffects: checkMask(propConfig, Injection.HAS_SIDE_EFFECTS),
-        hasBooleanValue: checkMask(propConfig, Injection.HAS_BOOLEAN_VALUE),
-        hasNumericValue: checkMask(propConfig, Injection.HAS_NUMERIC_VALUE),
-        hasPositiveNumericValue: checkMask(propConfig, Injection.HAS_POSITIVE_NUMERIC_VALUE),
-        hasOverloadedBooleanValue: checkMask(propConfig, Injection.HAS_OVERLOADED_BOOLEAN_VALUE)
+      var propertyInfo = {attributeName: lowerCased,attributeNamespace: null,propertyName: propName,mutationMethod: null,
+mustUseProperty: checkMask(propConfig, Injection.MUST_USE_PROPERTY),hasSideEffects: checkMask(propConfig, Injection.HAS_SIDE_EFFECTS),hasBooleanValue: checkMask(propConfig, Injection.HAS_BOOLEAN_VALUE),hasNumericValue: checkMask(propConfig, Injection.HAS_NUMERIC_VALUE),hasPositiveNumericValue: checkMask(propConfig, Injection.HAS_POSITIVE_NUMERIC_VALUE),hasOverloadedBooleanValue: checkMask(propConfig, Injection.HAS_OVERLOADED_BOOLEAN_VALUE)
       };
 
       !(propertyInfo.mustUseProperty || !propertyInfo.hasSideEffects) ? "development" !== 'production' ? invariant(false, 'DOMProperty: Properties that have side effects must use property: %s', propName) : invariant(false) : void 0;
       !(propertyInfo.hasBooleanValue + propertyInfo.hasNumericValue + propertyInfo.hasOverloadedBooleanValue <= 1) ? "development" !== 'production' ? invariant(false, 'DOMProperty: Value can be one of boolean, overloaded boolean, or ' + 'numeric value, but not a combination: %s', propName) : invariant(false) : void 0;
 
-      if ("development" !== 'production') {
-        DOMProperty.getPossibleStandardName[lowerCased] = propName;
+      if ("development" !== 'production') {DOMProperty.getPossibleStandardName[lowerCased] = propName;
       }
 
-      if (DOMAttributeNames.hasOwnProperty(propName)) {
-        var attributeName = DOMAttributeNames[propName];
-        propertyInfo.attributeName = attributeName;
-        if ("development" !== 'production') {
-          DOMProperty.getPossibleStandardName[attributeName] = propName;
-        }
+      if (DOMAttributeNames.hasOwnProperty(propName)) {var attributeName = DOMAttributeNames[propName];propertyInfo.attributeName = attributeName;if ("development" !== 'production') {  DOMProperty.getPossibleStandardName[attributeName] = propName;}
       }
 
-      if (DOMAttributeNamespaces.hasOwnProperty(propName)) {
-        propertyInfo.attributeNamespace = DOMAttributeNamespaces[propName];
+      if (DOMAttributeNamespaces.hasOwnProperty(propName)) {propertyInfo.attributeNamespace = DOMAttributeNamespaces[propName];
       }
 
-      if (DOMPropertyNames.hasOwnProperty(propName)) {
-        propertyInfo.propertyName = DOMPropertyNames[propName];
+      if (DOMPropertyNames.hasOwnProperty(propName)) {propertyInfo.propertyName = DOMPropertyNames[propName];
       }
 
-      if (DOMMutationMethods.hasOwnProperty(propName)) {
-        propertyInfo.mutationMethod = DOMMutationMethods[propName];
+      if (DOMMutationMethods.hasOwnProperty(propName)) {propertyInfo.mutationMethod = DOMMutationMethods[propName];
       }
 
       DOMProperty.properties[propName] = propertyInfo;
@@ -1692,8 +1625,7 @@ var DOMProperty = {
   isCustomAttribute: function (attributeName) {
     for (var i = 0; i < DOMProperty._isCustomAttributeFunctions.length; i++) {
       var isCustomAttributeFn = DOMProperty._isCustomAttributeFunctions[i];
-      if (isCustomAttributeFn(attributeName)) {
-        return true;
+      if (isCustomAttributeFn(attributeName)) {return true;
       }
     }
     return false;
@@ -1788,17 +1720,14 @@ var DOMPropertyOperations = {
     }
     var propertyInfo = DOMProperty.properties.hasOwnProperty(name) ? DOMProperty.properties[name] : null;
     if (propertyInfo) {
-      if (shouldIgnoreValue(propertyInfo, value)) {
-        return '';
+      if (shouldIgnoreValue(propertyInfo, value)) {return '';
       }
       var attributeName = propertyInfo.attributeName;
-      if (propertyInfo.hasBooleanValue || propertyInfo.hasOverloadedBooleanValue && value === true) {
-        return attributeName + '=""';
+      if (propertyInfo.hasBooleanValue || propertyInfo.hasOverloadedBooleanValue && value === true) {return attributeName + '=""';
       }
       return attributeName + '=' + quoteAttributeValueForBrowser(value);
     } else if (DOMProperty.isCustomAttribute(name)) {
-      if (value == null) {
-        return '';
+      if (value == null) {return '';
       }
       return name + '=' + quoteAttributeValueForBrowser(value);
     }
@@ -1833,31 +1762,10 @@ var DOMPropertyOperations = {
     var propertyInfo = DOMProperty.properties.hasOwnProperty(name) ? DOMProperty.properties[name] : null;
     if (propertyInfo) {
       var mutationMethod = propertyInfo.mutationMethod;
-      if (mutationMethod) {
-        mutationMethod(node, value);
-      } else if (shouldIgnoreValue(propertyInfo, value)) {
-        this.deleteValueForProperty(node, name);
-      } else if (propertyInfo.mustUseProperty) {
-        var propName = propertyInfo.propertyName;
-        // Must explicitly cast values for HAS_SIDE_EFFECTS-properties to the
-        // property type before comparing; only `value` does and is string.
-        if (!propertyInfo.hasSideEffects || '' + node[propName] !== '' + value) {
-          // Contrary to `setAttribute`, object properties are properly
-          // `toString`ed by IE8/9.
-          node[propName] = value;
-        }
-      } else {
-        var attributeName = propertyInfo.attributeName;
-        var namespace = propertyInfo.attributeNamespace;
-        // `setAttribute` with objects becomes only `[object]` in IE8/9,
-        // ('' + value) makes it output the correct toString()-value.
-        if (namespace) {
-          node.setAttributeNS(namespace, attributeName, '' + value);
-        } else if (propertyInfo.hasBooleanValue || propertyInfo.hasOverloadedBooleanValue && value === true) {
-          node.setAttribute(attributeName, '');
-        } else {
-          node.setAttribute(attributeName, '' + value);
-        }
+      if (mutationMethod) {mutationMethod(node, value);
+      } else if (shouldIgnoreValue(propertyInfo, value)) {this.deleteValueForProperty(node, name);
+      } else if (propertyInfo.mustUseProperty) {var propName = propertyInfo.propertyName;// Must explicitly cast values for HAS_SIDE_EFFECTS-properties to the// property type before comparing; only `value` does and is string.if (!propertyInfo.hasSideEffects || '' + node[propName] !== '' + value) {  // Contrary to `setAttribute`, object properties are properly  // `toString`ed by IE8/9.  node[propName] = value;}
+      } else {var attributeName = propertyInfo.attributeName;var namespace = propertyInfo.attributeNamespace;// `setAttribute` with objects becomes only `[object]` in IE8/9,// ('' + value) makes it output the correct toString()-value.if (namespace) {  node.setAttributeNS(namespace, attributeName, '' + value);} else if (propertyInfo.hasBooleanValue || propertyInfo.hasOverloadedBooleanValue && value === true) {  node.setAttribute(attributeName, '');} else {  node.setAttribute(attributeName, '' + value);}
       }
     } else if (DOMProperty.isCustomAttribute(name)) {
       DOMPropertyOperations.setValueForAttribute(node, name, value);
@@ -1888,20 +1796,9 @@ var DOMPropertyOperations = {
     var propertyInfo = DOMProperty.properties.hasOwnProperty(name) ? DOMProperty.properties[name] : null;
     if (propertyInfo) {
       var mutationMethod = propertyInfo.mutationMethod;
-      if (mutationMethod) {
-        mutationMethod(node, undefined);
-      } else if (propertyInfo.mustUseProperty) {
-        var propName = propertyInfo.propertyName;
-        if (propertyInfo.hasBooleanValue) {
-          // No HAS_SIDE_EFFECTS logic here, only `value` has it and is string.
-          node[propName] = false;
-        } else {
-          if (!propertyInfo.hasSideEffects || '' + node[propName] !== '') {
-            node[propName] = '';
-          }
-        }
-      } else {
-        node.removeAttribute(propertyInfo.attributeName);
+      if (mutationMethod) {mutationMethod(node, undefined);
+      } else if (propertyInfo.mustUseProperty) {var propName = propertyInfo.propertyName;if (propertyInfo.hasBooleanValue) {  // No HAS_SIDE_EFFECTS logic here, only `value` has it and is string.  node[propName] = false;} else {  if (!propertyInfo.hasSideEffects || '' + node[propName] !== '') {    node[propName] = '';  }}
+      } else {node.removeAttribute(propertyInfo.attributeName);
       }
     } else if (DOMProperty.isCustomAttribute(name)) {
       node.removeAttribute(name);
@@ -1983,8 +1880,7 @@ var Danger = {
     var resultList = [];
     var resultListAssignmentCount = 0;
     for (nodeName in markupByNodeName) {
-      if (!markupByNodeName.hasOwnProperty(nodeName)) {
-        continue;
+      if (!markupByNodeName.hasOwnProperty(nodeName)) {continue;
       }
       var markupListByNodeName = markupByNodeName[nodeName];
 
@@ -1992,40 +1888,19 @@ var Danger = {
       // iteration should follow the order of assignment, which happens to match
       // numerical index order, but we don't rely on that.
       var resultIndex;
-      for (resultIndex in markupListByNodeName) {
-        if (markupListByNodeName.hasOwnProperty(resultIndex)) {
-          var markup = markupListByNodeName[resultIndex];
-
-          // Push the requested markup with an additional RESULT_INDEX_ATTR
-          // attribute.  If the markup does not start with a < character, it
-          // will be discarded below (with an appropriate console.error).
-          markupListByNodeName[resultIndex] = markup.replace(OPEN_TAG_NAME_EXP,
-          // This index will be parsed back out below.
-          '$1 ' + RESULT_INDEX_ATTR + '="' + resultIndex + '" ');
-        }
+      for (resultIndex in markupListByNodeName) {if (markupListByNodeName.hasOwnProperty(resultIndex)) {  var markup = markupListByNodeName[resultIndex];
+  // Push the requested markup with an additional RESULT_INDEX_ATTR  // attribute.  If the markup does not start with a < character, it  // will be discarded below (with an appropriate console.error).  markupListByNodeName[resultIndex] = markup.replace(OPEN_TAG_NAME_EXP,  // This index will be parsed back out below.  '$1 ' + RESULT_INDEX_ATTR + '="' + resultIndex + '" ');}
       }
 
       // Render each group of markup with similar wrapping `nodeName`.
       var renderNodes = createNodesFromMarkup(markupListByNodeName.join(''), emptyFunction // Do nothing special with <script> tags.
       );
 
-      for (var j = 0; j < renderNodes.length; ++j) {
-        var renderNode = renderNodes[j];
-        if (renderNode.hasAttribute && renderNode.hasAttribute(RESULT_INDEX_ATTR)) {
-
-          resultIndex = +renderNode.getAttribute(RESULT_INDEX_ATTR);
-          renderNode.removeAttribute(RESULT_INDEX_ATTR);
-
-          !!resultList.hasOwnProperty(resultIndex) ? "development" !== 'production' ? invariant(false, 'Danger: Assigning to an already-occupied result index.') : invariant(false) : void 0;
-
-          resultList[resultIndex] = renderNode;
-
-          // This should match resultList.length and markupList.length when
-          // we're done.
-          resultListAssignmentCount += 1;
-        } else if ("development" !== 'production') {
-          console.error('Danger: Discarding unexpected node:', renderNode);
-        }
+      for (var j = 0; j < renderNodes.length; ++j) {var renderNode = renderNodes[j];if (renderNode.hasAttribute && renderNode.hasAttribute(RESULT_INDEX_ATTR)) {
+  resultIndex = +renderNode.getAttribute(RESULT_INDEX_ATTR);  renderNode.removeAttribute(RESULT_INDEX_ATTR);
+  !!resultList.hasOwnProperty(resultIndex) ? "development" !== 'production' ? invariant(false, 'Danger: Assigning to an already-occupied result index.') : invariant(false) : void 0;
+  resultList[resultIndex] = renderNode;
+  // This should match resultList.length and markupList.length when  // we're done.  resultListAssignmentCount += 1;} else if ("development" !== 'production') {  console.error('Danger: Discarding unexpected node:', renderNode);}
       }
     }
 
@@ -2151,10 +2026,8 @@ var EnterLeaveEventPlugin = {
     } else {
       // TODO: Figure out why `ownerDocument` is sometimes undefined in IE8.
       var doc = nativeEventTarget.ownerDocument;
-      if (doc) {
-        win = doc.defaultView || doc.parentWindow;
-      } else {
-        win = window;
+      if (doc) {win = doc.defaultView || doc.parentWindow;
+      } else {win = window;
       }
     }
 
@@ -2447,13 +2320,11 @@ var EventPluginHub = {
    */
   deleteAllListeners: function (inst) {
     for (var registrationName in listenerBank) {
-      if (!listenerBank[registrationName][inst._rootNodeID]) {
-        continue;
+      if (!listenerBank[registrationName][inst._rootNodeID]) {continue;
       }
 
       var PluginModule = EventPluginRegistry.registrationNameModules[registrationName];
-      if (PluginModule && PluginModule.willDeleteListener) {
-        PluginModule.willDeleteListener(inst, registrationName);
+      if (PluginModule && PluginModule.willDeleteListener) {PluginModule.willDeleteListener(inst, registrationName);
       }
 
       delete listenerBank[registrationName][inst._rootNodeID];
@@ -2473,11 +2344,7 @@ var EventPluginHub = {
     for (var i = 0; i < plugins.length; i++) {
       // Not every plugin in the ordering may be loaded at runtime.
       var possiblePlugin = plugins[i];
-      if (possiblePlugin) {
-        var extractedEvents = possiblePlugin.extractEvents(topLevelType, targetInst, nativeEvent, nativeEventTarget);
-        if (extractedEvents) {
-          events = accumulateInto(events, extractedEvents);
-        }
+      if (possiblePlugin) {var extractedEvents = possiblePlugin.extractEvents(topLevelType, targetInst, nativeEvent, nativeEventTarget);if (extractedEvents) {  events = accumulateInto(events, extractedEvents);}
       }
     }
     return events;
@@ -2597,9 +2464,7 @@ function publishEventForPlugin(dispatchConfig, PluginModule, eventName) {
   var phasedRegistrationNames = dispatchConfig.phasedRegistrationNames;
   if (phasedRegistrationNames) {
     for (var phaseName in phasedRegistrationNames) {
-      if (phasedRegistrationNames.hasOwnProperty(phaseName)) {
-        var phasedRegistrationName = phasedRegistrationNames[phaseName];
-        publishRegistrationName(phasedRegistrationName, PluginModule, eventName);
+      if (phasedRegistrationNames.hasOwnProperty(phaseName)) {var phasedRegistrationName = phasedRegistrationNames[phaseName];publishRegistrationName(phasedRegistrationName, PluginModule, eventName);
       }
     }
     return true;
@@ -2693,14 +2558,10 @@ var EventPluginRegistry = {
   injectEventPluginsByName: function (injectedNamesToPlugins) {
     var isOrderingDirty = false;
     for (var pluginName in injectedNamesToPlugins) {
-      if (!injectedNamesToPlugins.hasOwnProperty(pluginName)) {
-        continue;
+      if (!injectedNamesToPlugins.hasOwnProperty(pluginName)) {continue;
       }
       var PluginModule = injectedNamesToPlugins[pluginName];
-      if (!namesToPlugins.hasOwnProperty(pluginName) || namesToPlugins[pluginName] !== PluginModule) {
-        !!namesToPlugins[pluginName] ? "development" !== 'production' ? invariant(false, 'EventPluginRegistry: Cannot inject two different event plugins ' + 'using the same name, `%s`.', pluginName) : invariant(false) : void 0;
-        namesToPlugins[pluginName] = PluginModule;
-        isOrderingDirty = true;
+      if (!namesToPlugins.hasOwnProperty(pluginName) || namesToPlugins[pluginName] !== PluginModule) {!!namesToPlugins[pluginName] ? "development" !== 'production' ? invariant(false, 'EventPluginRegistry: Cannot inject two different event plugins ' + 'using the same name, `%s`.', pluginName) : invariant(false) : void 0;namesToPlugins[pluginName] = PluginModule;isOrderingDirty = true;
       }
     }
     if (isOrderingDirty) {
@@ -2721,12 +2582,10 @@ var EventPluginRegistry = {
       return EventPluginRegistry.registrationNameModules[dispatchConfig.registrationName] || null;
     }
     for (var phase in dispatchConfig.phasedRegistrationNames) {
-      if (!dispatchConfig.phasedRegistrationNames.hasOwnProperty(phase)) {
-        continue;
+      if (!dispatchConfig.phasedRegistrationNames.hasOwnProperty(phase)) {continue;
       }
       var PluginModule = EventPluginRegistry.registrationNameModules[dispatchConfig.phasedRegistrationNames[phase]];
-      if (PluginModule) {
-        return PluginModule;
+      if (PluginModule) {return PluginModule;
       }
     }
     return null;
@@ -2739,32 +2598,26 @@ var EventPluginRegistry = {
   _resetEventPlugins: function () {
     EventPluginOrder = null;
     for (var pluginName in namesToPlugins) {
-      if (namesToPlugins.hasOwnProperty(pluginName)) {
-        delete namesToPlugins[pluginName];
+      if (namesToPlugins.hasOwnProperty(pluginName)) {delete namesToPlugins[pluginName];
       }
     }
     EventPluginRegistry.plugins.length = 0;
 
     var eventNameDispatchConfigs = EventPluginRegistry.eventNameDispatchConfigs;
     for (var eventName in eventNameDispatchConfigs) {
-      if (eventNameDispatchConfigs.hasOwnProperty(eventName)) {
-        delete eventNameDispatchConfigs[eventName];
+      if (eventNameDispatchConfigs.hasOwnProperty(eventName)) {delete eventNameDispatchConfigs[eventName];
       }
     }
 
     var registrationNameModules = EventPluginRegistry.registrationNameModules;
     for (var registrationName in registrationNameModules) {
-      if (registrationNameModules.hasOwnProperty(registrationName)) {
-        delete registrationNameModules[registrationName];
+      if (registrationNameModules.hasOwnProperty(registrationName)) {delete registrationNameModules[registrationName];
       }
     }
 
     if ("development" !== 'production') {
       var possibleRegistrationNames = EventPluginRegistry.possibleRegistrationNames;
-      for (var lowerCasedName in possibleRegistrationNames) {
-        if (possibleRegistrationNames.hasOwnProperty(lowerCasedName)) {
-          delete possibleRegistrationNames[lowerCasedName];
-        }
+      for (var lowerCasedName in possibleRegistrationNames) {if (possibleRegistrationNames.hasOwnProperty(lowerCasedName)) {  delete possibleRegistrationNames[lowerCasedName];}
       }
     }
   }
@@ -2875,8 +2728,7 @@ function executeDispatchesInOrder(event, simulated) {
   }
   if (Array.isArray(dispatchListeners)) {
     for (var i = 0; i < dispatchListeners.length; i++) {
-      if (event.isPropagationStopped()) {
-        break;
+      if (event.isPropagationStopped()) {break;
       }
       // Listeners and Instances are two parallel arrays that are always in sync.
       executeDispatch(event, simulated, dispatchListeners[i], dispatchInstances[i]);
@@ -2903,12 +2755,10 @@ function executeDispatchesInOrderStopAtTrueImpl(event) {
   }
   if (Array.isArray(dispatchListeners)) {
     for (var i = 0; i < dispatchListeners.length; i++) {
-      if (event.isPropagationStopped()) {
-        break;
+      if (event.isPropagationStopped()) {break;
       }
       // Listeners and Instances are two parallel arrays that are always in sync.
-      if (dispatchListeners[i](event, dispatchInstances[i])) {
-        return dispatchInstances[i];
+      if (dispatchListeners[i](event, dispatchInstances[i])) {return dispatchInstances[i];
       }
     }
   } else if (dispatchListeners) {
@@ -3213,15 +3063,13 @@ _assign(FallbackCompositionState.prototype, {
     var endLength = endValue.length;
 
     for (start = 0; start < startLength; start++) {
-      if (startValue[start] !== endValue[start]) {
-        break;
+      if (startValue[start] !== endValue[start]) {break;
       }
     }
 
     var minEnd = startLength - start;
     for (end = 1; end <= minEnd; end++) {
-      if (startValue[startLength - end] !== endValue[endLength - end]) {
-        break;
+      if (startValue[startLength - end] !== endValue[endLength - end]) {break;
       }
     }
 
@@ -3521,16 +3369,10 @@ function getDeclarationErrorAddendum(owner) {
 var LinkedValueUtils = {
   checkPropTypes: function (tagName, props, owner) {
     for (var propName in propTypes) {
-      if (propTypes.hasOwnProperty(propName)) {
-        var error = propTypes[propName](props, propName, tagName, ReactPropTypeLocations.prop);
+      if (propTypes.hasOwnProperty(propName)) {var error = propTypes[propName](props, propName, tagName, ReactPropTypeLocations.prop);
       }
-      if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-        // Only monitor this failure once because there tends to be a lot of the
-        // same error.
-        loggedTypeFailures[error.message] = true;
-
-        var addendum = getDeclarationErrorAddendum(owner);
-        "development" !== 'production' ? warning(false, 'Failed form propType: %s%s', error.message, addendum) : void 0;
+      if (error instanceof Error && !(error.message in loggedTypeFailures)) {// Only monitor this failure once because there tends to be a lot of the// same error.loggedTypeFailures[error.message] = true;
+var addendum = getDeclarationErrorAddendum(owner);"development" !== 'production' ? warning(false, 'Failed form propType: %s%s', error.message, addendum) : void 0;
       }
     }
   },
@@ -4029,44 +3871,11 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
     var topLevelTypes = EventConstants.topLevelTypes;
     for (var i = 0; i < dependencies.length; i++) {
       var dependency = dependencies[i];
-      if (!(isListening.hasOwnProperty(dependency) && isListening[dependency])) {
-        if (dependency === topLevelTypes.topWheel) {
-          if (isEventSupported('wheel')) {
-            ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topWheel, 'wheel', mountAt);
-          } else if (isEventSupported('mousewheel')) {
-            ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topWheel, 'mousewheel', mountAt);
-          } else {
-            // Firefox needs to capture a different mouse scroll event.
-            // @see http://www.quirksmode.org/dom/events/tests/scroll.html
-            ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topWheel, 'DOMMouseScroll', mountAt);
-          }
-        } else if (dependency === topLevelTypes.topScroll) {
-
-          if (isEventSupported('scroll', true)) {
-            ReactBrowserEventEmitter.ReactEventListener.trapCapturedEvent(topLevelTypes.topScroll, 'scroll', mountAt);
-          } else {
-            ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topScroll, 'scroll', ReactBrowserEventEmitter.ReactEventListener.WINDOW_HANDLE);
-          }
-        } else if (dependency === topLevelTypes.topFocus || dependency === topLevelTypes.topBlur) {
-
-          if (isEventSupported('focus', true)) {
-            ReactBrowserEventEmitter.ReactEventListener.trapCapturedEvent(topLevelTypes.topFocus, 'focus', mountAt);
-            ReactBrowserEventEmitter.ReactEventListener.trapCapturedEvent(topLevelTypes.topBlur, 'blur', mountAt);
-          } else if (isEventSupported('focusin')) {
-            // IE has `focusin` and `focusout` events which bubble.
-            // @see http://www.quirksmode.org/blog/archives/2008/04/delegating_the.html
-            ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topFocus, 'focusin', mountAt);
-            ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topBlur, 'focusout', mountAt);
-          }
-
-          // to make sure blur and focus event listeners are only attached once
-          isListening[topLevelTypes.topBlur] = true;
-          isListening[topLevelTypes.topFocus] = true;
-        } else if (topEventMapping.hasOwnProperty(dependency)) {
-          ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(dependency, topEventMapping[dependency], mountAt);
-        }
-
-        isListening[dependency] = true;
+      if (!(isListening.hasOwnProperty(dependency) && isListening[dependency])) {if (dependency === topLevelTypes.topWheel) {  if (isEventSupported('wheel')) {    ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topWheel, 'wheel', mountAt);  } else if (isEventSupported('mousewheel')) {    ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topWheel, 'mousewheel', mountAt);  } else {    // Firefox needs to capture a different mouse scroll event.    // @see http://www.quirksmode.org/dom/events/tests/scroll.html    ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topWheel, 'DOMMouseScroll', mountAt);  }} else if (dependency === topLevelTypes.topScroll) {
+  if (isEventSupported('scroll', true)) {    ReactBrowserEventEmitter.ReactEventListener.trapCapturedEvent(topLevelTypes.topScroll, 'scroll', mountAt);  } else {    ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topScroll, 'scroll', ReactBrowserEventEmitter.ReactEventListener.WINDOW_HANDLE);  }} else if (dependency === topLevelTypes.topFocus || dependency === topLevelTypes.topBlur) {
+  if (isEventSupported('focus', true)) {    ReactBrowserEventEmitter.ReactEventListener.trapCapturedEvent(topLevelTypes.topFocus, 'focus', mountAt);    ReactBrowserEventEmitter.ReactEventListener.trapCapturedEvent(topLevelTypes.topBlur, 'blur', mountAt);  } else if (isEventSupported('focusin')) {    // IE has `focusin` and `focusout` events which bubble.    // @see http://www.quirksmode.org/blog/archives/2008/04/delegating_the.html    ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topFocus, 'focusin', mountAt);    ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(topLevelTypes.topBlur, 'focusout', mountAt);  }
+  // to make sure blur and focus event listeners are only attached once  isListening[topLevelTypes.topBlur] = true;  isListening[topLevelTypes.topFocus] = true;} else if (topEventMapping.hasOwnProperty(dependency)) {  ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(dependency, topEventMapping[dependency], mountAt);}
+isListening[dependency] = true;
       }
     }
   },
@@ -4181,31 +3990,18 @@ var ReactChildReconciler = {
     var name;
     var prevChild;
     for (name in nextChildren) {
-      if (!nextChildren.hasOwnProperty(name)) {
-        continue;
+      if (!nextChildren.hasOwnProperty(name)) {continue;
       }
       prevChild = prevChildren && prevChildren[name];
       var prevElement = prevChild && prevChild._currentElement;
       var nextElement = nextChildren[name];
-      if (prevChild != null && shouldUpdateReactComponent(prevElement, nextElement)) {
-        ReactReconciler.receiveComponent(prevChild, nextElement, transaction, context);
-        nextChildren[name] = prevChild;
-      } else {
-        if (prevChild) {
-          removedNodes[name] = ReactReconciler.getNativeNode(prevChild);
-          ReactReconciler.unmountComponent(prevChild, false);
-        }
-        // The child must be instantiated before it's mounted.
-        var nextChildInstance = instantiateReactComponent(nextElement);
-        nextChildren[name] = nextChildInstance;
+      if (prevChild != null && shouldUpdateReactComponent(prevElement, nextElement)) {ReactReconciler.receiveComponent(prevChild, nextElement, transaction, context);nextChildren[name] = prevChild;
+      } else {if (prevChild) {  removedNodes[name] = ReactReconciler.getNativeNode(prevChild);  ReactReconciler.unmountComponent(prevChild, false);}// The child must be instantiated before it's mounted.var nextChildInstance = instantiateReactComponent(nextElement);nextChildren[name] = nextChildInstance;
       }
     }
     // Unmount children that are no longer present.
     for (name in prevChildren) {
-      if (prevChildren.hasOwnProperty(name) && !(nextChildren && nextChildren.hasOwnProperty(name))) {
-        prevChild = prevChildren[name];
-        removedNodes[name] = ReactReconciler.getNativeNode(prevChild);
-        ReactReconciler.unmountComponent(prevChild, false);
+      if (prevChildren.hasOwnProperty(name) && !(nextChildren && nextChildren.hasOwnProperty(name))) {prevChild = prevChildren[name];removedNodes[name] = ReactReconciler.getNativeNode(prevChild);ReactReconciler.unmountComponent(prevChild, false);
       }
     }
   },
@@ -4219,9 +4015,7 @@ var ReactChildReconciler = {
    */
   unmountChildren: function (renderedChildren, safely) {
     for (var name in renderedChildren) {
-      if (renderedChildren.hasOwnProperty(name)) {
-        var renderedChild = renderedChildren[name];
-        ReactReconciler.unmountComponent(renderedChild, safely);
+      if (renderedChildren.hasOwnProperty(name)) {var renderedChild = renderedChildren[name];ReactReconciler.unmountComponent(renderedChild, safely);
       }
     }
   }
@@ -4730,8 +4524,7 @@ var RESERVED_SPEC_KEYS = {
   },
   mixins: function (Constructor, mixins) {
     if (mixins) {
-      for (var i = 0; i < mixins.length; i++) {
-        mixSpecIntoComponent(Constructor, mixins[i]);
+      for (var i = 0; i < mixins.length; i++) {mixSpecIntoComponent(Constructor, mixins[i]);
       }
     }
   },
@@ -4841,33 +4634,10 @@ function mixSpecIntoComponent(Constructor, spec) {
       var isFunction = typeof property === 'function';
       var shouldAutoBind = isFunction && !isReactClassMethod && !isAlreadyDefined && spec.autobind !== false;
 
-      if (shouldAutoBind) {
-        autoBindPairs.push(name, property);
-        proto[name] = property;
-      } else {
-        if (isAlreadyDefined) {
-          var specPolicy = ReactClassInterface[name];
-
-          // These cases should already be caught by validateMethodOverride.
-          !(isReactClassMethod && (specPolicy === SpecPolicy.DEFINE_MANY_MERGED || specPolicy === SpecPolicy.DEFINE_MANY)) ? "development" !== 'production' ? invariant(false, 'ReactClass: Unexpected spec policy %s for key %s ' + 'when mixing in component specs.', specPolicy, name) : invariant(false) : void 0;
-
-          // For methods which are defined more than once, call the existing
-          // methods before calling the new property, merging if appropriate.
-          if (specPolicy === SpecPolicy.DEFINE_MANY_MERGED) {
-            proto[name] = createMergedResultFunction(proto[name], property);
-          } else if (specPolicy === SpecPolicy.DEFINE_MANY) {
-            proto[name] = createChainedFunction(proto[name], property);
-          }
-        } else {
-          proto[name] = property;
-          if ("development" !== 'production') {
-            // Add verbose displayName to the function, which helps when looking
-            // at profiling tools.
-            if (typeof property === 'function' && spec.displayName) {
-              proto[name].displayName = spec.displayName + '_' + name;
-            }
-          }
-        }
+      if (shouldAutoBind) {autoBindPairs.push(name, property);proto[name] = property;
+      } else {if (isAlreadyDefined) {  var specPolicy = ReactClassInterface[name];
+  // These cases should already be caught by validateMethodOverride.  !(isReactClassMethod && (specPolicy === SpecPolicy.DEFINE_MANY_MERGED || specPolicy === SpecPolicy.DEFINE_MANY)) ? "development" !== 'production' ? invariant(false, 'ReactClass: Unexpected spec policy %s for key %s ' + 'when mixing in component specs.', specPolicy, name) : invariant(false) : void 0;
+  // For methods which are defined more than once, call the existing  // methods before calling the new property, merging if appropriate.  if (specPolicy === SpecPolicy.DEFINE_MANY_MERGED) {    proto[name] = createMergedResultFunction(proto[name], property);  } else if (specPolicy === SpecPolicy.DEFINE_MANY) {    proto[name] = createChainedFunction(proto[name], property);  }} else {  proto[name] = property;  if ("development" !== 'production') {    // Add verbose displayName to the function, which helps when looking    // at profiling tools.    if (typeof property === 'function' && spec.displayName) {      proto[name].displayName = spec.displayName + '_' + name;    }  }}
       }
     }
   }
@@ -4966,18 +4736,14 @@ function bindAutoBindMethod(component, method) {
     var componentName = component.constructor.displayName;
     var _bind = boundMethod.bind;
     boundMethod.bind = function (newThis) {
-      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {args[_key - 1] = arguments[_key];
       }
 
       // User is trying to bind() an autobound method; we effectively will
       // ignore the value of "this" that the user is trying to use, so
       // let's warn.
-      if (newThis !== component && newThis !== null) {
-        "development" !== 'production' ? warning(false, 'bind(): React component methods may only be bound to the ' + 'component instance. See %s', componentName) : void 0;
-      } else if (!args.length) {
-        "development" !== 'production' ? warning(false, 'bind(): You are binding a component method to the component. ' + 'React does this for you automatically in a high-performance ' + 'way, so you can safely remove this call. See %s', componentName) : void 0;
-        return boundMethod;
+      if (newThis !== component && newThis !== null) {"development" !== 'production' ? warning(false, 'bind(): React component methods may only be bound to the ' + 'component instance. See %s', componentName) : void 0;
+      } else if (!args.length) {"development" !== 'production' ? warning(false, 'bind(): You are binding a component method to the component. ' + 'React does this for you automatically in a high-performance ' + 'way, so you can safely remove this call. See %s', componentName) : void 0;return boundMethod;
       }
       var reboundMethod = _bind.apply(boundMethod, arguments);
       reboundMethod.__reactBoundContext = component;
@@ -5053,13 +4819,11 @@ var ReactClass = {
       // This constructor gets overridden by mocks. The argument is used
       // by mocks to assert on what gets mounted.
 
-      if ("development" !== 'production') {
-        "development" !== 'production' ? warning(this instanceof Constructor, 'Something is calling a React component directly. Use a factory or ' + 'JSX instead. See: https://fb.me/react-legacyfactory') : void 0;
+      if ("development" !== 'production') {"development" !== 'production' ? warning(this instanceof Constructor, 'Something is calling a React component directly. Use a factory or ' + 'JSX instead. See: https://fb.me/react-legacyfactory') : void 0;
       }
 
       // Wire up auto-binding
-      if (this.__reactAutoBindPairs.length) {
-        bindAutoBindMethods(this);
+      if (this.__reactAutoBindPairs.length) {bindAutoBindMethods(this);
       }
 
       this.props = props;
@@ -5073,13 +4837,7 @@ var ReactClass = {
       // getInitialState and componentWillMount methods for initialization.
 
       var initialState = this.getInitialState ? this.getInitialState() : null;
-      if ("development" !== 'production') {
-        // We allow auto-mocks to proceed as if they're returning null.
-        if (initialState === undefined && this.getInitialState._isMockFunction) {
-          // This is probably bad practice. Consider warning here and
-          // deprecating this convenience.
-          initialState = null;
-        }
+      if ("development" !== 'production') {// We allow auto-mocks to proceed as if they're returning null.if (initialState === undefined && this.getInitialState._isMockFunction) {  // This is probably bad practice. Consider warning here and  // deprecating this convenience.  initialState = null;}
       }
       !(typeof initialState === 'object' && !Array.isArray(initialState)) ? "development" !== 'production' ? invariant(false, '%s.getInitialState(): must return an object or null', Constructor.displayName || 'ReactCompositeComponent') : invariant(false) : void 0;
 
@@ -5103,11 +4861,9 @@ var ReactClass = {
       // since it's used with createClass. If it's not, then it's likely a
       // mistake so we'll warn you to use the static property, property
       // initializer or constructor respectively.
-      if (Constructor.getDefaultProps) {
-        Constructor.getDefaultProps.isReactClassApproved = {};
+      if (Constructor.getDefaultProps) {Constructor.getDefaultProps.isReactClassApproved = {};
       }
-      if (Constructor.prototype.getInitialState) {
-        Constructor.prototype.getInitialState.isReactClassApproved = {};
+      if (Constructor.prototype.getInitialState) {Constructor.prototype.getInitialState.isReactClassApproved = {};
       }
     }
 
@@ -5120,8 +4876,7 @@ var ReactClass = {
 
     // Reduce time spent doing lookups by setting these on the prototype.
     for (var methodName in ReactClassInterface) {
-      if (!Constructor.prototype[methodName]) {
-        Constructor.prototype[methodName] = null;
+      if (!Constructor.prototype[methodName]) {Constructor.prototype[methodName] = null;
       }
     }
 
@@ -5243,11 +4998,7 @@ if ("development" !== 'production') {
   };
   var defineDeprecationWarning = function (methodName, info) {
     if (canDefineProperty) {
-      Object.defineProperty(ReactComponent.prototype, methodName, {
-        get: function () {
-          "development" !== 'production' ? warning(false, '%s(...) is deprecated in plain JavaScript React classes. %s', info[0], info[1]) : void 0;
-          return undefined;
-        }
+      Object.defineProperty(ReactComponent.prototype, methodName, {get: function () {  "development" !== 'production' ? warning(false, '%s(...) is deprecated in plain JavaScript React classes. %s', info[0], info[1]) : void 0;  return undefined;}
       });
     }
   };
@@ -5512,40 +5263,21 @@ var ReactCompositeComponentMixin = {
     var renderedElement;
 
     if (Component.prototype && Component.prototype.isReactComponent) {
-      if ("development" !== 'production') {
-        ReactCurrentOwner.current = this;
-        try {
-          inst = new Component(publicProps, publicContext, ReactUpdateQueue);
-        } finally {
-          ReactCurrentOwner.current = null;
-        }
-      } else {
-        inst = new Component(publicProps, publicContext, ReactUpdateQueue);
+      if ("development" !== 'production') {ReactCurrentOwner.current = this;try {  inst = new Component(publicProps, publicContext, ReactUpdateQueue);} finally {  ReactCurrentOwner.current = null;}
+      } else {inst = new Component(publicProps, publicContext, ReactUpdateQueue);
       }
     } else {
-      if ("development" !== 'production') {
-        ReactCurrentOwner.current = this;
-        try {
-          inst = Component(publicProps, publicContext, ReactUpdateQueue);
-        } finally {
-          ReactCurrentOwner.current = null;
-        }
-      } else {
-        inst = Component(publicProps, publicContext, ReactUpdateQueue);
+      if ("development" !== 'production') {ReactCurrentOwner.current = this;try {  inst = Component(publicProps, publicContext, ReactUpdateQueue);} finally {  ReactCurrentOwner.current = null;}
+      } else {inst = Component(publicProps, publicContext, ReactUpdateQueue);
       }
-      if (inst == null || inst.render == null) {
-        renderedElement = inst;
-        warnIfInvalidElement(Component, renderedElement);
-        !(inst === null || inst === false || ReactElement.isValidElement(inst)) ? "development" !== 'production' ? invariant(false, '%s(...): A valid React element (or null) must be returned. You may have ' + 'returned undefined, an array or some other invalid object.', Component.displayName || Component.name || 'Component') : invariant(false) : void 0;
-        inst = new StatelessComponent(Component);
+      if (inst == null || inst.render == null) {renderedElement = inst;warnIfInvalidElement(Component, renderedElement);!(inst === null || inst === false || ReactElement.isValidElement(inst)) ? "development" !== 'production' ? invariant(false, '%s(...): A valid React element (or null) must be returned. You may have ' + 'returned undefined, an array or some other invalid object.', Component.displayName || Component.name || 'Component') : invariant(false) : void 0;inst = new StatelessComponent(Component);
       }
     }
 
     if ("development" !== 'production') {
       // This will throw later in _renderValidatedComponent, but add an early
       // warning now to help debugging
-      if (inst.render == null) {
-        "development" !== 'production' ? warning(false, '%s(...): No `render` method found on the returned component ' + 'instance: you may have forgotten to define `render`.', Component.displayName || Component.name || 'Component') : void 0;
+      if (inst.render == null) {"development" !== 'production' ? warning(false, '%s(...): No `render` method found on the returned component ' + 'instance: you may have forgotten to define `render`.', Component.displayName || Component.name || 'Component') : void 0;
       }
 
       var propsMutated = inst.props !== publicProps;
@@ -5612,8 +5344,7 @@ var ReactCompositeComponentMixin = {
       // Roll back to checkpoint, handle error (which may add items to the transaction), and take a new checkpoint
       transaction.rollback(checkpoint);
       this._instance.unstable_handleError(e);
-      if (this._pendingStateQueue) {
-        this._instance.state = this._processPendingState(this._instance.props, this._instance.context);
+      if (this._pendingStateQueue) {this._instance.state = this._processPendingState(this._instance.props, this._instance.context);
       }
       checkpoint = transaction.checkpoint();
 
@@ -5633,8 +5364,7 @@ var ReactCompositeComponentMixin = {
       inst.componentWillMount();
       // When mounting, calls to `setState` by `componentWillMount` will set
       // `this._pendingStateQueue` without triggering a re-render.
-      if (this._pendingStateQueue) {
-        inst.state = this._processPendingState(inst.props, inst.context);
+      if (this._pendingStateQueue) {inst.state = this._processPendingState(inst.props, inst.context);
       }
     }
 
@@ -5668,11 +5398,8 @@ var ReactCompositeComponentMixin = {
     var inst = this._instance;
 
     if (inst.componentWillUnmount) {
-      if (safely) {
-        var name = this.getName() + '.componentWillUnmount()';
-        ReactErrorUtils.invokeGuardedCallback(name, inst.componentWillUnmount.bind(inst));
-      } else {
-        inst.componentWillUnmount();
+      if (safely) {var name = this.getName() + '.componentWillUnmount()';ReactErrorUtils.invokeGuardedCallback(name, inst.componentWillUnmount.bind(inst));
+      } else {inst.componentWillUnmount();
       }
     }
 
@@ -5743,8 +5470,7 @@ var ReactCompositeComponentMixin = {
     var maskedContext = this._maskContext(context);
     if ("development" !== 'production') {
       var Component = this._currentElement.type;
-      if (Component.contextTypes) {
-        this._checkPropTypes(Component.contextTypes, maskedContext, ReactPropTypeLocations.context);
+      if (Component.contextTypes) {this._checkPropTypes(Component.contextTypes, maskedContext, ReactPropTypeLocations.context);
       }
     }
     return maskedContext;
@@ -5767,11 +5493,9 @@ var ReactCompositeComponentMixin = {
     }
     if (childContext) {
       !(typeof Component.childContextTypes === 'object') ? "development" !== 'production' ? invariant(false, '%s.getChildContext(): childContextTypes must be defined in order to ' + 'use getChildContext().', this.getName() || 'ReactCompositeComponent') : invariant(false) : void 0;
-      if ("development" !== 'production') {
-        this._checkPropTypes(Component.childContextTypes, childContext, ReactPropTypeLocations.childContext);
+      if ("development" !== 'production') {this._checkPropTypes(Component.childContextTypes, childContext, ReactPropTypeLocations.childContext);
       }
-      for (var name in childContext) {
-        !(name in Component.childContextTypes) ? "development" !== 'production' ? invariant(false, '%s.getChildContext(): key "%s" is not defined in childContextTypes.', this.getName() || 'ReactCompositeComponent', name) : invariant(false) : void 0;
+      for (var name in childContext) {!(name in Component.childContextTypes) ? "development" !== 'production' ? invariant(false, '%s.getChildContext(): key "%s" is not defined in childContextTypes.', this.getName() || 'ReactCompositeComponent', name) : invariant(false) : void 0;
       }
       return _assign({}, currentContext, childContext);
     }
@@ -5790,8 +5514,7 @@ var ReactCompositeComponentMixin = {
   _processProps: function (newProps) {
     if ("development" !== 'production') {
       var Component = this._currentElement.type;
-      if (Component.propTypes) {
-        this._checkPropTypes(Component.propTypes, newProps, ReactPropTypeLocations.prop);
+      if (Component.propTypes) {this._checkPropTypes(Component.propTypes, newProps, ReactPropTypeLocations.prop);
       }
     }
     return newProps;
@@ -5810,29 +5533,8 @@ var ReactCompositeComponentMixin = {
     // validation.
     var componentName = this.getName();
     for (var propName in propTypes) {
-      if (propTypes.hasOwnProperty(propName)) {
-        var error;
-        try {
-          // This is intentionally an invariant that gets caught. It's the same
-          // behavior as without this statement except with a better message.
-          !(typeof propTypes[propName] === 'function') ? "development" !== 'production' ? invariant(false, '%s: %s type `%s` is invalid; it must be a function, usually ' + 'from React.PropTypes.', componentName || 'React class', ReactPropTypeLocationNames[location], propName) : invariant(false) : void 0;
-          error = propTypes[propName](props, propName, componentName, location);
-        } catch (ex) {
-          error = ex;
-        }
-        if (error instanceof Error) {
-          // We may want to extend this logic for similar errors in
-          // top-level render calls, so I'm abstracting it away into
-          // a function to minimize refactoring in the future
-          var addendum = getDeclarationErrorAddendum(this);
-
-          if (location === ReactPropTypeLocations.prop) {
-            // Preface gives us something to blacklist in warning module
-            "development" !== 'production' ? warning(false, 'Failed Composite propType: %s%s', error.message, addendum) : void 0;
-          } else {
-            "development" !== 'production' ? warning(false, 'Failed Context Types: %s%s', error.message, addendum) : void 0;
-          }
-        }
+      if (propTypes.hasOwnProperty(propName)) {var error;try {  // This is intentionally an invariant that gets caught. It's the same  // behavior as without this statement except with a better message.  !(typeof propTypes[propName] === 'function') ? "development" !== 'production' ? invariant(false, '%s: %s type `%s` is invalid; it must be a function, usually ' + 'from React.PropTypes.', componentName || 'React class', ReactPropTypeLocationNames[location], propName) : invariant(false) : void 0;  error = propTypes[propName](props, propName, componentName, location);} catch (ex) {  error = ex;}if (error instanceof Error) {  // We may want to extend this logic for similar errors in  // top-level render calls, so I'm abstracting it away into  // a function to minimize refactoring in the future  var addendum = getDeclarationErrorAddendum(this);
+  if (location === ReactPropTypeLocations.prop) {    // Preface gives us something to blacklist in warning module    "development" !== 'production' ? warning(false, 'Failed Composite propType: %s%s', error.message, addendum) : void 0;  } else {    "development" !== 'production' ? warning(false, 'Failed Context Types: %s%s', error.message, addendum) : void 0;  }}
       }
     }
   },
@@ -6038,10 +5740,7 @@ var ReactCompositeComponentMixin = {
     var renderedComponent = inst.render();
     if ("development" !== 'production') {
       // We allow auto-mocks to proceed as if they're returning null.
-      if (renderedComponent === undefined && inst.render._isMockFunction) {
-        // This is probably bad practice. Consider warning here and
-        // deprecating this convenience.
-        renderedComponent = null;
+      if (renderedComponent === undefined && inst.render._isMockFunction) {// This is probably bad practice. Consider warning here and// deprecating this convenience.renderedComponent = null;
       }
     }
 
@@ -6226,16 +5925,7 @@ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== 'undefined' && typeof __REACT_DEVT
   __REACT_DEVTOOLS_GLOBAL_HOOK__.inject({
     ComponentTree: {
       getClosestInstanceFromNode: ReactDOMComponentTree.getClosestInstanceFromNode,
-      getNodeFromInstance: function (inst) {
-        // inst is an internal instance (but could be a composite)
-        if (inst._renderedComponent) {
-          inst = getNativeComponentFromComposite(inst);
-        }
-        if (inst) {
-          return ReactDOMComponentTree.getNodeFromInstance(inst);
-        } else {
-          return null;
-        }
+      getNodeFromInstance: function (inst) {// inst is an internal instance (but could be a composite)if (inst._renderedComponent) {  inst = getNativeComponentFromComposite(inst);}if (inst) {  return ReactDOMComponentTree.getNodeFromInstance(inst);} else {  return null;}
       }
     },
     Mount: ReactMount,
@@ -6250,10 +5940,7 @@ if ("development" !== 'production') {
     // First check if devtools is not installed
     if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
       // If we're in Chrome or Firefox, provide a download link if not installed.
-      if (navigator.userAgent.indexOf('Chrome') > -1 && navigator.userAgent.indexOf('Edge') === -1 || navigator.userAgent.indexOf('Firefox') > -1) {
-        // Firefox does not have the issue with devtools loaded over file://
-        var showFileUrlMessage = window.location.protocol.indexOf('http') === -1 && navigator.userAgent.indexOf('Firefox') === -1;
-        console.debug('Download the React DevTools ' + (showFileUrlMessage ? 'and use an HTTP server (instead of a file: URL) ' : '') + 'for a better development experience: ' + 'https://fb.me/react-devtools');
+      if (navigator.userAgent.indexOf('Chrome') > -1 && navigator.userAgent.indexOf('Edge') === -1 || navigator.userAgent.indexOf('Firefox') > -1) {// Firefox does not have the issue with devtools loaded over file://var showFileUrlMessage = window.location.protocol.indexOf('http') === -1 && navigator.userAgent.indexOf('Firefox') === -1;console.debug('Download the React DevTools ' + (showFileUrlMessage ? 'and use an HTTP server (instead of a file: URL) ' : '') + 'for a better development experience: ' + 'https://fb.me/react-devtools');
       }
     }
 
@@ -6271,9 +5958,7 @@ if ("development" !== 'production') {
     Array.isArray, Array.prototype.every, Array.prototype.forEach, Array.prototype.indexOf, Array.prototype.map, Date.now, Function.prototype.bind, Object.keys, String.prototype.split, String.prototype.trim];
 
     for (var i = 0; i < expectedFeatures.length; i++) {
-      if (!expectedFeatures[i]) {
-        "development" !== 'production' ? warning(false, 'One or more ES5 shims expected by React are not available: ' + 'https://fb.me/react-warning-polyfills') : void 0;
-        break;
+      if (!expectedFeatures[i]) {"development" !== 'production' ? warning(false, 'One or more ES5 shims expected by React are not available: ' + 'https://fb.me/react-warning-polyfills') : void 0;break;
       }
     }
   }
@@ -6321,8 +6006,7 @@ var ReactDOMButton = {
     // Copy the props, except the mouse listeners
     var nativeProps = {};
     for (var key in props) {
-      if (props.hasOwnProperty(key) && !mouseListenerNames[key]) {
-        nativeProps[key] = props[key];
+      if (props.hasOwnProperty(key) && !mouseListenerNames[key]) {nativeProps[key] = props[key];
       }
     }
 
@@ -6400,8 +6084,7 @@ function getDeclarationErrorAddendum(internalInstance) {
     var owner = internalInstance._currentElement._owner || null;
     if (owner) {
       var name = owner.getName();
-      if (name) {
-        return ' This DOM node was rendered by `' + name + '`.';
+      if (name) {return ' This DOM node was rendered by `' + name + '`.';
       }
     }
   }
@@ -6414,11 +6097,7 @@ function friendlyStringify(obj) {
       return '[' + obj.map(friendlyStringify).join(', ') + ']';
     } else {
       var pairs = [];
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          var keyEscaped = /^[a-z$_][\w$_]*$/i.test(key) ? key : JSON.stringify(key);
-          pairs.push(keyEscaped + ': ' + friendlyStringify(obj[key]));
-        }
+      for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {  var keyEscaped = /^[a-z$_][\w$_]*$/i.test(key) ? key : JSON.stringify(key);  pairs.push(keyEscaped + ': ' + friendlyStringify(obj[key]));}
       }
       return '{' + pairs.join(', ') + '}';
     }
@@ -6560,10 +6239,7 @@ function trapBubbledEventsLocal() {
 
       inst._wrapperState.listeners = [];
       // Create listener for each media event
-      for (var event in mediaEvents) {
-        if (mediaEvents.hasOwnProperty(event)) {
-          inst._wrapperState.listeners.push(ReactBrowserEventEmitter.trapBubbledEvent(EventConstants.topLevelTypes[event], mediaEvents[event], node));
-        }
+      for (var event in mediaEvents) {if (mediaEvents.hasOwnProperty(event)) {  inst._wrapperState.listeners.push(ReactBrowserEventEmitter.trapBubbledEvent(EventConstants.topLevelTypes[event], mediaEvents[event], node));}
       }
 
       break;
@@ -6706,34 +6382,12 @@ ReactDOMComponent.Mixin = {
       case 'img':
       case 'form':
       case 'video':
-      case 'audio':
-        this._wrapperState = {
-          listeners: null
-        };
-        transaction.getReactMountReady().enqueue(trapBubbledEventsLocal, this);
-        break;
-      case 'button':
-        props = ReactDOMButton.getNativeProps(this, props, nativeParent);
-        break;
-      case 'input':
-        ReactDOMInput.mountWrapper(this, props, nativeParent);
-        props = ReactDOMInput.getNativeProps(this, props);
-        transaction.getReactMountReady().enqueue(trapBubbledEventsLocal, this);
-        break;
-      case 'option':
-        ReactDOMOption.mountWrapper(this, props, nativeParent);
-        props = ReactDOMOption.getNativeProps(this, props);
-        break;
-      case 'select':
-        ReactDOMSelect.mountWrapper(this, props, nativeParent);
-        props = ReactDOMSelect.getNativeProps(this, props);
-        transaction.getReactMountReady().enqueue(trapBubbledEventsLocal, this);
-        break;
-      case 'textarea':
-        ReactDOMTextarea.mountWrapper(this, props, nativeParent);
-        props = ReactDOMTextarea.getNativeProps(this, props);
-        transaction.getReactMountReady().enqueue(trapBubbledEventsLocal, this);
-        break;
+      case 'audio':this._wrapperState = {  listeners: null};transaction.getReactMountReady().enqueue(trapBubbledEventsLocal, this);break;
+      case 'button':props = ReactDOMButton.getNativeProps(this, props, nativeParent);break;
+      case 'input':ReactDOMInput.mountWrapper(this, props, nativeParent);props = ReactDOMInput.getNativeProps(this, props);transaction.getReactMountReady().enqueue(trapBubbledEventsLocal, this);break;
+      case 'option':ReactDOMOption.mountWrapper(this, props, nativeParent);props = ReactDOMOption.getNativeProps(this, props);break;
+      case 'select':ReactDOMSelect.mountWrapper(this, props, nativeParent);props = ReactDOMSelect.getNativeProps(this, props);transaction.getReactMountReady().enqueue(trapBubbledEventsLocal, this);break;
+      case 'textarea':ReactDOMTextarea.mountWrapper(this, props, nativeParent);props = ReactDOMTextarea.getNativeProps(this, props);transaction.getReactMountReady().enqueue(trapBubbledEventsLocal, this);break;
     }
 
     assertValidProps(this, props);
@@ -6753,25 +6407,18 @@ ReactDOMComponent.Mixin = {
       namespaceURI = DOMNamespaces.html;
     }
     if (namespaceURI === DOMNamespaces.html) {
-      if (this._tag === 'svg') {
-        namespaceURI = DOMNamespaces.svg;
-      } else if (this._tag === 'math') {
-        namespaceURI = DOMNamespaces.mathml;
+      if (this._tag === 'svg') {namespaceURI = DOMNamespaces.svg;
+      } else if (this._tag === 'math') {namespaceURI = DOMNamespaces.mathml;
       }
     }
     this._namespaceURI = namespaceURI;
 
     if ("development" !== 'production') {
       var parentInfo;
-      if (nativeParent != null) {
-        parentInfo = nativeParent._ancestorInfo;
-      } else if (nativeContainerInfo._tag) {
-        parentInfo = nativeContainerInfo._ancestorInfo;
+      if (nativeParent != null) {parentInfo = nativeParent._ancestorInfo;
+      } else if (nativeContainerInfo._tag) {parentInfo = nativeContainerInfo._ancestorInfo;
       }
-      if (parentInfo) {
-        // parentInfo should always be present except for the top-level
-        // component when server rendering
-        validateDOMNesting(this._tag, this, parentInfo);
+      if (parentInfo) {// parentInfo should always be present except for the top-level// component when server renderingvalidateDOMNesting(this._tag, this, parentInfo);
       }
       this._ancestorInfo = validateDOMNesting.updatedAncestorInfo(parentInfo, this._tag, this);
     }
@@ -6780,24 +6427,12 @@ ReactDOMComponent.Mixin = {
     if (transaction.useCreateElement) {
       var ownerDocument = nativeContainerInfo._ownerDocument;
       var el;
-      if (namespaceURI === DOMNamespaces.html) {
-        if (this._tag === 'script') {
-          // Create the script via .innerHTML so its "parser-inserted" flag is
-          // set to true and it does not execute
-          var div = ownerDocument.createElement('div');
-          var type = this._currentElement.type;
-          div.innerHTML = '<' + type + '></' + type + '>';
-          el = div.removeChild(div.firstChild);
-        } else {
-          el = ownerDocument.createElement(this._currentElement.type);
-        }
-      } else {
-        el = ownerDocument.createElementNS(namespaceURI, this._currentElement.type);
+      if (namespaceURI === DOMNamespaces.html) {if (this._tag === 'script') {  // Create the script via .innerHTML so its "parser-inserted" flag is  // set to true and it does not execute  var div = ownerDocument.createElement('div');  var type = this._currentElement.type;  div.innerHTML = '<' + type + '></' + type + '>';  el = div.removeChild(div.firstChild);} else {  el = ownerDocument.createElement(this._currentElement.type);}
+      } else {el = ownerDocument.createElementNS(namespaceURI, this._currentElement.type);
       }
       ReactDOMComponentTree.precacheNode(this, el);
       this._flags |= Flags.hasCachedChildNodes;
-      if (!this._nativeParent) {
-        DOMPropertyOperations.setAttributeForRoot(el);
+      if (!this._nativeParent) {DOMPropertyOperations.setAttributeForRoot(el);
       }
       this._updateDOMProperties(null, props, transaction);
       var lazyTree = DOMLazyTree(el);
@@ -6806,10 +6441,8 @@ ReactDOMComponent.Mixin = {
     } else {
       var tagOpen = this._createOpenTagMarkupAndPutListeners(transaction, props);
       var tagContent = this._createContentMarkup(transaction, props, context);
-      if (!tagContent && omittedCloseTags[this._tag]) {
-        mountImage = tagOpen + '/>';
-      } else {
-        mountImage = tagOpen + '>' + tagContent + '</' + this._currentElement.type + '>';
+      if (!tagContent && omittedCloseTags[this._tag]) {mountImage = tagOpen + '/>';
+      } else {mountImage = tagOpen + '>' + tagContent + '</' + this._currentElement.type + '>';
       }
     }
 
@@ -6817,13 +6450,8 @@ ReactDOMComponent.Mixin = {
       case 'button':
       case 'input':
       case 'select':
-      case 'textarea':
-        if (props.autoFocus) {
-          transaction.getReactMountReady().enqueue(AutoFocusUtils.focusDOMComponent, this);
-        }
-        break;
-      case 'option':
-        transaction.getReactMountReady().enqueue(optionPostMount, this);
+      case 'textarea':if (props.autoFocus) {  transaction.getReactMountReady().enqueue(AutoFocusUtils.focusDOMComponent, this);}break;
+      case 'option':transaction.getReactMountReady().enqueue(optionPostMount, this);
     }
 
     return mountImage;
@@ -6846,39 +6474,13 @@ ReactDOMComponent.Mixin = {
     var ret = '<' + this._currentElement.type;
 
     for (var propKey in props) {
-      if (!props.hasOwnProperty(propKey)) {
-        continue;
+      if (!props.hasOwnProperty(propKey)) {continue;
       }
       var propValue = props[propKey];
-      if (propValue == null) {
-        continue;
+      if (propValue == null) {continue;
       }
-      if (registrationNameModules.hasOwnProperty(propKey)) {
-        if (propValue) {
-          enqueuePutListener(this, propKey, propValue, transaction);
-        }
-      } else {
-        if (propKey === STYLE) {
-          if (propValue) {
-            if ("development" !== 'production') {
-              // See `_updateDOMProperties`. style block
-              this._previousStyle = propValue;
-            }
-            propValue = this._previousStyleCopy = _assign({}, props.style);
-          }
-          propValue = CSSPropertyOperations.createMarkupForStyles(propValue, this);
-        }
-        var markup = null;
-        if (this._tag != null && isCustomComponent(this._tag, props)) {
-          if (!RESERVED_PROPS.hasOwnProperty(propKey)) {
-            markup = DOMPropertyOperations.createMarkupForCustomAttribute(propKey, propValue);
-          }
-        } else {
-          markup = DOMPropertyOperations.createMarkupForProperty(propKey, propValue);
-        }
-        if (markup) {
-          ret += ' ' + markup;
-        }
+      if (registrationNameModules.hasOwnProperty(propKey)) {if (propValue) {  enqueuePutListener(this, propKey, propValue, transaction);}
+      } else {if (propKey === STYLE) {  if (propValue) {    if ("development" !== 'production') {      // See `_updateDOMProperties`. style block      this._previousStyle = propValue;    }    propValue = this._previousStyleCopy = _assign({}, props.style);  }  propValue = CSSPropertyOperations.createMarkupForStyles(propValue, this);}var markup = null;if (this._tag != null && isCustomComponent(this._tag, props)) {  if (!RESERVED_PROPS.hasOwnProperty(propKey)) {    markup = DOMPropertyOperations.createMarkupForCustomAttribute(propKey, propValue);  }} else {  markup = DOMPropertyOperations.createMarkupForProperty(propKey, propValue);}if (markup) {  ret += ' ' + markup;}
       }
     }
 
@@ -6910,18 +6512,13 @@ ReactDOMComponent.Mixin = {
     // Intentional use of != to avoid catching zero/false.
     var innerHTML = props.dangerouslySetInnerHTML;
     if (innerHTML != null) {
-      if (innerHTML.__html != null) {
-        ret = innerHTML.__html;
+      if (innerHTML.__html != null) {ret = innerHTML.__html;
       }
     } else {
       var contentToUse = CONTENT_TYPES[typeof props.children] ? props.children : null;
       var childrenToUse = contentToUse != null ? null : props.children;
-      if (contentToUse != null) {
-        // TODO: Validate that text is allowed as a child of this node
-        ret = escapeTextContentForBrowser(contentToUse);
-      } else if (childrenToUse != null) {
-        var mountImages = this.mountChildren(childrenToUse, transaction, context);
-        ret = mountImages.join('');
+      if (contentToUse != null) {// TODO: Validate that text is allowed as a child of this noderet = escapeTextContentForBrowser(contentToUse);
+      } else if (childrenToUse != null) {var mountImages = this.mountChildren(childrenToUse, transaction, context);ret = mountImages.join('');
       }
     }
     if (newlineEatingTags[this._tag] && ret.charAt(0) === '\n') {
@@ -6945,20 +6542,13 @@ ReactDOMComponent.Mixin = {
     // Intentional use of != to avoid catching zero/false.
     var innerHTML = props.dangerouslySetInnerHTML;
     if (innerHTML != null) {
-      if (innerHTML.__html != null) {
-        DOMLazyTree.queueHTML(lazyTree, innerHTML.__html);
+      if (innerHTML.__html != null) {DOMLazyTree.queueHTML(lazyTree, innerHTML.__html);
       }
     } else {
       var contentToUse = CONTENT_TYPES[typeof props.children] ? props.children : null;
       var childrenToUse = contentToUse != null ? null : props.children;
-      if (contentToUse != null) {
-        // TODO: Validate that text is allowed as a child of this node
-        DOMLazyTree.queueText(lazyTree, contentToUse);
-      } else if (childrenToUse != null) {
-        var mountImages = this.mountChildren(childrenToUse, transaction, context);
-        for (var i = 0; i < mountImages.length; i++) {
-          DOMLazyTree.queueChild(lazyTree, mountImages[i]);
-        }
+      if (contentToUse != null) {// TODO: Validate that text is allowed as a child of this nodeDOMLazyTree.queueText(lazyTree, contentToUse);
+      } else if (childrenToUse != null) {var mountImages = this.mountChildren(childrenToUse, transaction, context);for (var i = 0; i < mountImages.length; i++) {  DOMLazyTree.queueChild(lazyTree, mountImages[i]);}
       }
     }
   },
@@ -6992,28 +6582,11 @@ ReactDOMComponent.Mixin = {
     var nextProps = this._currentElement.props;
 
     switch (this._tag) {
-      case 'button':
-        lastProps = ReactDOMButton.getNativeProps(this, lastProps);
-        nextProps = ReactDOMButton.getNativeProps(this, nextProps);
-        break;
-      case 'input':
-        ReactDOMInput.updateWrapper(this);
-        lastProps = ReactDOMInput.getNativeProps(this, lastProps);
-        nextProps = ReactDOMInput.getNativeProps(this, nextProps);
-        break;
-      case 'option':
-        lastProps = ReactDOMOption.getNativeProps(this, lastProps);
-        nextProps = ReactDOMOption.getNativeProps(this, nextProps);
-        break;
-      case 'select':
-        lastProps = ReactDOMSelect.getNativeProps(this, lastProps);
-        nextProps = ReactDOMSelect.getNativeProps(this, nextProps);
-        break;
-      case 'textarea':
-        ReactDOMTextarea.updateWrapper(this);
-        lastProps = ReactDOMTextarea.getNativeProps(this, lastProps);
-        nextProps = ReactDOMTextarea.getNativeProps(this, nextProps);
-        break;
+      case 'button':lastProps = ReactDOMButton.getNativeProps(this, lastProps);nextProps = ReactDOMButton.getNativeProps(this, nextProps);break;
+      case 'input':ReactDOMInput.updateWrapper(this);lastProps = ReactDOMInput.getNativeProps(this, lastProps);nextProps = ReactDOMInput.getNativeProps(this, nextProps);break;
+      case 'option':lastProps = ReactDOMOption.getNativeProps(this, lastProps);nextProps = ReactDOMOption.getNativeProps(this, nextProps);break;
+      case 'select':lastProps = ReactDOMSelect.getNativeProps(this, lastProps);nextProps = ReactDOMSelect.getNativeProps(this, nextProps);break;
+      case 'textarea':ReactDOMTextarea.updateWrapper(this);lastProps = ReactDOMTextarea.getNativeProps(this, lastProps);nextProps = ReactDOMTextarea.getNativeProps(this, nextProps);break;
     }
 
     assertValidProps(this, nextProps);
@@ -7048,84 +6621,22 @@ ReactDOMComponent.Mixin = {
     var styleName;
     var styleUpdates;
     for (propKey in lastProps) {
-      if (nextProps.hasOwnProperty(propKey) || !lastProps.hasOwnProperty(propKey) || lastProps[propKey] == null) {
-        continue;
+      if (nextProps.hasOwnProperty(propKey) || !lastProps.hasOwnProperty(propKey) || lastProps[propKey] == null) {continue;
       }
-      if (propKey === STYLE) {
-        var lastStyle = this._previousStyleCopy;
-        for (styleName in lastStyle) {
-          if (lastStyle.hasOwnProperty(styleName)) {
-            styleUpdates = styleUpdates || {};
-            styleUpdates[styleName] = '';
-          }
-        }
-        this._previousStyleCopy = null;
-      } else if (registrationNameModules.hasOwnProperty(propKey)) {
-        if (lastProps[propKey]) {
-          // Only call deleteListener if there was a listener previously or
-          // else willDeleteListener gets called when there wasn't actually a
-          // listener (e.g., onClick={null})
-          deleteListener(this, propKey);
-        }
-      } else if (DOMProperty.properties[propKey] || DOMProperty.isCustomAttribute(propKey)) {
-        DOMPropertyOperations.deleteValueForProperty(getNode(this), propKey);
+      if (propKey === STYLE) {var lastStyle = this._previousStyleCopy;for (styleName in lastStyle) {  if (lastStyle.hasOwnProperty(styleName)) {    styleUpdates = styleUpdates || {};    styleUpdates[styleName] = '';  }}this._previousStyleCopy = null;
+      } else if (registrationNameModules.hasOwnProperty(propKey)) {if (lastProps[propKey]) {  // Only call deleteListener if there was a listener previously or  // else willDeleteListener gets called when there wasn't actually a  // listener (e.g., onClick={null})  deleteListener(this, propKey);}
+      } else if (DOMProperty.properties[propKey] || DOMProperty.isCustomAttribute(propKey)) {DOMPropertyOperations.deleteValueForProperty(getNode(this), propKey);
       }
     }
     for (propKey in nextProps) {
       var nextProp = nextProps[propKey];
       var lastProp = propKey === STYLE ? this._previousStyleCopy : lastProps != null ? lastProps[propKey] : undefined;
-      if (!nextProps.hasOwnProperty(propKey) || nextProp === lastProp || nextProp == null && lastProp == null) {
-        continue;
+      if (!nextProps.hasOwnProperty(propKey) || nextProp === lastProp || nextProp == null && lastProp == null) {continue;
       }
-      if (propKey === STYLE) {
-        if (nextProp) {
-          if ("development" !== 'production') {
-            checkAndWarnForMutatedStyle(this._previousStyleCopy, this._previousStyle, this);
-            this._previousStyle = nextProp;
-          }
-          nextProp = this._previousStyleCopy = _assign({}, nextProp);
-        } else {
-          this._previousStyleCopy = null;
-        }
-        if (lastProp) {
-          // Unset styles on `lastProp` but not on `nextProp`.
-          for (styleName in lastProp) {
-            if (lastProp.hasOwnProperty(styleName) && (!nextProp || !nextProp.hasOwnProperty(styleName))) {
-              styleUpdates = styleUpdates || {};
-              styleUpdates[styleName] = '';
-            }
-          }
-          // Update styles that changed since `lastProp`.
-          for (styleName in nextProp) {
-            if (nextProp.hasOwnProperty(styleName) && lastProp[styleName] !== nextProp[styleName]) {
-              styleUpdates = styleUpdates || {};
-              styleUpdates[styleName] = nextProp[styleName];
-            }
-          }
-        } else {
-          // Relies on `updateStylesByID` not mutating `styleUpdates`.
-          styleUpdates = nextProp;
-        }
-      } else if (registrationNameModules.hasOwnProperty(propKey)) {
-        if (nextProp) {
-          enqueuePutListener(this, propKey, nextProp, transaction);
-        } else if (lastProp) {
-          deleteListener(this, propKey);
-        }
-      } else if (isCustomComponent(this._tag, nextProps)) {
-        if (!RESERVED_PROPS.hasOwnProperty(propKey)) {
-          DOMPropertyOperations.setValueForAttribute(getNode(this), propKey, nextProp);
-        }
-      } else if (DOMProperty.properties[propKey] || DOMProperty.isCustomAttribute(propKey)) {
-        var node = getNode(this);
-        // If we're updating to null or undefined, we should remove the property
-        // from the DOM node instead of inadvertently setting to a string. This
-        // brings us in line with the same behavior we have on initial render.
-        if (nextProp != null) {
-          DOMPropertyOperations.setValueForProperty(node, propKey, nextProp);
-        } else {
-          DOMPropertyOperations.deleteValueForProperty(node, propKey);
-        }
+      if (propKey === STYLE) {if (nextProp) {  if ("development" !== 'production') {    checkAndWarnForMutatedStyle(this._previousStyleCopy, this._previousStyle, this);    this._previousStyle = nextProp;  }  nextProp = this._previousStyleCopy = _assign({}, nextProp);} else {  this._previousStyleCopy = null;}if (lastProp) {  // Unset styles on `lastProp` but not on `nextProp`.  for (styleName in lastProp) {    if (lastProp.hasOwnProperty(styleName) && (!nextProp || !nextProp.hasOwnProperty(styleName))) {      styleUpdates = styleUpdates || {};      styleUpdates[styleName] = '';    }  }  // Update styles that changed since `lastProp`.  for (styleName in nextProp) {    if (nextProp.hasOwnProperty(styleName) && lastProp[styleName] !== nextProp[styleName]) {      styleUpdates = styleUpdates || {};      styleUpdates[styleName] = nextProp[styleName];    }  }} else {  // Relies on `updateStylesByID` not mutating `styleUpdates`.  styleUpdates = nextProp;}
+      } else if (registrationNameModules.hasOwnProperty(propKey)) {if (nextProp) {  enqueuePutListener(this, propKey, nextProp, transaction);} else if (lastProp) {  deleteListener(this, propKey);}
+      } else if (isCustomComponent(this._tag, nextProps)) {if (!RESERVED_PROPS.hasOwnProperty(propKey)) {  DOMPropertyOperations.setValueForAttribute(getNode(this), propKey, nextProp);}
+      } else if (DOMProperty.properties[propKey] || DOMProperty.isCustomAttribute(propKey)) {var node = getNode(this);// If we're updating to null or undefined, we should remove the property// from the DOM node instead of inadvertently setting to a string. This// brings us in line with the same behavior we have on initial render.if (nextProp != null) {  DOMPropertyOperations.setValueForProperty(node, propKey, nextProp);} else {  DOMPropertyOperations.deleteValueForProperty(node, propKey);}
       }
     }
     if (styleUpdates) {
@@ -7164,12 +6675,10 @@ ReactDOMComponent.Mixin = {
     }
 
     if (nextContent != null) {
-      if (lastContent !== nextContent) {
-        this.updateTextContent('' + nextContent);
+      if (lastContent !== nextContent) {this.updateTextContent('' + nextContent);
       }
     } else if (nextHtml != null) {
-      if (lastHtml !== nextHtml) {
-        this.updateMarkup('' + nextHtml);
+      if (lastHtml !== nextHtml) {this.updateMarkup('' + nextHtml);
       }
     } else if (nextChildren != null) {
       this.updateChildren(nextChildren, transaction, context);
@@ -7193,25 +6702,10 @@ ReactDOMComponent.Mixin = {
       case 'img':
       case 'form':
       case 'video':
-      case 'audio':
-        var listeners = this._wrapperState.listeners;
-        if (listeners) {
-          for (var i = 0; i < listeners.length; i++) {
-            listeners[i].remove();
-          }
-        }
-        break;
+      case 'audio':var listeners = this._wrapperState.listeners;if (listeners) {  for (var i = 0; i < listeners.length; i++) {    listeners[i].remove();  }}break;
       case 'html':
       case 'head':
-      case 'body':
-        /**
-         * Components like <html> <head> and <body> can't be removed or added
-         * easily in a cross-browser way, however it's valuable to be able to
-         * take advantage of React's reconciliation for styling and <title>
-         * management. So we just document it and throw in dangerous cases.
-         */
-        !false ? "development" !== 'production' ? invariant(false, '<%s> tried to unmount. Because of cross-browser quirks it is ' + 'impossible to unmount some top-level components (eg <html>, ' + '<head>, and <body>) reliably and efficiently. To fix this, have a ' + 'single top-level component that never unmounts render these ' + 'elements.', this._tag) : invariant(false) : void 0;
-        break;
+      case 'body':/** * Components like <html> <head> and <body> can't be removed or added * easily in a cross-browser way, however it's valuable to be able to * take advantage of React's reconciliation for styling and <title> * management. So we just document it and throw in dangerous cases. */!false ? "development" !== 'production' ? invariant(false, '<%s> tried to unmount. Because of cross-browser quirks it is ' + 'impossible to unmount some top-level components (eg <html>, ' + '<head>, and <body>) reliably and efficiently. To fix this, have a ' + 'single top-level component that never unmounts render these ' + 'elements.', this._tag) : invariant(false) : void 0;break;
     }
 
     this.unmountChildren(safely);
@@ -7345,9 +6839,7 @@ function precacheChildNodes(inst, node) {
     }
     // We assume the child nodes are in the same order as the child instances.
     for (; childNode !== null; childNode = childNode.nextSibling) {
-      if (childNode.nodeType === 1 && childNode.getAttribute(ATTR_NAME) === String(childID) || childNode.nodeType === 8 && childNode.nodeValue === ' react-text: ' + childID + ' ' || childNode.nodeType === 8 && childNode.nodeValue === ' react-empty: ' + childID + ' ') {
-        precacheNode(childInst, childNode);
-        continue outer;
+      if (childNode.nodeType === 1 && childNode.getAttribute(ATTR_NAME) === String(childID) || childNode.nodeType === 8 && childNode.nodeValue === ' react-text: ' + childID + ' ' || childNode.nodeType === 8 && childNode.nodeValue === ' react-empty: ' + childID + ' ') {precacheNode(childInst, childNode);continue outer;
       }
     }
     // We reached the end of the DOM children without finding an ID match.
@@ -7500,13 +6992,8 @@ var handlerDoesThrowForEvent = {};
 function emitEvent(handlerFunctionName, arg1, arg2, arg3, arg4, arg5) {
   if ("development" !== 'production') {
     eventHandlers.forEach(function (handler) {
-      try {
-        if (handler[handlerFunctionName]) {
-          handler[handlerFunctionName](arg1, arg2, arg3, arg4, arg5);
-        }
-      } catch (e) {
-        "development" !== 'production' ? warning(!handlerDoesThrowForEvent[handlerFunctionName], 'exception thrown by devtool while handling %s: %s', handlerFunctionName, e.message) : void 0;
-        handlerDoesThrowForEvent[handlerFunctionName] = true;
+      try {if (handler[handlerFunctionName]) {  handler[handlerFunctionName](arg1, arg2, arg3, arg4, arg5);}
+      } catch (e) {"development" !== 'production' ? warning(!handlerDoesThrowForEvent[handlerFunctionName], 'exception thrown by devtool while handling %s: %s', handlerFunctionName, e.message) : void 0;handlerDoesThrowForEvent[handlerFunctionName] = true;
       }
     });
   }
@@ -7518,9 +7005,7 @@ var ReactDOMDebugTool = {
   },
   removeDevtool: function (devtool) {
     for (var i = 0; i < eventHandlers.length; i++) {
-      if (eventHandlers[i] === devtool) {
-        eventHandlers.splice(i, 1);
-        i--;
+      if (eventHandlers[i] === devtool) {eventHandlers.splice(i, 1);i--;
       }
     }
   },
@@ -7580,11 +7065,7 @@ _assign(ReactDOMEmptyComponent.prototype, {
       ReactDOMComponentTree.precacheNode(this, node);
       return DOMLazyTree(node);
     } else {
-      if (transaction.renderToStaticMarkup) {
-        // Normally we'd insert a comment node, but since this is a situation
-        // where React won't take over (static pages), we can simply return
-        // nothing.
-        return '';
+      if (transaction.renderToStaticMarkup) {// Normally we'd insert a comment node, but since this is a situation// where React won't take over (static pages), we can simply return// nothing.return '';
       }
       return '<!--' + nodeValue + '-->';
     }
@@ -7922,21 +7403,13 @@ var ReactDOMInput = {
     if ("development" !== 'production') {
       LinkedValueUtils.checkPropTypes('input', props, inst._currentElement._owner);
 
-      if (props.valueLink !== undefined && !didWarnValueLink) {
-        "development" !== 'production' ? warning(false, '`valueLink` prop on `input` is deprecated; set `value` and `onChange` instead.') : void 0;
-        didWarnValueLink = true;
+      if (props.valueLink !== undefined && !didWarnValueLink) {"development" !== 'production' ? warning(false, '`valueLink` prop on `input` is deprecated; set `value` and `onChange` instead.') : void 0;didWarnValueLink = true;
       }
-      if (props.checkedLink !== undefined && !didWarnCheckedLink) {
-        "development" !== 'production' ? warning(false, '`checkedLink` prop on `input` is deprecated; set `value` and `onChange` instead.') : void 0;
-        didWarnCheckedLink = true;
+      if (props.checkedLink !== undefined && !didWarnCheckedLink) {"development" !== 'production' ? warning(false, '`checkedLink` prop on `input` is deprecated; set `value` and `onChange` instead.') : void 0;didWarnCheckedLink = true;
       }
-      if (props.checked !== undefined && props.defaultChecked !== undefined && !didWarnCheckedDefaultChecked) {
-        "development" !== 'production' ? warning(false, 'Input elements must be either controlled or uncontrolled ' + '(specify either the checked prop, or the defaultChecked prop, but not ' + 'both). Decide between using a controlled or uncontrolled input ' + 'element and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components') : void 0;
-        didWarnCheckedDefaultChecked = true;
+      if (props.checked !== undefined && props.defaultChecked !== undefined && !didWarnCheckedDefaultChecked) {"development" !== 'production' ? warning(false, 'Input elements must be either controlled or uncontrolled ' + '(specify either the checked prop, or the defaultChecked prop, but not ' + 'both). Decide between using a controlled or uncontrolled input ' + 'element and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components') : void 0;didWarnCheckedDefaultChecked = true;
       }
-      if (props.value !== undefined && props.defaultValue !== undefined && !didWarnValueDefaultValue) {
-        "development" !== 'production' ? warning(false, 'Input elements must be either controlled or uncontrolled ' + '(specify either the value prop, or the defaultValue prop, but not ' + 'both). Decide between using a controlled or uncontrolled input ' + 'element and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components') : void 0;
-        didWarnValueDefaultValue = true;
+      if (props.value !== undefined && props.defaultValue !== undefined && !didWarnValueDefaultValue) {"development" !== 'production' ? warning(false, 'Input elements must be either controlled or uncontrolled ' + '(specify either the value prop, or the defaultValue prop, but not ' + 'both). Decide between using a controlled or uncontrolled input ' + 'element and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components') : void 0;didWarnValueDefaultValue = true;
       }
       warnIfValueIsNull(props);
     }
@@ -7965,13 +7438,9 @@ var ReactDOMInput = {
       var controlled = props.checked !== undefined || props.value !== undefined;
       var owner = inst._currentElement._owner;
 
-      if ((initialValue || !inst._wrapperState.controlled) && controlled && !didWarnUncontrolledToControlled) {
-        "development" !== 'production' ? warning(false, '%s is changing a uncontrolled input of type %s to be controlled. ' + 'Input elements should not switch from uncontrolled to controlled (or vice versa). ' + 'Decide between using a controlled or uncontrolled input ' + 'element for the lifetime of the component. More info: https://fb.me/react-controlled-components', owner && owner.getName() || 'A component', props.type) : void 0;
-        didWarnUncontrolledToControlled = true;
+      if ((initialValue || !inst._wrapperState.controlled) && controlled && !didWarnUncontrolledToControlled) {"development" !== 'production' ? warning(false, '%s is changing a uncontrolled input of type %s to be controlled. ' + 'Input elements should not switch from uncontrolled to controlled (or vice versa). ' + 'Decide between using a controlled or uncontrolled input ' + 'element for the lifetime of the component. More info: https://fb.me/react-controlled-components', owner && owner.getName() || 'A component', props.type) : void 0;didWarnUncontrolledToControlled = true;
       }
-      if (inst._wrapperState.controlled && (defaultValue || !controlled) && !didWarnControlledToUncontrolled) {
-        "development" !== 'production' ? warning(false, '%s is changing a controlled input of type %s to be uncontrolled. ' + 'Input elements should not switch from controlled to uncontrolled (or vice versa). ' + 'Decide between using a controlled or uncontrolled input ' + 'element for the lifetime of the component. More info: https://fb.me/react-controlled-components', owner && owner.getName() || 'A component', props.type) : void 0;
-        didWarnControlledToUncontrolled = true;
+      if (inst._wrapperState.controlled && (defaultValue || !controlled) && !didWarnControlledToUncontrolled) {"development" !== 'production' ? warning(false, '%s is changing a controlled input of type %s to be uncontrolled. ' + 'Input elements should not switch from controlled to uncontrolled (or vice versa). ' + 'Decide between using a controlled or uncontrolled input ' + 'element for the lifetime of the component. More info: https://fb.me/react-controlled-components', owner && owner.getName() || 'A component', props.type) : void 0;didWarnControlledToUncontrolled = true;
       }
     }
 
@@ -8019,8 +7488,7 @@ function _handleChange(event) {
 
     for (var i = 0; i < group.length; i++) {
       var otherNode = group[i];
-      if (otherNode === rootNode || otherNode.form !== rootNode.form) {
-        continue;
+      if (otherNode === rootNode || otherNode.form !== rootNode.form) {continue;
       }
       // This will throw if radio buttons rendered by different copies of React
       // and the same name are rendered into the same form (same as #1939).
@@ -8099,16 +7567,8 @@ var ReactDOMOption = {
     var selected = null;
     if (selectValue != null) {
       selected = false;
-      if (Array.isArray(selectValue)) {
-        // multiple
-        for (var i = 0; i < selectValue.length; i++) {
-          if ('' + selectValue[i] === '' + props.value) {
-            selected = true;
-            break;
-          }
-        }
-      } else {
-        selected = '' + selectValue === '' + props.value;
+      if (Array.isArray(selectValue)) {// multiplefor (var i = 0; i < selectValue.length; i++) {  if ('' + selectValue[i] === '' + props.value) {    selected = true;    break;  }}
+      } else {selected = '' + selectValue === '' + props.value;
       }
     }
 
@@ -8138,13 +7598,10 @@ var ReactDOMOption = {
     // Flatten children and warn if they aren't strings or numbers;
     // invalid types are ignored.
     ReactChildren.forEach(props.children, function (child) {
-      if (child == null) {
-        return;
+      if (child == null) {return;
       }
-      if (typeof child === 'string' || typeof child === 'number') {
-        content += child;
-      } else {
-        "development" !== 'production' ? warning(false, 'Only strings and numbers are supported as <option> children.') : void 0;
+      if (typeof child === 'string' || typeof child === 'number') {content += child;
+      } else {"development" !== 'production' ? warning(false, 'Only strings and numbers are supported as <option> children.') : void 0;
       }
     });
 
@@ -8260,8 +7717,7 @@ function updateOptions(inst, multiple, propValue) {
     }
     for (i = 0; i < options.length; i++) {
       var selected = selectedValue.hasOwnProperty(options[i].value);
-      if (options[i].selected !== selected) {
-        options[i].selected = selected;
+      if (options[i].selected !== selected) {options[i].selected = selected;
       }
     }
   } else {
@@ -8269,9 +7725,7 @@ function updateOptions(inst, multiple, propValue) {
     // browsers for all cases.
     selectedValue = '' + propValue;
     for (i = 0; i < options.length; i++) {
-      if (options[i].value === selectedValue) {
-        options[i].selected = true;
-        return;
+      if (options[i].value === selectedValue) {options[i].selected = true;return;
       }
     }
     if (options.length) {
@@ -8349,11 +7803,8 @@ var ReactDOMSelect = {
       updateOptions(inst, Boolean(props.multiple), value);
     } else if (wasMultiple !== Boolean(props.multiple)) {
       // For simplicity, reapply `defaultValue` if `multiple` is toggled.
-      if (props.defaultValue != null) {
-        updateOptions(inst, Boolean(props.multiple), props.defaultValue);
-      } else {
-        // Revert the select back to its default unselected state.
-        updateOptions(inst, Boolean(props.multiple), props.multiple ? [] : '');
+      if (props.defaultValue != null) {updateOptions(inst, Boolean(props.multiple), props.defaultValue);
+      } else {// Revert the select back to its default unselected state.updateOptions(inst, Boolean(props.multiple), props.multiple ? [] : '');
       }
     }
   }
@@ -8679,15 +8130,10 @@ _assign(ReactDOMTextComponent.prototype, {
   mountComponent: function (transaction, nativeParent, nativeContainerInfo, context) {
     if ("development" !== 'production') {
       var parentInfo;
-      if (nativeParent != null) {
-        parentInfo = nativeParent._ancestorInfo;
-      } else if (nativeContainerInfo != null) {
-        parentInfo = nativeContainerInfo._ancestorInfo;
+      if (nativeParent != null) {parentInfo = nativeParent._ancestorInfo;
+      } else if (nativeContainerInfo != null) {parentInfo = nativeContainerInfo._ancestorInfo;
       }
-      if (parentInfo) {
-        // parentInfo should always be present except for the top-level
-        // component when server rendering
-        validateDOMNesting('#text', this, parentInfo);
+      if (parentInfo) {// parentInfo should always be present except for the top-level// component when server renderingvalidateDOMNesting('#text', this, parentInfo);
       }
     }
 
@@ -8702,8 +8148,7 @@ _assign(ReactDOMTextComponent.prototype, {
       var closingComment = ownerDocument.createComment(closingValue);
       var lazyTree = DOMLazyTree(ownerDocument.createDocumentFragment());
       DOMLazyTree.queueChild(lazyTree, DOMLazyTree(openingComment));
-      if (this._stringText) {
-        DOMLazyTree.queueChild(lazyTree, DOMLazyTree(ownerDocument.createTextNode(this._stringText)));
+      if (this._stringText) {DOMLazyTree.queueChild(lazyTree, DOMLazyTree(ownerDocument.createTextNode(this._stringText)));
       }
       DOMLazyTree.queueChild(lazyTree, DOMLazyTree(closingComment));
       ReactDOMComponentTree.precacheNode(this, openingComment);
@@ -8712,11 +8157,7 @@ _assign(ReactDOMTextComponent.prototype, {
     } else {
       var escapedText = escapeTextContentForBrowser(this._stringText);
 
-      if (transaction.renderToStaticMarkup) {
-        // Normally we'd wrap this between comment nodes for the reasons stated
-        // above, but since this is a situation where React won't take over
-        // (static pages), we can simply return the text as it is.
-        return escapedText;
+      if (transaction.renderToStaticMarkup) {// Normally we'd wrap this between comment nodes for the reasons stated// above, but since this is a situation where React won't take over// (static pages), we can simply return the text as it is.return escapedText;
       }
 
       return '<!--' + openingValue + '-->' + escapedText + '<!--' + closingValue + '-->';
@@ -8734,13 +8175,7 @@ _assign(ReactDOMTextComponent.prototype, {
     if (nextText !== this._currentElement) {
       this._currentElement = nextText;
       var nextStringText = '' + nextText;
-      if (nextStringText !== this._stringText) {
-        // TODO: Save this as pending props and use performUpdateIfNecessary
-        // and/or updateComponent to do the actual update for consistency with
-        // other component types?
-        this._stringText = nextStringText;
-        var commentNodes = this.getNativeNode();
-        DOMChildrenOperations.replaceDelimitedText(commentNodes[0], commentNodes[1], nextStringText);
+      if (nextStringText !== this._stringText) {// TODO: Save this as pending props and use performUpdateIfNecessary// and/or updateComponent to do the actual update for consistency with// other component types?this._stringText = nextStringText;var commentNodes = this.getNativeNode();DOMChildrenOperations.replaceDelimitedText(commentNodes[0], commentNodes[1], nextStringText);
       }
     }
   },
@@ -8753,13 +8188,7 @@ _assign(ReactDOMTextComponent.prototype, {
     if (!this._closingComment) {
       var openingComment = ReactDOMComponentTree.getNodeFromInstance(this);
       var node = openingComment.nextSibling;
-      while (true) {
-        !(node != null) ? "development" !== 'production' ? invariant(false, 'Missing closing comment for text component %s', this._domID) : invariant(false) : void 0;
-        if (node.nodeType === 8 && node.nodeValue === ' /react-text ') {
-          this._closingComment = node;
-          break;
-        }
-        node = node.nextSibling;
+      while (true) {!(node != null) ? "development" !== 'production' ? invariant(false, 'Missing closing comment for text component %s', this._domID) : invariant(false) : void 0;if (node.nodeType === 8 && node.nodeValue === ' /react-text ') {  this._closingComment = node;  break;}node = node.nextSibling;
       }
     }
     nativeNode = [this._nativeNode, this._closingComment];
@@ -8858,13 +8287,9 @@ var ReactDOMTextarea = {
   mountWrapper: function (inst, props) {
     if ("development" !== 'production') {
       LinkedValueUtils.checkPropTypes('textarea', props, inst._currentElement._owner);
-      if (props.valueLink !== undefined && !didWarnValueLink) {
-        "development" !== 'production' ? warning(false, '`valueLink` prop on `textarea` is deprecated; set `value` and `onChange` instead.') : void 0;
-        didWarnValueLink = true;
+      if (props.valueLink !== undefined && !didWarnValueLink) {"development" !== 'production' ? warning(false, '`valueLink` prop on `textarea` is deprecated; set `value` and `onChange` instead.') : void 0;didWarnValueLink = true;
       }
-      if (props.value !== undefined && props.defaultValue !== undefined && !didWarnValDefaultVal) {
-        "development" !== 'production' ? warning(false, 'Textarea elements must be either controlled or uncontrolled ' + '(specify either the value prop, or the defaultValue prop, but not ' + 'both). Decide between using a controlled or uncontrolled textarea ' + 'and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components') : void 0;
-        didWarnValDefaultVal = true;
+      if (props.value !== undefined && props.defaultValue !== undefined && !didWarnValDefaultVal) {"development" !== 'production' ? warning(false, 'Textarea elements must be either controlled or uncontrolled ' + '(specify either the value prop, or the defaultValue prop, but not ' + 'both). Decide between using a controlled or uncontrolled textarea ' + 'and remove one of these props. More info: ' + 'https://fb.me/react-controlled-components') : void 0;didWarnValDefaultVal = true;
       }
       warnIfValueIsNull(props);
     }
@@ -8873,13 +8298,10 @@ var ReactDOMTextarea = {
     // TODO (yungsters): Remove support for children content in <textarea>.
     var children = props.children;
     if (children != null) {
-      if ("development" !== 'production') {
-        "development" !== 'production' ? warning(false, 'Use the `defaultValue` or `value` props instead of setting ' + 'children on <textarea>.') : void 0;
+      if ("development" !== 'production') {"development" !== 'production' ? warning(false, 'Use the `defaultValue` or `value` props instead of setting ' + 'children on <textarea>.') : void 0;
       }
       !(defaultValue == null) ? "development" !== 'production' ? invariant(false, 'If you supply `defaultValue` on a <textarea>, do not pass children.') : invariant(false) : void 0;
-      if (Array.isArray(children)) {
-        !(children.length <= 1) ? "development" !== 'production' ? invariant(false, '<textarea> can only have at most one child.') : invariant(false) : void 0;
-        children = children[0];
+      if (Array.isArray(children)) {!(children.length <= 1) ? "development" !== 'production' ? invariant(false, '<textarea> can only have at most one child.') : invariant(false) : void 0;children = children[0];
       }
 
       defaultValue = '' + children;
@@ -9146,13 +8568,8 @@ var handlerDoesThrowForEvent = {};
 function emitEvent(handlerFunctionName, arg1, arg2, arg3, arg4, arg5) {
   if ("development" !== 'production') {
     eventHandlers.forEach(function (handler) {
-      try {
-        if (handler[handlerFunctionName]) {
-          handler[handlerFunctionName](arg1, arg2, arg3, arg4, arg5);
-        }
-      } catch (e) {
-        "development" !== 'production' ? warning(!handlerDoesThrowForEvent[handlerFunctionName], 'exception thrown by devtool while handling %s: %s', handlerFunctionName, e.message) : void 0;
-        handlerDoesThrowForEvent[handlerFunctionName] = true;
+      try {if (handler[handlerFunctionName]) {  handler[handlerFunctionName](arg1, arg2, arg3, arg4, arg5);}
+      } catch (e) {"development" !== 'production' ? warning(!handlerDoesThrowForEvent[handlerFunctionName], 'exception thrown by devtool while handling %s: %s', handlerFunctionName, e.message) : void 0;handlerDoesThrowForEvent[handlerFunctionName] = true;
       }
     });
   }
@@ -9164,9 +8581,7 @@ var ReactDebugTool = {
   },
   removeDevtool: function (devtool) {
     for (var i = 0; i < eventHandlers.length; i++) {
-      if (eventHandlers[i] === devtool) {
-        eventHandlers.splice(i, 1);
-        i--;
+      if (eventHandlers[i] === devtool) {eventHandlers.splice(i, 1);i--;
       }
     }
   },
@@ -9466,14 +8881,7 @@ var ReactDefaultPerf = {
     measurements = unwrapLegacyMeasurements(measurements || ReactDefaultPerf._allMeasurements);
     var summary = ReactDefaultPerfAnalysis.getExclusiveSummary(measurements);
     console.table(summary.map(function (item) {
-      return {
-        'Component class name': item.componentName,
-        'Total inclusive time (ms)': roundFloat(item.inclusive),
-        'Exclusive mount time (ms)': roundFloat(item.exclusive),
-        'Exclusive render time (ms)': roundFloat(item.render),
-        'Mount time per instance (ms)': roundFloat(item.exclusive / item.count),
-        'Render time per instance (ms)': roundFloat(item.render / item.count),
-        'Instances': item.count
+      return {'Component class name': item.componentName,'Total inclusive time (ms)': roundFloat(item.inclusive),'Exclusive mount time (ms)': roundFloat(item.exclusive),'Exclusive render time (ms)': roundFloat(item.render),'Mount time per instance (ms)': roundFloat(item.exclusive / item.count),'Render time per instance (ms)': roundFloat(item.render / item.count),'Instances': item.count
       };
     }));
     // TODO: ReactDefaultPerfAnalysis.getTotalTime() does not return the correct
@@ -9484,10 +8892,7 @@ var ReactDefaultPerf = {
     measurements = unwrapLegacyMeasurements(measurements || ReactDefaultPerf._allMeasurements);
     var summary = ReactDefaultPerfAnalysis.getInclusiveSummary(measurements);
     console.table(summary.map(function (item) {
-      return {
-        'Owner > component': item.componentName,
-        'Inclusive time (ms)': roundFloat(item.time),
-        'Instances': item.count
+      return {'Owner > component': item.componentName,'Inclusive time (ms)': roundFloat(item.time),'Instances': item.count
       };
     }));
     console.log('Total time:', ReactDefaultPerfAnalysis.getTotalTime(measurements).toFixed(2) + ' ms');
@@ -9503,10 +8908,7 @@ var ReactDefaultPerf = {
     measurements = unwrapLegacyMeasurements(measurements);
     var summary = ReactDefaultPerfAnalysis.getInclusiveSummary(measurements, true);
     return summary.map(function (item) {
-      return {
-        'Owner > component': item.componentName,
-        'Wasted time (ms)': item.time,
-        'Instances': item.count
+      return {'Owner > component': item.componentName,'Wasted time (ms)': item.time,'Instances': item.count
       };
     });
   },
@@ -9550,8 +8952,7 @@ var ReactDefaultPerf = {
 
   measure: function (moduleName, fnName, func) {
     return function () {
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {args[_key] = arguments[_key];
       }
 
       var totalTime;
@@ -9560,116 +8961,24 @@ var ReactDefaultPerf = {
 
       var entry = ReactDefaultPerf._allMeasurements[ReactDefaultPerf._allMeasurements.length - 1];
 
-      if (fnName === '_renderNewRootComponent' || fnName === 'flushBatchedUpdates') {
-        // A "measurement" is a set of metrics recorded for each flush. We want
-        // to group the metrics for a given flush together so we can look at the
-        // components that rendered and the DOM operations that actually
-        // happened to determine the amount of "wasted work" performed.
-        ReactDefaultPerf._allMeasurements.push(entry = {
-          exclusive: {},
-          inclusive: {},
-          render: {},
-          counts: {},
-          writes: {},
-          displayNames: {},
-          hierarchy: {},
-          totalTime: 0,
-          created: {}
-        });
-        start = performanceNow();
-        rv = func.apply(this, args);
-        entry.totalTime = performanceNow() - start;
-        return rv;
-      } else if (fnName === '_mountImageIntoNode' || moduleName === 'ReactDOMIDOperations' || moduleName === 'CSSPropertyOperations' || moduleName === 'DOMChildrenOperations' || moduleName === 'DOMPropertyOperations' || moduleName === 'ReactComponentBrowserEnvironment') {
-        start = performanceNow();
-        rv = func.apply(this, args);
-        totalTime = performanceNow() - start;
-
-        if (fnName === '_mountImageIntoNode') {
-          ReactDefaultPerf._recordWrite('', fnName, totalTime, args[0]);
-        } else if (fnName === 'dangerouslyProcessChildrenUpdates') {
-          // special format
-          args[1].forEach(function (update) {
-            var writeArgs = {};
-            if (update.fromIndex !== null) {
-              writeArgs.fromIndex = update.fromIndex;
-            }
-            if (update.toIndex !== null) {
-              writeArgs.toIndex = update.toIndex;
-            }
-            if (update.content !== null) {
-              writeArgs.content = update.content;
-            }
-            ReactDefaultPerf._recordWrite(args[0]._rootNodeID, update.type, totalTime, writeArgs);
-          });
-        } else {
-          // basic format
-          var id = args[0];
-          if (moduleName === 'EventPluginHub') {
-            id = id._rootNodeID;
-          } else if (fnName === 'replaceNodeWithMarkup') {
-            // Old node is already unmounted; can't get its instance
-            id = ReactDOMComponentTree.getInstanceFromNode(args[1].node)._rootNodeID;
-          } else if (fnName === 'replaceDelimitedText') {
-            id = getID(ReactDOMComponentTree.getInstanceFromNode(args[0]));
-          } else if (typeof id === 'object') {
-            id = getID(ReactDOMComponentTree.getInstanceFromNode(args[0]));
-          }
-          ReactDefaultPerf._recordWrite(id, fnName, totalTime, Array.prototype.slice.call(args, 1));
-        }
-        return rv;
+      if (fnName === '_renderNewRootComponent' || fnName === 'flushBatchedUpdates') {// A "measurement" is a set of metrics recorded for each flush. We want// to group the metrics for a given flush together so we can look at the// components that rendered and the DOM operations that actually// happened to determine the amount of "wasted work" performed.ReactDefaultPerf._allMeasurements.push(entry = {  exclusive: {},  inclusive: {},  render: {},  counts: {},  writes: {},  displayNames: {},  hierarchy: {},  totalTime: 0,  created: {}});start = performanceNow();rv = func.apply(this, args);entry.totalTime = performanceNow() - start;return rv;
+      } else if (fnName === '_mountImageIntoNode' || moduleName === 'ReactDOMIDOperations' || moduleName === 'CSSPropertyOperations' || moduleName === 'DOMChildrenOperations' || moduleName === 'DOMPropertyOperations' || moduleName === 'ReactComponentBrowserEnvironment') {start = performanceNow();rv = func.apply(this, args);totalTime = performanceNow() - start;
+if (fnName === '_mountImageIntoNode') {  ReactDefaultPerf._recordWrite('', fnName, totalTime, args[0]);} else if (fnName === 'dangerouslyProcessChildrenUpdates') {  // special format  args[1].forEach(function (update) {    var writeArgs = {};    if (update.fromIndex !== null) {      writeArgs.fromIndex = update.fromIndex;    }    if (update.toIndex !== null) {      writeArgs.toIndex = update.toIndex;    }    if (update.content !== null) {      writeArgs.content = update.content;    }    ReactDefaultPerf._recordWrite(args[0]._rootNodeID, update.type, totalTime, writeArgs);  });} else {  // basic format  var id = args[0];  if (moduleName === 'EventPluginHub') {    id = id._rootNodeID;  } else if (fnName === 'replaceNodeWithMarkup') {    // Old node is already unmounted; can't get its instance    id = ReactDOMComponentTree.getInstanceFromNode(args[1].node)._rootNodeID;  } else if (fnName === 'replaceDelimitedText') {    id = getID(ReactDOMComponentTree.getInstanceFromNode(args[0]));  } else if (typeof id === 'object') {    id = getID(ReactDOMComponentTree.getInstanceFromNode(args[0]));  }  ReactDefaultPerf._recordWrite(id, fnName, totalTime, Array.prototype.slice.call(args, 1));}return rv;
       } else if (moduleName === 'ReactCompositeComponent' && (fnName === 'mountComponent' || fnName === 'updateComponent' || // TODO: receiveComponent()?
       fnName === '_renderValidatedComponent')) {
-
-        if (this._currentElement.type === ReactMount.TopLevelWrapper) {
-          return func.apply(this, args);
-        }
-
-        var rootNodeID = getIDOfComposite(this);
-        var isRender = fnName === '_renderValidatedComponent';
-        var isMount = fnName === 'mountComponent';
-
-        var mountStack = ReactDefaultPerf._mountStack;
-
-        if (isRender) {
-          addValue(entry.counts, rootNodeID, 1);
-        } else if (isMount) {
-          entry.created[rootNodeID] = true;
-          mountStack.push(0);
-        }
-
-        ReactDefaultPerf._compositeStack.push(rootNodeID);
-
-        start = performanceNow();
-        rv = func.apply(this, args);
-        totalTime = performanceNow() - start;
-
-        ReactDefaultPerf._compositeStack.pop();
-
-        if (isRender) {
-          addValue(entry.render, rootNodeID, totalTime);
-        } else if (isMount) {
-          var subMountTime = mountStack.pop();
-          mountStack[mountStack.length - 1] += totalTime;
-          addValue(entry.exclusive, rootNodeID, totalTime - subMountTime);
-          addValue(entry.inclusive, rootNodeID, totalTime);
-        } else {
-          addValue(entry.inclusive, rootNodeID, totalTime);
-        }
-
-        entry.displayNames[rootNodeID] = {
-          current: this.getName(),
-          owner: this._currentElement._owner ? this._currentElement._owner.getName() : '<root>'
-        };
-
-        return rv;
+if (this._currentElement.type === ReactMount.TopLevelWrapper) {  return func.apply(this, args);}
+var rootNodeID = getIDOfComposite(this);var isRender = fnName === '_renderValidatedComponent';var isMount = fnName === 'mountComponent';
+var mountStack = ReactDefaultPerf._mountStack;
+if (isRender) {  addValue(entry.counts, rootNodeID, 1);} else if (isMount) {  entry.created[rootNodeID] = true;  mountStack.push(0);}
+ReactDefaultPerf._compositeStack.push(rootNodeID);
+start = performanceNow();rv = func.apply(this, args);totalTime = performanceNow() - start;
+ReactDefaultPerf._compositeStack.pop();
+if (isRender) {  addValue(entry.render, rootNodeID, totalTime);} else if (isMount) {  var subMountTime = mountStack.pop();  mountStack[mountStack.length - 1] += totalTime;  addValue(entry.exclusive, rootNodeID, totalTime - subMountTime);  addValue(entry.inclusive, rootNodeID, totalTime);} else {  addValue(entry.inclusive, rootNodeID, totalTime);}
+entry.displayNames[rootNodeID] = {  current: this.getName(),  owner: this._currentElement._owner ? this._currentElement._owner.getName() : '<root>'};
+return rv;
       } else if ((moduleName === 'ReactDOMComponent' || moduleName === 'ReactDOMTextComponent') && (fnName === 'mountComponent' || fnName === 'receiveComponent')) {
-
-        rv = func.apply(this, args);
-        entry.hierarchy[getID(this)] = ReactDefaultPerf._compositeStack.slice();
-        return rv;
-      } else {
-        return func.apply(this, args);
+rv = func.apply(this, args);entry.hierarchy[getID(this)] = ReactDefaultPerf._compositeStack.slice();return rv;
+      } else {return func.apply(this, args);
       }
     };
   }
@@ -9727,12 +9036,7 @@ function getDOMSummary(measurements) {
   var items = [];
   measurements.forEach(function (measurement) {
     Object.keys(measurement.writes).forEach(function (id) {
-      measurement.writes[id].forEach(function (write) {
-        items.push({
-          id: id,
-          type: DOM_OPERATION_TYPES[write.type] || write.type,
-          args: write.args
-        });
+      measurement.writes[id].forEach(function (write) {items.push({  id: id,  type: DOM_OPERATION_TYPES[write.type] || write.type,  args: write.args});
       });
     });
   });
@@ -9750,24 +9054,15 @@ function getExclusiveSummary(measurements) {
     for (var id in allIDs) {
       displayName = measurement.displayNames[id].current;
 
-      candidates[displayName] = candidates[displayName] || {
-        componentName: displayName,
-        inclusive: 0,
-        exclusive: 0,
-        render: 0,
-        count: 0
+      candidates[displayName] = candidates[displayName] || {componentName: displayName,inclusive: 0,exclusive: 0,render: 0,count: 0
       };
-      if (measurement.render[id]) {
-        candidates[displayName].render += measurement.render[id];
+      if (measurement.render[id]) {candidates[displayName].render += measurement.render[id];
       }
-      if (measurement.exclusive[id]) {
-        candidates[displayName].exclusive += measurement.exclusive[id];
+      if (measurement.exclusive[id]) {candidates[displayName].exclusive += measurement.exclusive[id];
       }
-      if (measurement.inclusive[id]) {
-        candidates[displayName].inclusive += measurement.inclusive[id];
+      if (measurement.inclusive[id]) {candidates[displayName].inclusive += measurement.inclusive[id];
       }
-      if (measurement.counts[id]) {
-        candidates[displayName].count += measurement.counts[id];
+      if (measurement.counts[id]) {candidates[displayName].count += measurement.counts[id];
       }
     }
   }
@@ -9801,8 +9096,7 @@ function getInclusiveSummary(measurements, onlyClean) {
     }
 
     for (var id in allIDs) {
-      if (onlyClean && !cleanComponents[id]) {
-        continue;
+      if (onlyClean && !cleanComponents[id]) {continue;
       }
 
       var displayName = measurement.displayNames[id];
@@ -9812,17 +9106,12 @@ function getInclusiveSummary(measurements, onlyClean) {
       // owner and current displayName as the key.
       inclusiveKey = displayName.owner + ' > ' + displayName.current;
 
-      candidates[inclusiveKey] = candidates[inclusiveKey] || {
-        componentName: inclusiveKey,
-        time: 0,
-        count: 0
+      candidates[inclusiveKey] = candidates[inclusiveKey] || {componentName: inclusiveKey,time: 0,count: 0
       };
 
-      if (measurement.inclusive[id]) {
-        candidates[inclusiveKey].time += measurement.inclusive[id];
+      if (measurement.inclusive[id]) {candidates[inclusiveKey].time += measurement.inclusive[id];
       }
-      if (measurement.counts[id]) {
-        candidates[inclusiveKey].count += measurement.counts[id];
+      if (measurement.counts[id]) {candidates[inclusiveKey].count += measurement.counts[id];
       }
     }
   }
@@ -9852,10 +9141,7 @@ function getUnchangedComponents(measurement) {
   Object.keys(writes).forEach(function (id) {
     writes[id].forEach(function (write) {
       // Root mounting (innerHTML set) is recorded with an ID of ''
-      if (id !== '') {
-        measurement.hierarchy[id].forEach(function (c) {
-          return dirtyComposites[c] = true;
-        });
+      if (id !== '') {measurement.hierarchy[id].forEach(function (c) {  return dirtyComposites[c] = true;});
       }
     });
   });
@@ -9967,26 +9253,14 @@ var ReactElement = function (type, key, ref, self, source, owner, props) {
     // include every environment we run tests in), so the test framework
     // ignores it.
     if (canDefineProperty) {
-      Object.defineProperty(element._store, 'validated', {
-        configurable: false,
-        enumerable: false,
-        writable: true,
-        value: false
+      Object.defineProperty(element._store, 'validated', {configurable: false,enumerable: false,writable: true,value: false
       });
       // self and source are DEV only properties.
-      Object.defineProperty(element, '_self', {
-        configurable: false,
-        enumerable: false,
-        writable: false,
-        value: self
+      Object.defineProperty(element, '_self', {configurable: false,enumerable: false,writable: false,value: self
       });
       // Two elements created in two different places should be considered
       // equal for testing purposes and therefore we hide it from enumeration.
-      Object.defineProperty(element, '_source', {
-        configurable: false,
-        enumerable: false,
-        writable: false,
-        value: source
+      Object.defineProperty(element, '_source', {configurable: false,enumerable: false,writable: false,value: source
       });
     } else {
       element._store.validated = false;
@@ -10025,8 +9299,7 @@ ReactElement.createElement = function (type, config, children) {
     source = config.__source === undefined ? null : config.__source;
     // Remaining properties are added to a new props object
     for (propName in config) {
-      if (config.hasOwnProperty(propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
-        props[propName] = config[propName];
+      if (config.hasOwnProperty(propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {props[propName] = config[propName];
       }
     }
   }
@@ -10048,8 +9321,7 @@ ReactElement.createElement = function (type, config, children) {
   if (type && type.defaultProps) {
     var defaultProps = type.defaultProps;
     for (propName in defaultProps) {
-      if (props[propName] === undefined) {
-        props[propName] = defaultProps[propName];
+      if (props[propName] === undefined) {props[propName] = defaultProps[propName];
       }
     }
   }
@@ -10057,29 +9329,9 @@ ReactElement.createElement = function (type, config, children) {
     // Create dummy `key` and `ref` property to `props` to warn users
     // against its use
     if (typeof props.$$typeof === 'undefined' || props.$$typeof !== REACT_ELEMENT_TYPE) {
-      if (!props.hasOwnProperty('key')) {
-        Object.defineProperty(props, 'key', {
-          get: function () {
-            if (!specialPropKeyWarningShown) {
-              specialPropKeyWarningShown = true;
-              "development" !== 'production' ? warning(false, '%s: `key` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', typeof type === 'function' && 'displayName' in type ? type.displayName : 'Element') : void 0;
-            }
-            return undefined;
-          },
-          configurable: true
-        });
+      if (!props.hasOwnProperty('key')) {Object.defineProperty(props, 'key', {  get: function () {    if (!specialPropKeyWarningShown) {      specialPropKeyWarningShown = true;      "development" !== 'production' ? warning(false, '%s: `key` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', typeof type === 'function' && 'displayName' in type ? type.displayName : 'Element') : void 0;    }    return undefined;  },  configurable: true});
       }
-      if (!props.hasOwnProperty('ref')) {
-        Object.defineProperty(props, 'ref', {
-          get: function () {
-            if (!specialPropRefWarningShown) {
-              specialPropRefWarningShown = true;
-              "development" !== 'production' ? warning(false, '%s: `ref` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', typeof type === 'function' && 'displayName' in type ? type.displayName : 'Element') : void 0;
-            }
-            return undefined;
-          },
-          configurable: true
-        });
+      if (!props.hasOwnProperty('ref')) {Object.defineProperty(props, 'ref', {  get: function () {    if (!specialPropRefWarningShown) {      specialPropRefWarningShown = true;      "development" !== 'production' ? warning(false, '%s: `ref` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', typeof type === 'function' && 'displayName' in type ? type.displayName : 'Element') : void 0;    }    return undefined;  },  configurable: true});
       }
     }
   }
@@ -10137,13 +9389,7 @@ ReactElement.cloneElement = function (element, config, children) {
       defaultProps = element.type.defaultProps;
     }
     for (propName in config) {
-      if (config.hasOwnProperty(propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
-        if (config[propName] === undefined && defaultProps !== undefined) {
-          // Resolve default props
-          props[propName] = defaultProps[propName];
-        } else {
-          props[propName] = config[propName];
-        }
+      if (config.hasOwnProperty(propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {if (config[propName] === undefined && defaultProps !== undefined) {  // Resolve default props  props[propName] = defaultProps[propName];} else {  props[propName] = config[propName];}
       }
     }
   }
@@ -10306,8 +9552,7 @@ function validateChildKeys(node, parentType) {
   if (Array.isArray(node)) {
     for (var i = 0; i < node.length; i++) {
       var child = node[i];
-      if (ReactElement.isValidElement(child)) {
-        validateExplicitKey(child, parentType);
+      if (ReactElement.isValidElement(child)) {validateExplicitKey(child, parentType);
       }
     }
   } else if (ReactElement.isValidElement(node)) {
@@ -10319,14 +9564,7 @@ function validateChildKeys(node, parentType) {
     var iteratorFn = getIteratorFn(node);
     // Entry iterators provide implicit keys.
     if (iteratorFn) {
-      if (iteratorFn !== node.entries) {
-        var iterator = iteratorFn.call(node);
-        var step;
-        while (!(step = iterator.next()).done) {
-          if (ReactElement.isValidElement(step.value)) {
-            validateExplicitKey(step.value, parentType);
-          }
-        }
+      if (iteratorFn !== node.entries) {var iterator = iteratorFn.call(node);var step;while (!(step = iterator.next()).done) {  if (ReactElement.isValidElement(step.value)) {    validateExplicitKey(step.value, parentType);  }}
       }
     }
   }
@@ -10348,22 +9586,12 @@ function checkPropTypes(componentName, propTypes, props, location) {
       // Prop type validation may throw. In case they do, we don't want to
       // fail the render phase where it didn't fail before. So we log it.
       // After these have been cleaned up, we'll let them throw.
-      try {
-        // This is intentionally an invariant that gets caught. It's the same
-        // behavior as without this statement except with a better message.
-        !(typeof propTypes[propName] === 'function') ? "development" !== 'production' ? invariant(false, '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', componentName || 'React class', ReactPropTypeLocationNames[location], propName) : invariant(false) : void 0;
-        error = propTypes[propName](props, propName, componentName, location);
-      } catch (ex) {
-        error = ex;
+      try {// This is intentionally an invariant that gets caught. It's the same// behavior as without this statement except with a better message.!(typeof propTypes[propName] === 'function') ? "development" !== 'production' ? invariant(false, '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', componentName || 'React class', ReactPropTypeLocationNames[location], propName) : invariant(false) : void 0;error = propTypes[propName](props, propName, componentName, location);
+      } catch (ex) {error = ex;
       }
       "development" !== 'production' ? warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', ReactPropTypeLocationNames[location], propName, typeof error) : void 0;
-      if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-        // Only monitor this failure once because there tends to be a lot of the
-        // same error.
-        loggedTypeFailures[error.message] = true;
-
-        var addendum = getDeclarationErrorAddendum();
-        "development" !== 'production' ? warning(false, 'Failed propType: %s%s', error.message, addendum) : void 0;
+      if (error instanceof Error && !(error.message in loggedTypeFailures)) {// Only monitor this failure once because there tends to be a lot of the// same error.loggedTypeFailures[error.message] = true;
+var addendum = getDeclarationErrorAddendum();"development" !== 'production' ? warning(false, 'Failed propType: %s%s', error.message, addendum) : void 0;
       }
     }
   }
@@ -10411,8 +9639,7 @@ var ReactElementValidator = {
     // (Rendering will throw with a helpful message and as soon as the type is
     // fixed, the key warnings will appear.)
     if (validType) {
-      for (var i = 2; i < arguments.length; i++) {
-        validateChildKeys(arguments[i], type);
+      for (var i = 2; i < arguments.length; i++) {validateChildKeys(arguments[i], type);
       }
     }
 
@@ -10427,17 +9654,7 @@ var ReactElementValidator = {
     validatedFactory.type = type;
 
     if ("development" !== 'production') {
-      if (canDefineProperty) {
-        Object.defineProperty(validatedFactory, 'type', {
-          enumerable: false,
-          get: function () {
-            "development" !== 'production' ? warning(false, 'Factory.type is deprecated. Access the class directly ' + 'before passing it to createFactory.') : void 0;
-            Object.defineProperty(this, 'type', {
-              value: type
-            });
-            return type;
-          }
-        });
+      if (canDefineProperty) {Object.defineProperty(validatedFactory, 'type', {  enumerable: false,  get: function () {    "development" !== 'production' ? warning(false, 'Factory.type is deprecated. Access the class directly ' + 'before passing it to createFactory.') : void 0;    Object.defineProperty(this, 'type', {      value: type    });    return type;  }});
       }
     }
 
@@ -10872,8 +10089,7 @@ var ReactInputSelection = {
     var priorFocusedElem = priorSelectionInformation.focusedElem;
     var priorSelectionRange = priorSelectionInformation.selectionRange;
     if (curFocusedElem !== priorFocusedElem && isInDocument(priorFocusedElem)) {
-      if (ReactInputSelection.hasSelectionCapabilities(priorFocusedElem)) {
-        ReactInputSelection.setSelection(priorFocusedElem, priorSelectionRange);
+      if (ReactInputSelection.hasSelectionCapabilities(priorFocusedElem)) {ReactInputSelection.setSelection(priorFocusedElem, priorSelectionRange);
       }
       focusNode(priorFocusedElem);
     }
@@ -10890,20 +10106,14 @@ var ReactInputSelection = {
 
     if ('selectionStart' in input) {
       // Modern browser with input or textarea.
-      selection = {
-        start: input.selectionStart,
-        end: input.selectionEnd
+      selection = {start: input.selectionStart,end: input.selectionEnd
       };
     } else if (document.selection && input.nodeName && input.nodeName.toLowerCase() === 'input') {
       // IE8 input.
       var range = document.selection.createRange();
       // There can only be one selection per document in IE, so it must
       // be in our element.
-      if (range.parentElement() === input) {
-        selection = {
-          start: -range.moveStart('character', -input.value.length),
-          end: -range.moveEnd('character', -input.value.length)
-        };
+      if (range.parentElement() === input) {selection = {  start: -range.moveStart('character', -input.value.length),  end: -range.moveEnd('character', -input.value.length)};
       }
     } else {
       // Content editable or old IE textarea.
@@ -11342,8 +10552,7 @@ var ReactMount = {
   _updateRootComponent: function (prevComponent, nextElement, container, callback) {
     ReactMount.scrollMonitor(container, function () {
       ReactUpdateQueue.enqueueElementInternal(prevComponent, nextElement);
-      if (callback) {
-        ReactUpdateQueue.enqueueCallbackInternal(prevComponent, callback);
+      if (callback) {ReactUpdateQueue.enqueueCallbackInternal(prevComponent, callback);
       }
     });
 
@@ -11418,15 +10627,8 @@ var ReactMount = {
     if (prevComponent) {
       var prevWrappedElement = prevComponent._currentElement;
       var prevElement = prevWrappedElement.props;
-      if (shouldUpdateReactComponent(prevElement, nextElement)) {
-        var publicInst = prevComponent._renderedComponent.getPublicInstance();
-        var updatedCallback = callback && function () {
-          callback.call(publicInst);
-        };
-        ReactMount._updateRootComponent(prevComponent, nextWrappedElement, container, updatedCallback);
-        return publicInst;
-      } else {
-        ReactMount.unmountComponentAtNode(container);
+      if (shouldUpdateReactComponent(prevElement, nextElement)) {var publicInst = prevComponent._renderedComponent.getPublicInstance();var updatedCallback = callback && function () {  callback.call(publicInst);};ReactMount._updateRootComponent(prevComponent, nextWrappedElement, container, updatedCallback);return publicInst;
+      } else {ReactMount.unmountComponentAtNode(container);
       }
     }
 
@@ -11437,15 +10639,7 @@ var ReactMount = {
     if ("development" !== 'production') {
       "development" !== 'production' ? warning(!containerHasNonRootReactChild, 'render(...): Replacing React-rendered children with a new root ' + 'component. If you intended to update the children of this node, ' + 'you should instead have the existing children update their state ' + 'and render the new components instead of calling ReactDOM.render.') : void 0;
 
-      if (!containerHasReactMarkup || reactRootElement.nextSibling) {
-        var rootElementSibling = reactRootElement;
-        while (rootElementSibling) {
-          if (internalGetID(rootElementSibling)) {
-            "development" !== 'production' ? warning(false, 'render(): Target node has markup rendered by React, but there ' + 'are unrelated nodes as well. This is most commonly caused by ' + 'white-space inserted around server-rendered markup.') : void 0;
-            break;
-          }
-          rootElementSibling = rootElementSibling.nextSibling;
-        }
+      if (!containerHasReactMarkup || reactRootElement.nextSibling) {var rootElementSibling = reactRootElement;while (rootElementSibling) {  if (internalGetID(rootElementSibling)) {    "development" !== 'production' ? warning(false, 'render(): Target node has markup rendered by React, but there ' + 'are unrelated nodes as well. This is most commonly caused by ' + 'white-space inserted around server-rendered markup.') : void 0;    break;  }  rootElementSibling = rootElementSibling.nextSibling;}
       }
     }
 
@@ -11498,8 +10692,7 @@ var ReactMount = {
       // Check if the container itself is a React root node.
       var isContainerReactRoot = container.nodeType === 1 && container.hasAttribute(ROOT_ATTR_NAME);
 
-      if ("development" !== 'production') {
-        "development" !== 'production' ? warning(!containerHasNonRootReactChild, 'unmountComponentAtNode(): The node you\'re attempting to unmount ' + 'was rendered by React and is not a top-level container. %s', isContainerReactRoot ? 'You may have accidentally passed in a React root node instead ' + 'of its container.' : 'Instead, have the parent component update its state and ' + 'rerender in order to remove this component.') : void 0;
+      if ("development" !== 'production') {"development" !== 'production' ? warning(!containerHasNonRootReactChild, 'unmountComponentAtNode(): The node you\'re attempting to unmount ' + 'was rendered by React and is not a top-level container. %s', isContainerReactRoot ? 'You may have accidentally passed in a React root node instead ' + 'of its container.' : 'Instead, have the parent component update its state and ' + 'rerender in order to remove this component.') : void 0;
       }
 
       return false;
@@ -11514,52 +10707,20 @@ var ReactMount = {
 
     if (shouldReuseMarkup) {
       var rootElement = getReactRootElementInContainer(container);
-      if (ReactMarkupChecksum.canReuseMarkup(markup, rootElement)) {
-        ReactDOMComponentTree.precacheNode(instance, rootElement);
-        return;
-      } else {
-        var checksum = rootElement.getAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME);
-        rootElement.removeAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME);
-
-        var rootMarkup = rootElement.outerHTML;
-        rootElement.setAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME, checksum);
-
-        var normalizedMarkup = markup;
-        if ("development" !== 'production') {
-          // because rootMarkup is retrieved from the DOM, various normalizations
-          // will have occurred which will not be present in `markup`. Here,
-          // insert markup into a <div> or <iframe> depending on the container
-          // type to perform the same normalizations before comparing.
-          var normalizer;
-          if (container.nodeType === ELEMENT_NODE_TYPE) {
-            normalizer = document.createElement('div');
-            normalizer.innerHTML = markup;
-            normalizedMarkup = normalizer.innerHTML;
-          } else {
-            normalizer = document.createElement('iframe');
-            document.body.appendChild(normalizer);
-            normalizer.contentDocument.write(markup);
-            normalizedMarkup = normalizer.contentDocument.documentElement.outerHTML;
-            document.body.removeChild(normalizer);
-          }
-        }
-
-        var diffIndex = firstDifferenceIndex(normalizedMarkup, rootMarkup);
-        var difference = ' (client) ' + normalizedMarkup.substring(diffIndex - 20, diffIndex + 20) + '\n (server) ' + rootMarkup.substring(diffIndex - 20, diffIndex + 20);
-
-        !(container.nodeType !== DOC_NODE_TYPE) ? "development" !== 'production' ? invariant(false, 'You\'re trying to render a component to the document using ' + 'server rendering but the checksum was invalid. This usually ' + 'means you rendered a different component type or props on ' + 'the client from the one on the server, or your render() ' + 'methods are impure. React cannot handle this case due to ' + 'cross-browser quirks by rendering at the document root. You ' + 'should look for environment dependent code in your components ' + 'and ensure the props are the same client and server side:\n%s', difference) : invariant(false) : void 0;
-
-        if ("development" !== 'production') {
-          "development" !== 'production' ? warning(false, 'React attempted to reuse markup in a container but the ' + 'checksum was invalid. This generally means that you are ' + 'using server rendering and the markup generated on the ' + 'server was not what the client was expecting. React injected ' + 'new markup to compensate which works but you have lost many ' + 'of the benefits of server rendering. Instead, figure out ' + 'why the markup being generated is different on the client ' + 'or server:\n%s', difference) : void 0;
-        }
+      if (ReactMarkupChecksum.canReuseMarkup(markup, rootElement)) {ReactDOMComponentTree.precacheNode(instance, rootElement);return;
+      } else {var checksum = rootElement.getAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME);rootElement.removeAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME);
+var rootMarkup = rootElement.outerHTML;rootElement.setAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME, checksum);
+var normalizedMarkup = markup;if ("development" !== 'production') {  // because rootMarkup is retrieved from the DOM, various normalizations  // will have occurred which will not be present in `markup`. Here,  // insert markup into a <div> or <iframe> depending on the container  // type to perform the same normalizations before comparing.  var normalizer;  if (container.nodeType === ELEMENT_NODE_TYPE) {    normalizer = document.createElement('div');    normalizer.innerHTML = markup;    normalizedMarkup = normalizer.innerHTML;  } else {    normalizer = document.createElement('iframe');    document.body.appendChild(normalizer);    normalizer.contentDocument.write(markup);    normalizedMarkup = normalizer.contentDocument.documentElement.outerHTML;    document.body.removeChild(normalizer);  }}
+var diffIndex = firstDifferenceIndex(normalizedMarkup, rootMarkup);var difference = ' (client) ' + normalizedMarkup.substring(diffIndex - 20, diffIndex + 20) + '\n (server) ' + rootMarkup.substring(diffIndex - 20, diffIndex + 20);
+!(container.nodeType !== DOC_NODE_TYPE) ? "development" !== 'production' ? invariant(false, 'You\'re trying to render a component to the document using ' + 'server rendering but the checksum was invalid. This usually ' + 'means you rendered a different component type or props on ' + 'the client from the one on the server, or your render() ' + 'methods are impure. React cannot handle this case due to ' + 'cross-browser quirks by rendering at the document root. You ' + 'should look for environment dependent code in your components ' + 'and ensure the props are the same client and server side:\n%s', difference) : invariant(false) : void 0;
+if ("development" !== 'production') {  "development" !== 'production' ? warning(false, 'React attempted to reuse markup in a container but the ' + 'checksum was invalid. This generally means that you are ' + 'using server rendering and the markup generated on the ' + 'server was not what the client was expecting. React injected ' + 'new markup to compensate which works but you have lost many ' + 'of the benefits of server rendering. Instead, figure out ' + 'why the markup being generated is different on the client ' + 'or server:\n%s', difference) : void 0;}
       }
     }
 
     !(container.nodeType !== DOC_NODE_TYPE) ? "development" !== 'production' ? invariant(false, 'You\'re trying to render a component to the document but ' + 'you didn\'t use server rendering. We can\'t do this ' + 'without using server rendering due to cross-browser quirks. ' + 'See ReactDOMServer.renderToString() for server rendering.') : invariant(false) : void 0;
 
     if (transaction.useCreateElement) {
-      while (container.lastChild) {
-        container.removeChild(container.lastChild);
+      while (container.lastChild) {container.removeChild(container.lastChild);
       }
       DOMLazyTree.insertTreeBefore(container, markup, null);
     } else {
@@ -11730,32 +10891,14 @@ var ReactMultiChild = {
   Mixin: {
 
     _reconcilerInstantiateChildren: function (nestedChildren, transaction, context) {
-      if ("development" !== 'production') {
-        if (this._currentElement) {
-          try {
-            ReactCurrentOwner.current = this._currentElement._owner;
-            return ReactChildReconciler.instantiateChildren(nestedChildren, transaction, context);
-          } finally {
-            ReactCurrentOwner.current = null;
-          }
-        }
+      if ("development" !== 'production') {if (this._currentElement) {  try {    ReactCurrentOwner.current = this._currentElement._owner;    return ReactChildReconciler.instantiateChildren(nestedChildren, transaction, context);  } finally {    ReactCurrentOwner.current = null;  }}
       }
       return ReactChildReconciler.instantiateChildren(nestedChildren, transaction, context);
     },
 
     _reconcilerUpdateChildren: function (prevChildren, nextNestedChildrenElements, removedNodes, transaction, context) {
       var nextChildren;
-      if ("development" !== 'production') {
-        if (this._currentElement) {
-          try {
-            ReactCurrentOwner.current = this._currentElement._owner;
-            nextChildren = flattenChildren(nextNestedChildrenElements);
-          } finally {
-            ReactCurrentOwner.current = null;
-          }
-          ReactChildReconciler.updateChildren(prevChildren, nextChildren, removedNodes, transaction, context);
-          return nextChildren;
-        }
+      if ("development" !== 'production') {if (this._currentElement) {  try {    ReactCurrentOwner.current = this._currentElement._owner;    nextChildren = flattenChildren(nextNestedChildrenElements);  } finally {    ReactCurrentOwner.current = null;  }  ReactChildReconciler.updateChildren(prevChildren, nextChildren, removedNodes, transaction, context);  return nextChildren;}
       }
       nextChildren = flattenChildren(nextNestedChildrenElements);
       ReactChildReconciler.updateChildren(prevChildren, nextChildren, removedNodes, transaction, context);
@@ -11775,13 +10918,7 @@ var ReactMultiChild = {
       this._renderedChildren = children;
       var mountImages = [];
       var index = 0;
-      for (var name in children) {
-        if (children.hasOwnProperty(name)) {
-          var child = children[name];
-          var mountImage = ReactReconciler.mountComponent(child, transaction, this, this._nativeContainerInfo, context);
-          child._mountIndex = index++;
-          mountImages.push(mountImage);
-        }
+      for (var name in children) {if (children.hasOwnProperty(name)) {  var child = children[name];  var mountImage = ReactReconciler.mountComponent(child, transaction, this, this._nativeContainerInfo, context);  child._mountIndex = index++;  mountImages.push(mountImage);}
       }
       return mountImages;
     },
@@ -11796,10 +10933,7 @@ var ReactMultiChild = {
       var prevChildren = this._renderedChildren;
       // Remove any rendered children.
       ReactChildReconciler.unmountChildren(prevChildren, false);
-      for (var name in prevChildren) {
-        if (prevChildren.hasOwnProperty(name)) {
-          !false ? "development" !== 'production' ? invariant(false, 'updateTextContent called on non-empty component.') : invariant(false) : void 0;
-        }
+      for (var name in prevChildren) {if (prevChildren.hasOwnProperty(name)) {  !false ? "development" !== 'production' ? invariant(false, 'updateTextContent called on non-empty component.') : invariant(false) : void 0;}
       }
       // Set new text content.
       var updates = [makeTextContent(nextContent)];
@@ -11816,10 +10950,7 @@ var ReactMultiChild = {
       var prevChildren = this._renderedChildren;
       // Remove any rendered children.
       ReactChildReconciler.unmountChildren(prevChildren, false);
-      for (var name in prevChildren) {
-        if (prevChildren.hasOwnProperty(name)) {
-          !false ? "development" !== 'production' ? invariant(false, 'updateTextContent called on non-empty component.') : invariant(false) : void 0;
-        }
+      for (var name in prevChildren) {if (prevChildren.hasOwnProperty(name)) {  !false ? "development" !== 'production' ? invariant(false, 'updateTextContent called on non-empty component.') : invariant(false) : void 0;}
       }
       var updates = [makeSetMarkup(nextMarkup)];
       processQueue(this, updates);
@@ -11847,8 +10978,7 @@ var ReactMultiChild = {
       var prevChildren = this._renderedChildren;
       var removedNodes = {};
       var nextChildren = this._reconcilerUpdateChildren(prevChildren, nextNestedChildrenElements, removedNodes, transaction, context);
-      if (!nextChildren && !prevChildren) {
-        return;
+      if (!nextChildren && !prevChildren) {return;
       }
       var updates = null;
       var name;
@@ -11857,36 +10987,12 @@ var ReactMultiChild = {
       var lastIndex = 0;
       var nextIndex = 0;
       var lastPlacedNode = null;
-      for (name in nextChildren) {
-        if (!nextChildren.hasOwnProperty(name)) {
-          continue;
-        }
-        var prevChild = prevChildren && prevChildren[name];
-        var nextChild = nextChildren[name];
-        if (prevChild === nextChild) {
-          updates = enqueue(updates, this.moveChild(prevChild, lastPlacedNode, nextIndex, lastIndex));
-          lastIndex = Math.max(prevChild._mountIndex, lastIndex);
-          prevChild._mountIndex = nextIndex;
-        } else {
-          if (prevChild) {
-            // Update `lastIndex` before `_mountIndex` gets unset by unmounting.
-            lastIndex = Math.max(prevChild._mountIndex, lastIndex);
-            // The `removedNodes` loop below will actually remove the child.
-          }
-          // The child must be instantiated before it's mounted.
-          updates = enqueue(updates, this._mountChildAtIndex(nextChild, lastPlacedNode, nextIndex, transaction, context));
-        }
-        nextIndex++;
-        lastPlacedNode = ReactReconciler.getNativeNode(nextChild);
+      for (name in nextChildren) {if (!nextChildren.hasOwnProperty(name)) {  continue;}var prevChild = prevChildren && prevChildren[name];var nextChild = nextChildren[name];if (prevChild === nextChild) {  updates = enqueue(updates, this.moveChild(prevChild, lastPlacedNode, nextIndex, lastIndex));  lastIndex = Math.max(prevChild._mountIndex, lastIndex);  prevChild._mountIndex = nextIndex;} else {  if (prevChild) {    // Update `lastIndex` before `_mountIndex` gets unset by unmounting.    lastIndex = Math.max(prevChild._mountIndex, lastIndex);    // The `removedNodes` loop below will actually remove the child.  }  // The child must be instantiated before it's mounted.  updates = enqueue(updates, this._mountChildAtIndex(nextChild, lastPlacedNode, nextIndex, transaction, context));}nextIndex++;lastPlacedNode = ReactReconciler.getNativeNode(nextChild);
       }
       // Remove children that are no longer present.
-      for (name in removedNodes) {
-        if (removedNodes.hasOwnProperty(name)) {
-          updates = enqueue(updates, this._unmountChild(prevChildren[name], removedNodes[name]));
-        }
+      for (name in removedNodes) {if (removedNodes.hasOwnProperty(name)) {  updates = enqueue(updates, this._unmountChild(prevChildren[name], removedNodes[name]));}
       }
-      if (updates) {
-        processQueue(this, updates);
+      if (updates) {processQueue(this, updates);
       }
       this._renderedChildren = nextChildren;
     },
@@ -11916,8 +11022,7 @@ var ReactMultiChild = {
       // If the index of `child` is less than `lastIndex`, then it needs to
       // be moved. Otherwise, we do not need to move it because a child will be
       // inserted or moved before `child`.
-      if (child._mountIndex < lastIndex) {
-        return makeMove(child, afterNode, toIndex);
+      if (child._mountIndex < lastIndex) {return makeMove(child, afterNode, toIndex);
       }
     },
 
@@ -12134,10 +11239,8 @@ var ReactNodeTypes = {
     if (node === null || node === false) {
       return ReactNodeTypes.EMPTY;
     } else if (ReactElement.isValidElement(node)) {
-      if (typeof node.type === 'function') {
-        return ReactNodeTypes.COMPOSITE;
-      } else {
-        return ReactNodeTypes.NATIVE;
+      if (typeof node.type === 'function') {return ReactNodeTypes.COMPOSITE;
+      } else {return ReactNodeTypes.NATIVE;
       }
     }
     !false ? "development" !== 'production' ? invariant(false, 'Unexpected node: %s', node) : invariant(false) : void 0;
@@ -12373,11 +11476,7 @@ var ReactPerf = {
    */
   measureMethods: function (object, objectName, methodNames) {
     if ("development" !== 'production') {
-      for (var key in methodNames) {
-        if (!methodNames.hasOwnProperty(key)) {
-          continue;
-        }
-        object[key] = ReactPerf.measure(objectName, methodNames[key], object[key]);
+      for (var key in methodNames) {if (!methodNames.hasOwnProperty(key)) {  continue;}object[key] = ReactPerf.measure(objectName, methodNames[key], object[key]);
       }
     }
   },
@@ -12393,14 +11492,7 @@ var ReactPerf = {
   measure: function (objName, fnName, func) {
     if ("development" !== 'production') {
       var measuredFunc = null;
-      var wrapper = function () {
-        if (ReactPerf.enableMeasure) {
-          if (!measuredFunc) {
-            measuredFunc = ReactPerf.storedMeasure(objName, fnName, func);
-          }
-          return measuredFunc.apply(this, arguments);
-        }
-        return func.apply(this, arguments);
+      var wrapper = function () {if (ReactPerf.enableMeasure) {  if (!measuredFunc) {    measuredFunc = ReactPerf.storedMeasure(objName, fnName, func);  }  return measuredFunc.apply(this, arguments);}return func.apply(this, arguments);
       };
       wrapper.displayName = objName + '_' + fnName;
       return wrapper;
@@ -12591,8 +11683,7 @@ function createChainableTypeChecker(validate) {
     propFullName = propFullName || propName;
     if (props[propName] == null) {
       var locationName = ReactPropTypeLocationNames[location];
-      if (isRequired) {
-        return new Error('Required ' + locationName + ' `' + propFullName + '` was not specified in ' + ('`' + componentName + '`.'));
+      if (isRequired) {return new Error('Required ' + locationName + ' `' + propFullName + '` was not specified in ' + ('`' + componentName + '`.'));
       }
       return null;
     } else {
@@ -12641,8 +11732,7 @@ function createArrayOfTypeChecker(typeChecker) {
     }
     for (var i = 0; i < propValue.length; i++) {
       var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']');
-      if (error instanceof Error) {
-        return error;
+      if (error instanceof Error) {return error;
       }
     }
     return null;
@@ -12684,8 +11774,7 @@ function createEnumTypeChecker(expectedValues) {
   function validate(props, propName, componentName, location, propFullName) {
     var propValue = props[propName];
     for (var i = 0; i < expectedValues.length; i++) {
-      if (is(propValue, expectedValues[i])) {
-        return null;
+      if (is(propValue, expectedValues[i])) {return null;
       }
     }
 
@@ -12708,11 +11797,7 @@ function createObjectOfTypeChecker(typeChecker) {
       return new Error('Invalid ' + locationName + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
     }
     for (var key in propValue) {
-      if (propValue.hasOwnProperty(key)) {
-        var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key);
-        if (error instanceof Error) {
-          return error;
-        }
+      if (propValue.hasOwnProperty(key)) {var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key);if (error instanceof Error) {  return error;}
       }
     }
     return null;
@@ -12730,8 +11815,7 @@ function createUnionTypeChecker(arrayOfTypeCheckers) {
   function validate(props, propName, componentName, location, propFullName) {
     for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
       var checker = arrayOfTypeCheckers[i];
-      if (checker(props, propName, componentName, location, propFullName) == null) {
-        return null;
+      if (checker(props, propName, componentName, location, propFullName) == null) {return null;
       }
     }
 
@@ -12762,12 +11846,10 @@ function createShapeTypeChecker(shapeTypes) {
     }
     for (var key in shapeTypes) {
       var checker = shapeTypes[key];
-      if (!checker) {
-        continue;
+      if (!checker) {continue;
       }
       var error = checker(propValue, key, componentName, location, propFullName + '.' + key);
-      if (error) {
-        return error;
+      if (error) {return error;
       }
     }
     return null;
@@ -12784,36 +11866,14 @@ function isNode(propValue) {
     case 'boolean':
       return !propValue;
     case 'object':
-      if (Array.isArray(propValue)) {
-        return propValue.every(isNode);
+      if (Array.isArray(propValue)) {return propValue.every(isNode);
       }
-      if (propValue === null || ReactElement.isValidElement(propValue)) {
-        return true;
+      if (propValue === null || ReactElement.isValidElement(propValue)) {return true;
       }
 
       var iteratorFn = getIteratorFn(propValue);
-      if (iteratorFn) {
-        var iterator = iteratorFn.call(propValue);
-        var step;
-        if (iteratorFn !== propValue.entries) {
-          while (!(step = iterator.next()).done) {
-            if (!isNode(step.value)) {
-              return false;
-            }
-          }
-        } else {
-          // Iterator will provide entry [k,v] tuples rather than values.
-          while (!(step = iterator.next()).done) {
-            var entry = step.value;
-            if (entry) {
-              if (!isNode(entry[1])) {
-                return false;
-              }
-            }
-          }
-        }
-      } else {
-        return false;
+      if (iteratorFn) {var iterator = iteratorFn.call(propValue);var step;if (iteratorFn !== propValue.entries) {  while (!(step = iterator.next()).done) {    if (!isNode(step.value)) {      return false;    }  }} else {  // Iterator will provide entry [k,v] tuples rather than values.  while (!(step = iterator.next()).done) {    var entry = step.value;    if (entry) {      if (!isNode(entry[1])) {        return false;      }    }  }}
+      } else {return false;
       }
 
       return true;
@@ -13295,8 +12355,7 @@ function renderToStringImpl(element, makeStaticMarkup) {
     return transaction.perform(function () {
       var componentInstance = instantiateReactComponent(element);
       var markup = componentInstance.mountComponent(transaction, null, ReactDOMContainerInfo(), emptyObject);
-      if (!makeStaticMarkup) {
-        markup = ReactMarkupChecksum.addChecksumToMarkup(markup);
+      if (!makeStaticMarkup) {markup = ReactMarkupChecksum.addChecksumToMarkup(markup);
       }
       return markup;
     }, null);
@@ -13492,9 +12551,7 @@ var ReactUpdateQueue = {
   isMounted: function (publicInstance) {
     if ("development" !== 'production') {
       var owner = ReactCurrentOwner.current;
-      if (owner !== null) {
-        "development" !== 'production' ? warning(owner._warnedAboutRefsInRender, '%s is accessing isMounted inside its render() function. ' + 'render() should be a pure function of props and state. It should ' + 'never access something that requires stale data from the previous ' + 'render, such as refs. Move this logic to componentDidMount and ' + 'componentDidUpdate instead.', owner.getName() || 'A component') : void 0;
-        owner._warnedAboutRefsInRender = true;
+      if (owner !== null) {"development" !== 'production' ? warning(owner._warnedAboutRefsInRender, '%s is accessing isMounted inside its render() function. ' + 'render() should be a pure function of props and state. It should ' + 'never access something that requires stale data from the previous ' + 'render, such as refs. Move this logic to componentDidMount and ' + 'componentDidUpdate instead.', owner.getName() || 'A component') : void 0;owner._warnedAboutRefsInRender = true;
       }
     }
     var internalInstance = ReactInstanceMap.get(publicInstance);
@@ -13771,8 +12828,7 @@ function runBatchedUpdates(transaction) {
     if (ReactFeatureFlags.logTopLevelRenders) {
       var namedComponent = component;
       // Duck type TopLevelWrapper. This is probably always true.
-      if (component._currentElement.props === component._renderedComponent._currentElement) {
-        namedComponent = component._renderedComponent;
+      if (component._currentElement.props === component._renderedComponent._currentElement) {namedComponent = component._renderedComponent;
       }
       markerName = 'React update: ' + namedComponent.getName();
       console.time(markerName);
@@ -13785,8 +12841,7 @@ function runBatchedUpdates(transaction) {
     }
 
     if (callbacks) {
-      for (var j = 0; j < callbacks.length; j++) {
-        transaction.callbackQueue.enqueue(callbacks[j], component.getPublicInstance());
+      for (var j = 0; j < callbacks.length; j++) {transaction.callbackQueue.enqueue(callbacks[j], component.getPublicInstance());
       }
     }
   }
@@ -14337,28 +13392,14 @@ var SelectEventPlugin = {
 
     switch (topLevelType) {
       // Track the input node that has focus.
-      case topLevelTypes.topFocus:
-        if (isTextInputElement(targetNode) || targetNode.contentEditable === 'true') {
-          activeElement = targetNode;
-          activeElementInst = targetInst;
-          lastSelection = null;
-        }
-        break;
-      case topLevelTypes.topBlur:
-        activeElement = null;
-        activeElementInst = null;
-        lastSelection = null;
-        break;
+      case topLevelTypes.topFocus:if (isTextInputElement(targetNode) || targetNode.contentEditable === 'true') {  activeElement = targetNode;  activeElementInst = targetInst;  lastSelection = null;}break;
+      case topLevelTypes.topBlur:activeElement = null;activeElementInst = null;lastSelection = null;break;
 
       // Don't fire the event while the user is dragging. This matches the
       // semantics of the native select event.
-      case topLevelTypes.topMouseDown:
-        mouseDown = true;
-        break;
+      case topLevelTypes.topMouseDown:mouseDown = true;break;
       case topLevelTypes.topContextMenu:
-      case topLevelTypes.topMouseUp:
-        mouseDown = false;
-        return constructSelectEvent(nativeEvent, nativeEventTarget);
+      case topLevelTypes.topMouseUp:mouseDown = false;return constructSelectEvent(nativeEvent, nativeEventTarget);
 
       // Chrome and IE fire non-standard event when selection is changed (and
       // sometimes when it hasn't). IE's event fires out of order with respect
@@ -14369,14 +13410,10 @@ var SelectEventPlugin = {
       // keyup, but we check on keydown as well in the case of holding down a
       // key, when multiple keydown events are fired but only one keyup is.
       // This is also our approach for IE handling, for the reason above.
-      case topLevelTypes.topSelectionChange:
-        if (skipSelectionChangeEvent) {
-          break;
-        }
+      case topLevelTypes.topSelectionChange:if (skipSelectionChangeEvent) {  break;}
       // falls through
       case topLevelTypes.topKeyDown:
-      case topLevelTypes.topKeyUp:
-        return constructSelectEvent(nativeEvent, nativeEventTarget);
+      case topLevelTypes.topKeyUp:return constructSelectEvent(nativeEvent, nativeEventTarget);
     }
 
     return null;
@@ -14914,33 +13951,14 @@ var SimpleEventPlugin = {
       case topLevelTypes.topSuspend:
       case topLevelTypes.topTimeUpdate:
       case topLevelTypes.topVolumeChange:
-      case topLevelTypes.topWaiting:
-        // HTML Events
-        // @see http://www.w3.org/TR/html5/index.html#events-0
-        EventConstructor = SyntheticEvent;
-        break;
-      case topLevelTypes.topKeyPress:
-        // Firefox creates a keypress event for function keys too. This removes
-        // the unwanted keypress events. Enter is however both printable and
-        // non-printable. One would expect Tab to be as well (but it isn't).
-        if (getEventCharCode(nativeEvent) === 0) {
-          return null;
-        }
+      case topLevelTypes.topWaiting:// HTML Events// @see http://www.w3.org/TR/html5/index.html#events-0EventConstructor = SyntheticEvent;break;
+      case topLevelTypes.topKeyPress:// Firefox creates a keypress event for function keys too. This removes// the unwanted keypress events. Enter is however both printable and// non-printable. One would expect Tab to be as well (but it isn't).if (getEventCharCode(nativeEvent) === 0) {  return null;}
       /* falls through */
       case topLevelTypes.topKeyDown:
-      case topLevelTypes.topKeyUp:
-        EventConstructor = SyntheticKeyboardEvent;
-        break;
+      case topLevelTypes.topKeyUp:EventConstructor = SyntheticKeyboardEvent;break;
       case topLevelTypes.topBlur:
-      case topLevelTypes.topFocus:
-        EventConstructor = SyntheticFocusEvent;
-        break;
-      case topLevelTypes.topClick:
-        // Firefox creates a click event on right mouse clicks. This removes the
-        // unwanted click events.
-        if (nativeEvent.button === 2) {
-          return null;
-        }
+      case topLevelTypes.topFocus:EventConstructor = SyntheticFocusEvent;break;
+      case topLevelTypes.topClick:// Firefox creates a click event on right mouse clicks. This removes the// unwanted click events.if (nativeEvent.button === 2) {  return null;}
       /* falls through */
       case topLevelTypes.topContextMenu:
       case topLevelTypes.topDoubleClick:
@@ -14948,9 +13966,7 @@ var SimpleEventPlugin = {
       case topLevelTypes.topMouseMove:
       case topLevelTypes.topMouseOut:
       case topLevelTypes.topMouseOver:
-      case topLevelTypes.topMouseUp:
-        EventConstructor = SyntheticMouseEvent;
-        break;
+      case topLevelTypes.topMouseUp:EventConstructor = SyntheticMouseEvent;break;
       case topLevelTypes.topDrag:
       case topLevelTypes.topDragEnd:
       case topLevelTypes.topDragEnter:
@@ -14958,34 +13974,20 @@ var SimpleEventPlugin = {
       case topLevelTypes.topDragLeave:
       case topLevelTypes.topDragOver:
       case topLevelTypes.topDragStart:
-      case topLevelTypes.topDrop:
-        EventConstructor = SyntheticDragEvent;
-        break;
+      case topLevelTypes.topDrop:EventConstructor = SyntheticDragEvent;break;
       case topLevelTypes.topTouchCancel:
       case topLevelTypes.topTouchEnd:
       case topLevelTypes.topTouchMove:
-      case topLevelTypes.topTouchStart:
-        EventConstructor = SyntheticTouchEvent;
-        break;
+      case topLevelTypes.topTouchStart:EventConstructor = SyntheticTouchEvent;break;
       case topLevelTypes.topAnimationEnd:
       case topLevelTypes.topAnimationIteration:
-      case topLevelTypes.topAnimationStart:
-        EventConstructor = SyntheticAnimationEvent;
-        break;
-      case topLevelTypes.topTransitionEnd:
-        EventConstructor = SyntheticTransitionEvent;
-        break;
-      case topLevelTypes.topScroll:
-        EventConstructor = SyntheticUIEvent;
-        break;
-      case topLevelTypes.topWheel:
-        EventConstructor = SyntheticWheelEvent;
-        break;
+      case topLevelTypes.topAnimationStart:EventConstructor = SyntheticAnimationEvent;break;
+      case topLevelTypes.topTransitionEnd:EventConstructor = SyntheticTransitionEvent;break;
+      case topLevelTypes.topScroll:EventConstructor = SyntheticUIEvent;break;
+      case topLevelTypes.topWheel:EventConstructor = SyntheticWheelEvent;break;
       case topLevelTypes.topCopy:
       case topLevelTypes.topCut:
-      case topLevelTypes.topPaste:
-        EventConstructor = SyntheticClipboardEvent;
-        break;
+      case topLevelTypes.topPaste:EventConstructor = SyntheticClipboardEvent;break;
     }
     !EventConstructor ? "development" !== 'production' ? invariant(false, 'SimpleEventPlugin: Unhandled event type, `%s`.', topLevelType) : invariant(false) : void 0;
     var event = EventConstructor.getPooled(dispatchConfig, targetInst, nativeEvent, nativeEventTarget);
@@ -15001,8 +14003,7 @@ var SimpleEventPlugin = {
     if (registrationName === ON_CLICK_KEY) {
       var id = inst._rootNodeID;
       var node = ReactDOMComponentTree.getNodeFromInstance(inst);
-      if (!onClickListeners[id]) {
-        onClickListeners[id] = EventListener.listen(node, 'click', emptyFunction);
+      if (!onClickListeners[id]) {onClickListeners[id] = EventListener.listen(node, 'click', emptyFunction);
       }
     }
   },
@@ -15258,10 +14259,8 @@ function SyntheticEvent(dispatchConfig, targetInst, nativeEvent, nativeEventTarg
     if (normalize) {
       this[propName] = normalize(nativeEvent);
     } else {
-      if (propName === 'target') {
-        this.target = nativeEventTarget;
-      } else {
-        this[propName] = nativeEvent[propName];
+      if (propName === 'target') {this.target = nativeEventTarget;
+      } else {this[propName] = nativeEvent[propName];
       }
     }
   }
@@ -15329,10 +14328,8 @@ _assign(SyntheticEvent.prototype, {
   destructor: function () {
     var Interface = this.constructor.Interface;
     for (var propName in Interface) {
-      if ("development" !== 'production') {
-        Object.defineProperty(this, propName, getPooledWarningPropertyDefinition(propName, Interface[propName]));
-      } else {
-        this[propName] = null;
+      if ("development" !== 'production') {Object.defineProperty(this, propName, getPooledWarningPropertyDefinition(propName, Interface[propName]));
+      } else {this[propName] = null;
       }
     }
     for (var i = 0; i < shouldBeReleasedProperties.length; i++) {
@@ -15354,20 +14351,9 @@ if ("development" !== 'production') {
   if (isProxySupported) {
     /*eslint-disable no-func-assign */
     SyntheticEvent = new Proxy(SyntheticEvent, {
-      construct: function (target, args) {
-        return this.apply(target, Object.create(target.prototype), args);
+      construct: function (target, args) {return this.apply(target, Object.create(target.prototype), args);
       },
-      apply: function (constructor, that, args) {
-        return new Proxy(constructor.apply(that, args), {
-          set: function (target, prop, value) {
-            if (prop !== 'isPersistent' && !target.constructor.Interface.hasOwnProperty(prop) && shouldBeReleasedProperties.indexOf(prop) === -1) {
-              "development" !== 'production' ? warning(didWarnForAddedNewProperty || target.isPersistent(), 'This synthetic event is reused for performance reasons. If you\'re ' + 'seeing this, you\'re adding a new property in the synthetic event object. ' + 'The property is never released. See ' + 'https://fb.me/react-event-pooling for more information.') : void 0;
-              didWarnForAddedNewProperty = true;
-            }
-            target[prop] = value;
-            return true;
-          }
-        });
+      apply: function (constructor, that, args) {return new Proxy(constructor.apply(that, args), {  set: function (target, prop, value) {    if (prop !== 'isPersistent' && !target.constructor.Interface.hasOwnProperty(prop) && shouldBeReleasedProperties.indexOf(prop) === -1) {      "development" !== 'production' ? warning(didWarnForAddedNewProperty || target.isPersistent(), 'This synthetic event is reused for performance reasons. If you\'re ' + 'seeing this, you\'re adding a new property in the synthetic event object. ' + 'The property is never released. See ' + 'https://fb.me/react-event-pooling for more information.') : void 0;      didWarnForAddedNewProperty = true;    }    target[prop] = value;    return true;  }});
       }
     });
     /*eslint-enable no-func-assign */
@@ -16006,20 +14992,8 @@ var Mixin = {
       ret = method.call(scope, a, b, c, d, e, f);
       errorThrown = false;
     } finally {
-      try {
-        if (errorThrown) {
-          // If `method` throws, prefer to show that stack trace over any thrown
-          // by invoking `closeAll`.
-          try {
-            this.closeAll(0);
-          } catch (err) {}
-        } else {
-          // Since `method` didn't throw, we don't want to silence the exception
-          // here.
-          this.closeAll(0);
-        }
-      } finally {
-        this._isInTransaction = false;
+      try {if (errorThrown) {  // If `method` throws, prefer to show that stack trace over any thrown  // by invoking `closeAll`.  try {    this.closeAll(0);  } catch (err) {}} else {  // Since `method` didn't throw, we don't want to silence the exception  // here.  this.closeAll(0);}
+      } finally {this._isInTransaction = false;
       }
     }
     return ret;
@@ -16029,22 +15003,8 @@ var Mixin = {
     var transactionWrappers = this.transactionWrappers;
     for (var i = startIndex; i < transactionWrappers.length; i++) {
       var wrapper = transactionWrappers[i];
-      try {
-        // Catching errors makes debugging more difficult, so we start with the
-        // OBSERVED_ERROR state before overwriting it with the real return value
-        // of initialize -- if it's still set to OBSERVED_ERROR in the finally
-        // block, it means wrapper.initialize threw.
-        this.wrapperInitData[i] = Transaction.OBSERVED_ERROR;
-        this.wrapperInitData[i] = wrapper.initialize ? wrapper.initialize.call(this) : null;
-      } finally {
-        if (this.wrapperInitData[i] === Transaction.OBSERVED_ERROR) {
-          // The initializer for wrapper i threw an error; initialize the
-          // remaining wrappers but silence any exceptions from them to ensure
-          // that the first error is the one to bubble up.
-          try {
-            this.initializeAll(i + 1);
-          } catch (err) {}
-        }
+      try {// Catching errors makes debugging more difficult, so we start with the// OBSERVED_ERROR state before overwriting it with the real return value// of initialize -- if it's still set to OBSERVED_ERROR in the finally// block, it means wrapper.initialize threw.this.wrapperInitData[i] = Transaction.OBSERVED_ERROR;this.wrapperInitData[i] = wrapper.initialize ? wrapper.initialize.call(this) : null;
+      } finally {if (this.wrapperInitData[i] === Transaction.OBSERVED_ERROR) {  // The initializer for wrapper i threw an error; initialize the  // remaining wrappers but silence any exceptions from them to ensure  // that the first error is the one to bubble up.  try {    this.initializeAll(i + 1);  } catch (err) {}}
       }
     }
   },
@@ -16062,25 +15022,8 @@ var Mixin = {
       var wrapper = transactionWrappers[i];
       var initData = this.wrapperInitData[i];
       var errorThrown;
-      try {
-        // Catching errors makes debugging more difficult, so we start with
-        // errorThrown set to true before setting it to false after calling
-        // close -- if it's still set to true in the finally block, it means
-        // wrapper.close threw.
-        errorThrown = true;
-        if (initData !== Transaction.OBSERVED_ERROR && wrapper.close) {
-          wrapper.close.call(this, initData);
-        }
-        errorThrown = false;
-      } finally {
-        if (errorThrown) {
-          // The closer for wrapper i threw an error; close the remaining
-          // wrappers but silence any exceptions from them to ensure that the
-          // first error is the one to bubble up.
-          try {
-            this.closeAll(i + 1);
-          } catch (e) {}
-        }
+      try {// Catching errors makes debugging more difficult, so we start with// errorThrown set to true before setting it to false after calling// close -- if it's still set to true in the finally block, it means// wrapper.close threw.errorThrown = true;if (initData !== Transaction.OBSERVED_ERROR && wrapper.close) {  wrapper.close.call(this, initData);}errorThrown = false;
+      } finally {if (errorThrown) {  // The closer for wrapper i threw an error; close the remaining  // wrappers but silence any exceptions from them to ensure that the  // first error is the one to bubble up.  try {    this.closeAll(i + 1);  } catch (e) {}}
       }
     }
     this.wrapperInitData.length = 0;
@@ -16279,8 +15222,7 @@ module.exports = canDefineProperty;
 var createMicrosoftUnsafeLocalFunction = function (func) {
   if (typeof MSApp !== 'undefined' && MSApp.execUnsafeLocalFunction) {
     return function (arg0, arg1, arg2, arg3) {
-      MSApp.execUnsafeLocalFunction(function () {
-        return func(arg0, arg1, arg2, arg3);
+      MSApp.execUnsafeLocalFunction(function () {return func(arg0, arg1, arg2, arg3);
       });
     };
   } else {
@@ -16342,23 +15284,7 @@ function dangerousStyleValue(name, value, component) {
 
   if (typeof value === 'string') {
     if ("development" !== 'production') {
-      if (component) {
-        var owner = component._currentElement._owner;
-        var ownerName = owner ? owner.getName() : null;
-        if (ownerName && !styleWarnings[ownerName]) {
-          styleWarnings[ownerName] = {};
-        }
-        var warned = false;
-        if (ownerName) {
-          var warnings = styleWarnings[ownerName];
-          warned = warnings[name];
-          if (!warned) {
-            warnings[name] = true;
-          }
-        }
-        if (!warned) {
-          "development" !== 'production' ? warning(false, 'a `%s` tag (owner: `%s`) was passed a numeric string value ' + 'for CSS property `%s` (value: `%s`) which will be treated ' + 'as a unitless number in a future version of React.', component._currentElement.type, ownerName || 'unknown', name, value) : void 0;
-        }
+      if (component) {var owner = component._currentElement._owner;var ownerName = owner ? owner.getName() : null;if (ownerName && !styleWarnings[ownerName]) {  styleWarnings[ownerName] = {};}var warned = false;if (ownerName) {  var warnings = styleWarnings[ownerName];  warned = warnings[name];  if (!warned) {    warnings[name] = true;  }}if (!warned) {  "development" !== 'production' ? warning(false, 'a `%s` tag (owner: `%s`) was passed a numeric string value ' + 'for CSS property `%s` (value: `%s`) which will be treated ' + 'as a unitless number in a future version of React.', component._currentElement.type, ownerName || 'unknown', name, value) : void 0;}
       }
     }
     value = value.trim();
@@ -16909,11 +15835,7 @@ function getNodeForCharacterOffset(root, offset) {
     if (node.nodeType === 3) {
       nodeEnd = nodeStart + node.textContent.length;
 
-      if (nodeStart <= offset && nodeEnd >= offset) {
-        return {
-          node: node,
-          offset: offset - nodeStart
-        };
+      if (nodeStart <= offset && nodeEnd >= offset) {return {  node: node,  offset: offset - nodeStart};
       }
 
       nodeStart = nodeEnd;
@@ -17402,33 +16324,16 @@ if (ExecutionEnvironment.canUseDOM) {
       // from worse whitespace behavior. Re-adding a node like this triggers
       // the initial and more favorable whitespace behavior.
       // TODO: What to do on a detached node?
-      if (node.parentNode) {
-        node.parentNode.replaceChild(node, node);
+      if (node.parentNode) {node.parentNode.replaceChild(node, node);
       }
 
       // We also implement a workaround for non-visible tags disappearing into
       // thin air on IE8, this only happens if there is no visible text
       // in-front of the non-visible tags. Piggyback on the whitespace fix
       // and simply check if any non-visible tags appear in the source.
-      if (WHITESPACE_TEST.test(html) || html[0] === '<' && NONVISIBLE_TEST.test(html)) {
-        // Recover leading whitespace by temporarily prepending any character.
-        // \uFEFF has the potential advantage of being zero-width/invisible.
-        // UglifyJS drops U+FEFF chars when parsing, so use String.fromCharCode
-        // in hopes that this is preserved even if "\uFEFF" is transformed to
-        // the actual Unicode character (by Babel, for example).
-        // https://github.com/mishoo/UglifyJS2/blob/v2.4.20/lib/parse.js#L216
-        node.innerHTML = String.fromCharCode(0xFEFF) + html;
-
-        // deleteData leaves an empty `TextNode` which offsets the index of all
-        // children. Definitely want to avoid this.
-        var textNode = node.firstChild;
-        if (textNode.data.length === 1) {
-          node.removeChild(textNode);
-        } else {
-          textNode.deleteData(0, 1);
-        }
-      } else {
-        node.innerHTML = html;
+      if (WHITESPACE_TEST.test(html) || html[0] === '<' && NONVISIBLE_TEST.test(html)) {// Recover leading whitespace by temporarily prepending any character.// \uFEFF has the potential advantage of being zero-width/invisible.// UglifyJS drops U+FEFF chars when parsing, so use String.fromCharCode// in hopes that this is preserved even if "\uFEFF" is transformed to// the actual Unicode character (by Babel, for example).// https://github.com/mishoo/UglifyJS2/blob/v2.4.20/lib/parse.js#L216node.innerHTML = String.fromCharCode(0xFEFF) + html;
+// deleteData leaves an empty `TextNode` which offsets the index of all// children. Definitely want to avoid this.var textNode = node.firstChild;if (textNode.data.length === 1) {  node.removeChild(textNode);} else {  textNode.deleteData(0, 1);}
+      } else {node.innerHTML = html;
       }
     };
   }
@@ -17641,41 +16546,12 @@ function traverseAllChildrenImpl(children, nameSoFar, callback, traverseContext)
     if (iteratorFn) {
       var iterator = iteratorFn.call(children);
       var step;
-      if (iteratorFn !== children.entries) {
-        var ii = 0;
-        while (!(step = iterator.next()).done) {
-          child = step.value;
-          nextName = nextNamePrefix + getComponentKey(child, ii++);
-          subtreeCount += traverseAllChildrenImpl(child, nextName, callback, traverseContext);
-        }
-      } else {
-        if ("development" !== 'production') {
-          "development" !== 'production' ? warning(didWarnAboutMaps, 'Using Maps as children is not yet fully supported. It is an ' + 'experimental feature that might be removed. Convert it to a ' + 'sequence / iterable of keyed ReactElements instead.') : void 0;
-          didWarnAboutMaps = true;
-        }
-        // Iterator will provide entry [k,v] tuples rather than values.
-        while (!(step = iterator.next()).done) {
-          var entry = step.value;
-          if (entry) {
-            child = entry[1];
-            nextName = nextNamePrefix + wrapUserProvidedKey(entry[0]) + SUBSEPARATOR + getComponentKey(child, 0);
-            subtreeCount += traverseAllChildrenImpl(child, nextName, callback, traverseContext);
-          }
-        }
+      if (iteratorFn !== children.entries) {var ii = 0;while (!(step = iterator.next()).done) {  child = step.value;  nextName = nextNamePrefix + getComponentKey(child, ii++);  subtreeCount += traverseAllChildrenImpl(child, nextName, callback, traverseContext);}
+      } else {if ("development" !== 'production') {  "development" !== 'production' ? warning(didWarnAboutMaps, 'Using Maps as children is not yet fully supported. It is an ' + 'experimental feature that might be removed. Convert it to a ' + 'sequence / iterable of keyed ReactElements instead.') : void 0;  didWarnAboutMaps = true;}// Iterator will provide entry [k,v] tuples rather than values.while (!(step = iterator.next()).done) {  var entry = step.value;  if (entry) {    child = entry[1];    nextName = nextNamePrefix + wrapUserProvidedKey(entry[0]) + SUBSEPARATOR + getComponentKey(child, 0);    subtreeCount += traverseAllChildrenImpl(child, nextName, callback, traverseContext);  }}
       }
     } else if (type === 'object') {
       var addendum = '';
-      if ("development" !== 'production') {
-        addendum = ' If you meant to render a collection of children, use an array ' + 'instead or wrap the object using createFragment(object) from the ' + 'React add-ons.';
-        if (children._isReactElement) {
-          addendum = ' It looks like you\'re using an element created by a different ' + 'version of React. Make sure to use only one copy of React.';
-        }
-        if (ReactCurrentOwner.current) {
-          var name = ReactCurrentOwner.current.getName();
-          if (name) {
-            addendum += ' Check the render method of `' + name + '`.';
-          }
-        }
+      if ("development" !== 'production') {addendum = ' If you meant to render a collection of children, use an array ' + 'instead or wrap the object using createFragment(object) from the ' + 'React add-ons.';if (children._isReactElement) {  addendum = ' It looks like you\'re using an element created by a different ' + 'version of React. Make sure to use only one copy of React.';}if (ReactCurrentOwner.current) {  var name = ReactCurrentOwner.current.getName();  if (name) {    addendum += ' Check the render method of `' + name + '`.';  }}
       }
       var childrenString = String(children);
       !false ? "development" !== 'production' ? invariant(false, 'Objects are not valid as a React child (found: %s).%s', childrenString === '[object Object]' ? 'object with keys {' + Object.keys(children).join(', ') + '}' : childrenString, addendum) : invariant(false) : void 0;
@@ -17827,14 +16703,11 @@ if ("development" !== 'production') {
     // First, let's check if we're in an unusual parsing mode...
     switch (parentTag) {
       // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inselect
-      case 'select':
-        return tag === 'option' || tag === 'optgroup' || tag === '#text';
-      case 'optgroup':
-        return tag === 'option' || tag === '#text';
+      case 'select':return tag === 'option' || tag === 'optgroup' || tag === '#text';
+      case 'optgroup':return tag === 'option' || tag === '#text';
       // Strictly speaking, seeing an <option> doesn't mean we're in a <select>
       // but
-      case 'option':
-        return tag === '#text';
+      case 'option':return tag === '#text';
 
       // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intd
       // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-incaption
@@ -17842,32 +16715,25 @@ if ("development" !== 'production') {
       // all except special table nodes which cause bad parsing behavior anyway.
 
       // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intr
-      case 'tr':
-        return tag === 'th' || tag === 'td' || tag === 'style' || tag === 'script' || tag === 'template';
+      case 'tr':return tag === 'th' || tag === 'td' || tag === 'style' || tag === 'script' || tag === 'template';
 
       // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intbody
       case 'tbody':
       case 'thead':
-      case 'tfoot':
-        return tag === 'tr' || tag === 'style' || tag === 'script' || tag === 'template';
+      case 'tfoot':return tag === 'tr' || tag === 'style' || tag === 'script' || tag === 'template';
 
       // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-incolgroup
-      case 'colgroup':
-        return tag === 'col' || tag === 'template';
+      case 'colgroup':return tag === 'col' || tag === 'template';
 
       // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-intable
-      case 'table':
-        return tag === 'caption' || tag === 'colgroup' || tag === 'tbody' || tag === 'tfoot' || tag === 'thead' || tag === 'style' || tag === 'script' || tag === 'template';
+      case 'table':return tag === 'caption' || tag === 'colgroup' || tag === 'tbody' || tag === 'tfoot' || tag === 'thead' || tag === 'style' || tag === 'script' || tag === 'template';
 
       // https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inhead
-      case 'head':
-        return tag === 'base' || tag === 'basefont' || tag === 'bgsound' || tag === 'link' || tag === 'meta' || tag === 'title' || tag === 'noscript' || tag === 'noframes' || tag === 'style' || tag === 'script' || tag === 'template';
+      case 'head':return tag === 'base' || tag === 'basefont' || tag === 'bgsound' || tag === 'link' || tag === 'meta' || tag === 'title' || tag === 'noscript' || tag === 'noframes' || tag === 'style' || tag === 'script' || tag === 'template';
 
       // https://html.spec.whatwg.org/multipage/semantics.html#the-html-element
-      case 'html':
-        return tag === 'head' || tag === 'body';
-      case '#document':
-        return tag === 'html';
+      case 'html':return tag === 'head' || tag === 'body';
+      case '#document':return tag === 'html';
     }
 
     // Probably in the "in body" parsing mode, so we outlaw only tag combos
@@ -17879,12 +16745,10 @@ if ("development" !== 'production') {
       case 'h3':
       case 'h4':
       case 'h5':
-      case 'h6':
-        return parentTag !== 'h1' && parentTag !== 'h2' && parentTag !== 'h3' && parentTag !== 'h4' && parentTag !== 'h5' && parentTag !== 'h6';
+      case 'h6':return parentTag !== 'h1' && parentTag !== 'h2' && parentTag !== 'h3' && parentTag !== 'h4' && parentTag !== 'h5' && parentTag !== 'h6';
 
       case 'rp':
-      case 'rt':
-        return impliedEndTags.indexOf(parentTag) === -1;
+      case 'rt':return impliedEndTags.indexOf(parentTag) === -1;
 
       case 'caption':
       case 'col':
@@ -17897,12 +16761,7 @@ if ("development" !== 'production') {
       case 'tfoot':
       case 'th':
       case 'thead':
-      case 'tr':
-        // These tags are only valid with a few parents that have special child
-        // parsing rules -- if we're down here, then none of those matched and
-        // so we allow it only if we don't know what the parent is, as all other
-        // cases are invalid.
-        return parentTag == null;
+      case 'tr':// These tags are only valid with a few parents that have special child// parsing rules -- if we're down here, then none of those matched and// so we allow it only if we don't know what the parent is, as all other// cases are invalid.return parentTag == null;
     }
 
     return true;
@@ -17952,29 +16811,20 @@ if ("development" !== 'production') {
       case 'h3':
       case 'h4':
       case 'h5':
-      case 'h6':
-        return ancestorInfo.pTagInButtonScope;
+      case 'h6':return ancestorInfo.pTagInButtonScope;
 
-      case 'form':
-        return ancestorInfo.formTag || ancestorInfo.pTagInButtonScope;
+      case 'form':return ancestorInfo.formTag || ancestorInfo.pTagInButtonScope;
 
-      case 'li':
-        return ancestorInfo.listItemTagAutoclosing;
+      case 'li':return ancestorInfo.listItemTagAutoclosing;
 
       case 'dd':
-      case 'dt':
-        return ancestorInfo.dlItemTagAutoclosing;
+      case 'dt':return ancestorInfo.dlItemTagAutoclosing;
 
-      case 'button':
-        return ancestorInfo.buttonTagInScope;
+      case 'button':return ancestorInfo.buttonTagInScope;
 
-      case 'a':
-        // Spec says something about storing a list of markers, but it sounds
-        // equivalent to this check.
-        return ancestorInfo.aTagInScope;
+      case 'a':// Spec says something about storing a list of markers, but it sounds// equivalent to this check.return ancestorInfo.aTagInScope;
 
-      case 'nobr':
-        return ancestorInfo.nobrTagInScope;
+      case 'nobr':return ancestorInfo.nobrTagInScope;
     }
 
     return null;
@@ -18022,20 +16872,13 @@ if ("development" !== 'production') {
       var i;
 
       var deepestCommon = -1;
-      for (i = 0; i < minStackLen; i++) {
-        if (childOwners[i] === ancestorOwners[i]) {
-          deepestCommon = i;
-        } else {
-          break;
-        }
+      for (i = 0; i < minStackLen; i++) {if (childOwners[i] === ancestorOwners[i]) {  deepestCommon = i;} else {  break;}
       }
 
       var UNKNOWN = '(unknown)';
-      var childOwnerNames = childOwners.slice(deepestCommon + 1).map(function (inst) {
-        return inst.getName() || UNKNOWN;
+      var childOwnerNames = childOwners.slice(deepestCommon + 1).map(function (inst) {return inst.getName() || UNKNOWN;
       });
-      var ancestorOwnerNames = ancestorOwners.slice(deepestCommon + 1).map(function (inst) {
-        return inst.getName() || UNKNOWN;
+      var ancestorOwnerNames = ancestorOwners.slice(deepestCommon + 1).map(function (inst) {return inst.getName() || UNKNOWN;
       });
       var ownerInfo = [].concat(
       // If the parent and child instances have a common owner ancestor, start
@@ -18045,24 +16888,16 @@ if ("development" !== 'production') {
       invalidAncestor ? ['...'] : [], childOwnerNames, childTag).join(' > ');
 
       var warnKey = !!invalidParent + '|' + childTag + '|' + ancestorTag + '|' + ownerInfo;
-      if (didWarn[warnKey]) {
-        return;
+      if (didWarn[warnKey]) {return;
       }
       didWarn[warnKey] = true;
 
       var tagDisplayName = childTag;
-      if (childTag !== '#text') {
-        tagDisplayName = '<' + childTag + '>';
+      if (childTag !== '#text') {tagDisplayName = '<' + childTag + '>';
       }
 
-      if (invalidParent) {
-        var info = '';
-        if (ancestorTag === 'table' && childTag === 'tr') {
-          info += ' Add a <tbody> to your code to match the DOM tree generated by ' + 'the browser.';
-        }
-        "development" !== 'production' ? warning(false, 'validateDOMNesting(...): %s cannot appear as a child of <%s>. ' + 'See %s.%s', tagDisplayName, ancestorTag, ownerInfo, info) : void 0;
-      } else {
-        "development" !== 'production' ? warning(false, 'validateDOMNesting(...): %s cannot appear as a descendant of ' + '<%s>. See %s.', tagDisplayName, ancestorTag, ownerInfo) : void 0;
+      if (invalidParent) {var info = '';if (ancestorTag === 'table' && childTag === 'tr') {  info += ' Add a <tbody> to your code to match the DOM tree generated by ' + 'the browser.';}"development" !== 'production' ? warning(false, 'validateDOMNesting(...): %s cannot appear as a child of <%s>. ' + 'See %s.%s', tagDisplayName, ancestorTag, ownerInfo, info) : void 0;
+      } else {"development" !== 'production' ? warning(false, 'validateDOMNesting(...): %s cannot appear as a descendant of ' + '<%s>. See %s.', tagDisplayName, ancestorTag, ownerInfo) : void 0;
       }
     }
   };
@@ -18118,17 +16953,11 @@ var EventListener = {
   listen: function (target, eventType, callback) {
     if (target.addEventListener) {
       target.addEventListener(eventType, callback, false);
-      return {
-        remove: function () {
-          target.removeEventListener(eventType, callback, false);
-        }
+      return {remove: function () {  target.removeEventListener(eventType, callback, false);}
       };
     } else if (target.attachEvent) {
       target.attachEvent('on' + eventType, callback);
-      return {
-        remove: function () {
-          target.detachEvent('on' + eventType, callback);
-        }
+      return {remove: function () {  target.detachEvent('on' + eventType, callback);}
       };
     }
   },
@@ -18144,17 +16973,12 @@ var EventListener = {
   capture: function (target, eventType, callback) {
     if (target.addEventListener) {
       target.addEventListener(eventType, callback, true);
-      return {
-        remove: function () {
-          target.removeEventListener(eventType, callback, true);
-        }
+      return {remove: function () {  target.removeEventListener(eventType, callback, true);}
       };
     } else {
-      if ("development" !== 'production') {
-        console.error('Attempted to listen to events during the capture phase on a ' + 'browser that does not support the capture phase. Your application ' + 'will not receive some events.');
+      if ("development" !== 'production') {console.error('Attempted to listen to events during the capture phase on a ' + 'browser that does not support the capture phase. Your application ' + 'will not receive some events.');
       }
-      return {
-        remove: emptyFunction
+      return {remove: emptyFunction
       };
     }
   },
@@ -18890,8 +17714,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
     } else {
       var args = [a, b, c, d, e, f];
       var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
+      error = new Error(format.replace(/%s/g, function () {return args[argIndex++];
       }));
       error.name = 'Invariant Violation';
     }
@@ -19280,17 +18103,11 @@ if ("development" !== 'production') {
 
     if (!condition) {
       var argIndex = 0;
-      var message = 'Warning: ' + format.replace(/%s/g, function () {
-        return args[argIndex++];
+      var message = 'Warning: ' + format.replace(/%s/g, function () {return args[argIndex++];
       });
-      if (typeof console !== 'undefined') {
-        console.error(message);
+      if (typeof console !== 'undefined') {console.error(message);
       }
-      try {
-        // --- Welcome to debugging React ---
-        // This error was thrown as a convenience so that you can use this stack
-        // to find the callsite that caused this warning to fire.
-        throw new Error(message);
+      try {// --- Welcome to debugging React ---// This error was thrown as a convenience so that you can use this stack// to find the callsite that caused this warning to fire.throw new Error(message);
       } catch (x) {}
     }
   };

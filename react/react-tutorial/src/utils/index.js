@@ -165,11 +165,7 @@ export function param2Obj(url) {
   }
   return JSON.parse(
     '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
+      decodeURIComponent(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"').replace(/\+/g, ' ') +
       '"}'
   )
 }
@@ -259,9 +255,7 @@ export function debounce(func, wait, immediate) {
     } else {
       timeout = null
       // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
-      if (!immediate) {
-        result = func.apply(context, args)
-        if (!timeout) context = args = null
+      if (!immediate) {result = func.apply(context, args)if (!timeout) context = args = null
       }
     }
   }

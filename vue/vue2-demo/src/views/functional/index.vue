@@ -17,8 +17,8 @@
     <div>
       <span>用户名: {{ userInfo.name }}</span>
       <span>用户性别: {{ userInfo.sex }}</span>
-      <span v-if="userInfo.officialAccount">
-        公众号: {{ userInfo.officialAccount }}
+      <span v-if="userInfo.officialAccount"
+        >公众号: {{ userInfo.officialAccount }}
       </span>
     </div>
     <button @click="handleAddOfficialAccount">添加公众号</button>
@@ -31,16 +31,13 @@ import FuncionalJsx from './components/FuncionalJsx'
 export default {
   components: {
     FinctionalTest,
-    FuncionalJsx
+    FuncionalJsx,
   },
   props: {},
   data() {
     return {
       name: 'functional',
-      userInfo: {
-        name: 'gyh',
-        sex: 'unknown'
-      }
+      userInfo: { name: 'gyh', sex: 'unknown' },
     }
   },
   computed: {},
@@ -50,12 +47,9 @@ export default {
   methods: {
     // 在这里添加用户的公众号
     handleAddOfficialAccount() {
-      this.userInfo = {
-        ...this.userInfo,
-        officialAccount: '前端有的玩'
-      }
-    }
-  }
+      this.userInfo = { ...this.userInfo, officialAccount: '前端有的玩' }
+    },
+  },
 }
 </script>
 

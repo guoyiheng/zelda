@@ -37,7 +37,6 @@ $sSpacing: 10px;
         background-color: #13c2c2;
         color: #fff;
         border: none;
-
         transition: all 0.1s ease;
       }
       .u-button:active {
@@ -89,10 +88,8 @@ $sSpacing: 10px;
         margin-top: $sSpacing;
         height: 40px;
         font-size: 30px;
-
         display: flex;
         align-items: center;
-
         input {
           height: 30px;
           width: 30px;

@@ -34,11 +34,9 @@ export default {
       console.log('resize')
     },
     jumpSlottest() {
-      this.$router.push({
-        name: 'slottest'
-      })
-    }
-  }
+      this.$router.push({ name: 'slottest' })
+    },
+  },
 }
 </script>
 

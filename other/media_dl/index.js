@@ -19,9 +19,7 @@ class Ut {
     // 如果包含.就直接下载，不包含先请求格式
     let fullName
     if (!name.includes('.')) {
-      const response = await got.get(url, {
-        headers: opt.headers,
-      })
+      const response = await got.get(url, { headers: opt.headers })
       const suffix = mime.extension(response.headers['content-type'])
       fullName = name + '.' + suffix
     } else {
@@ -29,9 +27,7 @@ class Ut {
     }
     console.log('media fullName:', fullName, '===index: ', opt.index)
     return await pipeline(
-      got.stream(url, {
-        headers: opt.headers,
-      }),
+      got.stream(url, { headers: opt.headers }),
       fs.createWriteStream(path + fullName)
     )
   }

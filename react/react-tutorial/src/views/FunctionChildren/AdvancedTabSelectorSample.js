@@ -1,5 +1,5 @@
-import React, { PureComponent } from "react"
-import PropTypes from "prop-types"
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 
 export default class AdvancedTabSelector extends PureComponent {
   static propTypes = {
@@ -19,15 +19,17 @@ export default class AdvancedTabSelector extends PureComponent {
   render() {
     const { options, value, onChange } = this.props
     return (
-      <div className="tab-selector">
+      <div className='tab-selector'>
         <ul>
-          {options.map((opt) => (
+          {' '}
+          {options.map(opt => (
             <li
               key={opt.value}
-              className={`tab-item ${opt.value === this.props.value ? "selected" : ""}`}
+              className={`tab-item ${opt.value === this.props.value ? 'selected' : ''}`}
               onClick={() => this.props.onChange(opt.value)}
             >
-              {opt.name}
+              {' '}
+              {opt.name}{' '}
             </li>
           ))}
         </ul>
@@ -40,26 +42,21 @@ export default class AdvancedTabSelector extends PureComponent {
 }
 
 const colors = [
-  { name: "Red", value: "red" },
-  { name: "Blue", value: "blue" },
-  { name: "Orange", value: "orange" },
+  { name: 'Red', value: 'red' },
+  { name: 'Blue', value: 'blue' },
+  { name: 'Orange', value: 'orange' },
 ]
 
 const animals = [
-  { name: "Tiger", value: "tiger" },
-  { name: "Elephant", value: "elephant" },
-  { name: "Cow", value: "cow" },
+  { name: 'Tiger', value: 'tiger' },
+  { name: 'Elephant', value: 'elephant' },
+  { name: 'Cow', value: 'cow' },
 ]
 
 const slot = function (color) {
   return (
     <span
-      style={{
-        display: "inline-block",
-        backgroundColor: color,
-        width: "40px",
-        height: "40px",
-      }}
+      style={{ display: 'inline-block', backgroundColor: color, width: '40px', height: '40px' }}
     />
   )
 }
@@ -75,8 +72,9 @@ export class AdvancedTabSelectorSample extends PureComponent {
         <AdvancedTabSelector
           options={colors}
           value={this.state.color}
-          onChange={(c) => this.setState({ color: c })}
+          onChange={c => this.setState({ color: c })}
         >
+          {' '}
           {slot}
         </AdvancedTabSelector>
         <br />
@@ -86,9 +84,10 @@ export class AdvancedTabSelectorSample extends PureComponent {
         <AdvancedTabSelector
           options={animals}
           value={this.state.animal}
-          onChange={(c) => this.setState({ animal: c })}
+          onChange={c => this.setState({ animal: c })}
         >
-          {(animal) => <img width="100px" src={require(`../../images/${animal}.png`)} alt="" />}
+          {' '}
+          {animal => <img width='100px' src={require(`../../images/${animal}.png`)} alt='' />}
         </AdvancedTabSelector>
       </div>
     )

@@ -14,35 +14,25 @@
   <body>
     <div id="container"></div>
     <script type="text/babel">
-      // 通过 ref 来记忆最新的 count
-      // const countRef = useRef(count)
-      // countRef.current = count
+            // 通过 ref 来记忆最新的 count
+            // const countRef = useRef(count)
+            // countRef.current = count
 
-      // useEffect(() => {
-      //   const timer = setTimeout(() => {
-      //     console.log(countRef.current)
-      //   }, 3000)
-      //   return () => {
-      //     clearTimeout(timer)
-      //   }
-      // }, [])
+            // useEffect(() => {
+            //   const timer = setTimeout(() => {
+            //     console.log(countRef.current)
+            //   }, 3000)
+            //   return () => {
+            //     clearTimeout(timer)
+            //   }
+            // }, [])
 
-      function Demo() {
-        const [count, setCount] = useState(0)
+            function Demo() {const [count, setCount] = useState(0)
+      useEffect(() => {  const timer = setTimeout(() => {    console.log(count)  }, 3000)  return () => {    clearTimeout(timer)  }}, [])
+      return <button onClick={() => setCount(c => c + 1)}>click</button>
+            }
 
-        useEffect(() => {
-          const timer = setTimeout(() => {
-            console.log(count)
-          }, 3000)
-          return () => {
-            clearTimeout(timer)
-          }
-        }, [])
-
-        return <button onClick={() => setCount(c => c + 1)}>click</button>
-      }
-
-      ReactDOM.render(<Demo />, document.getElementById('container'))
+            ReactDOM.render(<Demo />, document.getElementById('container'))
     </script>
   </body>
 </html>

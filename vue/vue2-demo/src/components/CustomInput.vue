@@ -3,7 +3,7 @@
     class="custom-input"
     :class="[
       `custom-input--${getSize}`,
-      getDisabled && `custom-input--disabled`
+      getDisabled && `custom-input--disabled`,
     ]"
   >
     <input class="custom-input__input" :value="value" @input="$_handleChange" />
@@ -16,14 +16,14 @@ export default {
     // 这里用了自定义v-model
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     size: {
-      type: String
+      type: String,
     },
     disabled: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   // 通过inject 将form组件注入的实例添加进来
   inject: ['customForm'],
@@ -39,13 +39,13 @@ export default {
         return disabled
       }
       return this.customForm.disabled
-    }
+    },
   },
   methods: {
     // 自定义v-model
     $_handleChange(e) {
       this.$emit('input', e.target.value)
-    }
-  }
+    },
+  },
 }
 </script>

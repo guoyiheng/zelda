@@ -1,10 +1,10 @@
-import React from "react"
-import withTimer from "../c06/withTimer"
+import React from 'react'
+import withTimer from '../c06/withTimer'
 
 const MessageList = function (props) {
   return (
     <ul>
-      {props.messages.map((msg) => (
+      {props.messages.map(msg => (
         <li key={msg}>{msg}</li>
       ))}
     </ul>

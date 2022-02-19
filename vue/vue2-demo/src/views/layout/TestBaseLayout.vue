@@ -6,18 +6,14 @@
     {{ trim }}
     <base-layout>
       <!-- v-slot:header 可以被重写为 #header -->
-      <template v-slot:header>
-        <h1>Here might be a page title</h1>
-      </template>
+      <template v-slot:header><h1>Here might be a page title</h1> </template>
 
-      <template v-slot:default>
-        <p>v-slot:header 可以被重写为 #header</p>
+      <template v-slot:default
+        ><p>v-slot:header 可以被重写为 #header</p>
         <p>And another one.</p>
       </template>
 
-      <template v-slot:footer>
-        <p>Here's some contact info</p>
-      </template>
+      <template v-slot:footer><p>Here's some contact info</p> </template>
     </base-layout>
     <hhh>111</hhh>
   </div>
@@ -27,13 +23,13 @@
 import BaseLayout from './BaseLayout.vue'
 export default {
   components: {
-    BaseLayout
+    BaseLayout,
   },
   props: {},
   data() {
     return {
       msg: '11',
-      trim: ''
+      trim: '',
     }
   },
   computed: {},
@@ -42,7 +38,7 @@ export default {
     console.log(this)
   },
   mounted() {},
-  methods: {}
+  methods: {},
 }
 </script>
 
