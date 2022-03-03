@@ -10,12 +10,39 @@
 
   <body>
     <script>
-      function resizeFunc(e) {    console.log('lalala', e);}
-      function debounce(func, wait) {    let timer = null    return (...args) => {        if (timer) {            clearTimeout(timer)        }        timer = setTimeout(() => {            func.apply(this, args)        }, wait);    }}
-      function throttle(func, wait) {    let lastTime = 0    return (...args) => {        const now = +new Date()        if (now - lastTime > wait) {            lastTime = now            func.apply(this, args)        }    }}
+      function resizeFunc(e) {
+        console.log('lalala', e)
+      }
+
+      function debounce(func, wait) {
+        let timer = null
+        return (...args) => {
+          if (timer) {
+            clearTimeout(timer)
+          }
+          timer = setTimeout(() => {
+            func.apply(this, args)
+          }, wait)
+        }
+      }
+
+      function throttle(func, wait) {
+        let lastTime = 0
+        return (...args) => {
+          const now = +new Date()
+          if (now - lastTime > wait) {
+            lastTime = now
+            func.apply(this, args)
+          }
+        }
+      }
+
       const debounceFunc = debounce(resizeFunc, 300)
+
       const throttleFunc = throttle(resizeFunc, 300)
-      window.onresize = debounceFunc// window.onresize = throttleFunc
+
+      window.onresize = debounceFunc
+      // window.onresize = throttleFunc
     </script>
   </body>
 </html>
