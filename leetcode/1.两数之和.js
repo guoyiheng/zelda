@@ -20,7 +20,7 @@ var twoSum = function (nums, target) {
   //       }
   //     }
   //   }
-  const prevNums = {} // 存储出现过的数字，和对应的索引
+  const prevNums = {} // 存储出现过的数字和对应的索引
 
   for (let i = 0; i < nums.length; i++) {
     // 遍历元素
