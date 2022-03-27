@@ -13,7 +13,7 @@ let str = `
 </div>`
 const re = /<div class="noteHeading">(.*)(\(.*\)) -(.*)<\/div>/g
 const result = [...str.matchAll(re)]
-result.forEach(iterator => {
+result.forEach((iterator) => {
   // console.log('iterator', iterator[0], iterator[1])
   // console.log('str.includes(iterator[0])', str.includes(iterator[0]))
   str = str.replace(iterator[0], `**${iterator[1]} -${iterator[3]}**`)
