@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     name: '个人常用*',
     children: [
