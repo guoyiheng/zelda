@@ -40,10 +40,19 @@ async function getDoi(name) {
   const html = await getHtml(`${sciurl}${encodeURIComponent(name)}`)
   const $ = cheerio.load(html)
   const links = $('.item-links-outer > .item-links').text()
-  console.log('---links---', links.substring(0, 400))
+  const titles = $('.item-data > .lead').text()
+  console.log('---links---', links.substring(0, 100))
   // 找到doi
   const reg = /https:\/\/doi.org\/(.*)/g.exec(links)
-  return reg[1]
+
+  const title = titles
+    .split('\n')
+    .filter(item => item)
+    .map(item => item.trim())
+  return {
+    doi: reg[1],
+    title: title[0],
+  }
 }
 
 function sleep(time) {
@@ -51,14 +60,14 @@ function sleep(time) {
 }
 
 let doiArray = []
-for (let index = 72; index < docNames.length; index++) {
+for (let index = 0; index < docNames.length; index++) {
   const element = docNames[index]
   console.log('===start===', index, element)
-
   try {
-    const doi = await getDoi(element)
-
-    doiArray.push({ name: element, doi })
+    const { doi, title } = await getDoi(element)
+    const name = element.trim().toLowerCase()
+    console.log('---title---', title, name.includes(title.toLowerCase()))
+    doiArray.push({ index, name: element, doi, right: name.includes(title.toLowerCase()) })
   } catch (error) {
     console.log('error element', element)
   }
