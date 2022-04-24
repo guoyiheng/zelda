@@ -1,0 +1,19 @@
+{
+  "name": "sci-hub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node index.js",
+    "start": "node getpdf.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "got": "^12.0.3",
+    "node-fetch": "^3.2.3"
+  }
+}
