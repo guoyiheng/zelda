@@ -59,6 +59,7 @@ function sleep(time) {
   return new Promise(resolve => setTimeout(resolve, time))
 }
 
+// get dois
 let doiArray = []
 for (let index = 0; index < docNames.length; index++) {
   const element = docNames[index]
@@ -67,7 +68,7 @@ for (let index = 0; index < docNames.length; index++) {
     const { doi, title } = await getDoi(element)
     const name = element.trim().toLowerCase()
     console.log('---title---', title, name.includes(title.toLowerCase()))
-    doiArray.push({ index, name: element, doi, right: name.includes(title.toLowerCase()) })
+    doiArray.push({ index, name: element, doi, right: name.includes(title.toLowerCase()), title })
   } catch (error) {
     console.log('error element', element)
   }

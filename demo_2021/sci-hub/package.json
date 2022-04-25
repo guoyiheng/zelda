@@ -5,8 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node index.js",
-    "start": "node getpdf.js"
+    "doi": "node getDoi/index.js",
+    "start": "node getSciLink/sci-hub.js",
+    "dev": "node dl/index.js",
+    "should": "node docs.js"
   },
   "keywords": [],
   "author": "",
